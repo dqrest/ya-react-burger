@@ -1,0 +1,34 @@
+.mainContainer {
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.mainHeaderRow {
+    align-self: flex-start;
+}
+
+.mainCol {
+    min-width: 620px;
+    width: 50%; 
+    flex-direction: column;   
+    display: flex;
+}
+
+.mainColLeft {
+    composes: mainCol;
+    
+}
+
+.mainColRight {
+    composes: mainCol;    
+}
+
+.mainBodyRow {
+    flex-direction: row;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%; 
+}

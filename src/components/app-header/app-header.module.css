@@ -1,0 +1,28 @@
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;    
+    gap: 15px;    
+    align-items: center;
+    background-color: #1c1c21;
+}
+
+.item{
+    display: flex;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.itemTitle {
+    padding-left: 4px !important;
+    padding-top: 2px !important;
+}
+
+@media screen and (max-width: 725px) {
+    .itemTitle {
+        display: none;
+    }
+}
+
+

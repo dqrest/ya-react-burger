@@ -1,0 +1,44 @@
+.app-burger {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
+
+.app-burger-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.app-burger-paddings {
+  padding-left: 256px;
+  padding-right: 256px;
+}
+
+@media screen and (max-width: 1600px) {
+  .app-burger-paddings {
+    padding-left: 128px;
+    padding-right: 128px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .app-burger-paddings {
+    padding-left: 4%;
+    padding-right: 4%;
+  }
+}
+
+@media screen and (max-width: 819px) {
+  .app-burger-paddings {
+    padding-left: 2%;
+    padding-right: 2%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .app-burger-paddings {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+}
