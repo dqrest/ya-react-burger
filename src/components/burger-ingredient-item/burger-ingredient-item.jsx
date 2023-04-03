@@ -9,6 +9,8 @@ import {
 // dtos
 import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
+import biStyle from './burger-ingredient-item.module.css';
+
 class BurgerIngredientItem extends React.Component {
 
     constructor(props) {
@@ -16,13 +18,13 @@ class BurgerIngredientItem extends React.Component {
     }
 
     render() {
-        return (
-            // <Counter count={1} size="default" extraClass='m-1'></Counter>
-            <div className='p-5' style={{ width: "50%", display: "flex", flexDirection: "column", flexShrink: 0, justifyContent: "center" }}>
-                
-                <img src={this.props.burger?.image} style={{maxWidth: "213px", maxHeight: "107px", alignSelf: "center"}} >
+        return (           
+            <div className={`${biStyle.burgerItem} p-5`}>
+
+                {this.props.count > 0 && (<Counter count={this.props.count} size="default" extraClass={biStyle.counterIcon}/>)}                 
+                <img className={biStyle.burgerImage} src={this.props.burger?.image} >
                 </img>
-                <div className='text text_type_digits-default' style={{justifyContent: "center", display: "flex", alignItems: "center", flexDirection: "row", width: "100%"}}>
+                <div className={`${biStyle.currencyIcon} text text_type_digits-default`}>
                     {this.props.burger?.price} &nbsp; <CurrencyIcon/>
                 </div>
                 <div className='text text_type_main-small' style={{textAlign: "center"}}>
