@@ -1,0 +1,13 @@
+.burgerItem{
+    width: 100%;
+    max-width: 100% !important;
+    display: block;
+    flex-grow: 0 !important;    
+}
+
+.dragBurgerItem{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

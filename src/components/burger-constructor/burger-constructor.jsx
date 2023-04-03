@@ -1,13 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { 
+import {
     ConstructorElement
     , Button
- } from '@ya.praktikum/react-developer-burger-ui-components';
+    , DragIcon
+    , CurrencyIcon
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
 // data, dtos
 import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+
+// styles
+import bcStyle from './burger-constructor.module.css';
 
 export default class BurgerConstructor extends React.Component {
 
@@ -15,11 +20,12 @@ export default class BurgerConstructor extends React.Component {
         super(props);
     }
 
-    // Получить верхнюю булку
+    // Верхняя булка
     getUpperBun = () => this.props.burgers && this.props.burgers.length > 0
         ? this.props.burgers[0]
         : null;
 
+    // Нижняя булка
     getLowerBun = () => this.props.burgers && this.props.burgers.length > 1
         ? this.props.burgers[this.props.burgers.length - 1]
         : null;
@@ -29,6 +35,8 @@ export default class BurgerConstructor extends React.Component {
         var upperBun = this.getUpperBun();
         var lowerBun = this.getLowerBun();
 
+        let total = upperBun?.price || 0 + lowerBun?.price || 0;
+
         return (
             <>
                 {upperBun && (
@@ -37,34 +45,46 @@ export default class BurgerConstructor extends React.Component {
                         type="top"
                         isLocked={true}
                         text={upperBun.name}
-                        price={200}
+                        price={upperBun.price}
                         thumbnail={upperBun.image_mobile}
+                        extraClass={`${bcStyle.burgerItem}`}
                     />
-                )}
-                <div className='app-burger-section-content custom-scroll' style={{ height: "100%" }}>
-                    {this.props.burgers.map((b) =>                      
-                        b._id !== upperBun._id && 
-                        b._id !== lowerBun._id &&
-                        <ConstructorElement
-                            key={b._id}
-                            type="top"
-                            isLocked={false}
-                            text={b.name}
-                            price={200}
-                            thumbnail={b.image_mobile}
-                        />)}
+                )}                
+
+                <div className='app-burger-section-content custom-scroll' >
+                    {this.props.burgers.map(b => {
+                        if (b._id !== upperBun._id && b._id !== lowerBun._id) {                            
+                            total+= b.price;
+                            return <div className={`mt-4 ml-1 mr-2 ${bcStyle.dragBurgerItem}`} key={`${b._id}_wrapper`}>
+                                <DragIcon type="primary" key={`${b._id}_dragicon`} />
+                                <ConstructorElement
+                                    key={b._id}
+                                    isLocked={false}
+                                    text={b.name}
+                                    price={b.price}
+                                    thumbnail={b.image_mobile}
+                                    extraClass={`${bcStyle.burgerItem}`}
+                                />
+                            </div>
+                        }
+                    })}
                 </div>
+
                 {lowerBun && (
                     <ConstructorElement
                         key={lowerBun._id}
-                        type="top"
+                        type="bottom"
                         isLocked={true}
                         text={lowerBun.name}
-                        price={200}
+                        price={lowerBun.price}
                         thumbnail={lowerBun.image_mobile}
+                        extraClass={`${bcStyle.burgerItem} mt-4`}
                     />
                 )}
-                <div style={{width: "250px"}}>
+
+                <div className={`p-2`} style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
+                    <span className='text text_type_digits-medium'>{total}</span> &nbsp;
+                    <CurrencyIcon ></CurrencyIcon> &nbsp;
                     <Button htmlType="button" type="primary" size="medium">
                         Оформить заказ
                     </Button>
@@ -75,6 +95,6 @@ export default class BurgerConstructor extends React.Component {
 }
 
 
-BurgerConstructor.propTypes = {    
-    burgers: PropTypes.arrayOf(burgerIngredientsItemDto)    
+BurgerConstructor.propTypes = {
+    burgers: PropTypes.arrayOf(burgerIngredientsItemDto)
 }
