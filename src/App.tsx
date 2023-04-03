@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css';
 
 // data
@@ -21,7 +20,7 @@ function App() {
             </div>
             <main className='app-burger-paddings app-burger-main'>
                 <div className='app-burger-section' style={{justifyContent: 'flex-start'}}>
-                    <BurgerIngredients />
+                    <BurgerIngredients burgers={burgers} />
                 </div>
                 <div className='app-burger-section'>
                     <BurgerConstructor burgers={burgers} />

@@ -5,16 +5,10 @@ import {
     Tab
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-// styles
-import biStyle from './burger-ingredients.module.css';
-
-
 // components
 import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients-list';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 // data, dtos
-import { burgers } from '../../utils/data';
 import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
 
@@ -33,9 +27,9 @@ export default class BurgerIngredients extends React.Component {
 
     render() {
 
-        let buns = burgers?.filter(b => b.type === "bun") || [];
-        let sauces = burgers?.filter(b => b.type === "sauce") || [];
-        let mains = burgers?.filter(b => b.type === "main") || [];
+        let buns = this.props.burgers?.filter(b => b.type === "bun") || [];
+        let sauces = this.props.burgers?.filter(b => b.type === "sauce") || [];
+        let mains = this.props.burgers?.filter(b => b.type === "main") || [];
 
         return (
             <>
@@ -58,6 +52,10 @@ export default class BurgerIngredients extends React.Component {
             </>
         )
     }
+}
+
+BurgerIngredients.propTypes = {
+    burgers: PropTypes.arrayOf(burgerIngredientsItemDto)
 }
 
 
