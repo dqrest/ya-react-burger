@@ -25,7 +25,7 @@ class AppHeader extends React.Component {
 
                 <a className={headerStyle.item} title="Лента заказов">
                     <ListIcon type="secondary"></ListIcon>
-                    <span className={`text text_type_main-small ${headerStyle.itemTitle}`}>
+                    <span className={`text text_type_main-small text_color_inactive ${headerStyle.itemTitle}`}>
                         Лента заказов
                     </span>
                 </a>
@@ -34,7 +34,7 @@ class AppHeader extends React.Component {
                     <Logo></Logo>
                 </a>              
 
-                <a className={headerStyle.item} title="Личный кабинет">
+                <a className={`text_color_inactive ${headerStyle.item}`} title="Личный кабинет">
                     <ProfileIcon type="secondary"></ProfileIcon>
                     <span className={`text text_type_main-small ${headerStyle.itemTitle}`}>
                         Личный кабинет
