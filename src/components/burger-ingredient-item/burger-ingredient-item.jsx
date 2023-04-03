@@ -15,7 +15,7 @@ class BurgerIngredientItem extends React.Component {
             <>
                 <img src={this.props.burger?.image}>
                 </img>
-                <div style={{ width: '100px', height: '100px' }}>{this.props.burger?.name} </div>
+                <div style={{ }}>{this.props.burger?.name} </div>
                 <br></br>
             </>
         );

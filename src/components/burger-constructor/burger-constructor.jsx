@@ -5,21 +5,23 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 export default class BurgerConstructor extends React.Component {
 
     constructor(props) {
-        super(props);        
+        super(props);
     }
 
     render() {
         return (
             <>
-                {this.props.burgers.map((b) =>
-                    <ConstructorElement
-                        key={b._id}
-                        type="top"
-                        isLocked={true}
-                        text="Краторная булка N-200i (верх)"
-                        price={200}
-                        thumbnail={b.image_mobile}
-                    />)}
+                <div className='app-burger-section-content' style={{height: "100%"}}>
+                    {this.props.burgers.map((b) =>
+                        <ConstructorElement
+                            key={b._id}
+                            type="top"
+                            isLocked={true}
+                            text="Краторная булка N-200i (верх)"
+                            price={200}
+                            thumbnail={b.image_mobile}
+                        />)}
+                </div>
             </>
         );
     };

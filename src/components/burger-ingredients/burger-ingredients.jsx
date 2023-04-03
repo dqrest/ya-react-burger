@@ -8,6 +8,7 @@ import {
 // styles
 import biStyle from './burger-ingredients.module.css';
 
+
 // components
 import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients-list';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -38,8 +39,25 @@ export default class BurgerIngredients extends React.Component {
 
         return (
             <>
-            1
-            2
+                <div className='app-burger-tabs'>
+                    <Tab value="bun" active={this.state.currentTab === 'bun'} onClick={this.setCurrent}>
+                        Булки
+                    </Tab>
+                    <Tab value="sauce" active={this.state.currentTab === 'sauce'} onClick={this.setCurrent}>
+                        Соусы
+                    </Tab>
+                    <Tab value="main" active={this.state.currentTab === 'main'} onClick={this.setCurrent}>
+                        Начинки
+                    </Tab>
+                </div>
+                <div className="app-burger-section-content" style={{height: "100%"}}>
+                    {/* <div style={{height: "100%"}}> */}
+                        <BurgerIngredientsList title="Булки" burgers={buns}></BurgerIngredientsList>
+                        <BurgerIngredientsList title="Соусы" burgers={sauces}></BurgerIngredientsList>
+                        <BurgerIngredientsList title="Начинки" burgers={mains}></BurgerIngredientsList>
+                    {/* </div> */}
+                </div>
+
 
                 {/* <main className={`${biStyle.mainContainer}`}>
 

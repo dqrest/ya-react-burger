@@ -19,7 +19,7 @@
     padding-top: 2px !important;
 }
 
-@media screen and (max-width: 725px) {
+@media screen and (max-width: 800px) {
     .itemTitle {
         display: none;
     }

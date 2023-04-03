@@ -11,6 +11,7 @@ export default function BurgerIngredientsList({ title, burgers }) {
     return (
         <>
             <span className="text text_type_main-medium">{title}</span>
+            <br></br>
             {burgers.map((b) =>
                 <BurgerIngredientItem key={b._id} burger={b}></BurgerIngredientItem>
             )}
