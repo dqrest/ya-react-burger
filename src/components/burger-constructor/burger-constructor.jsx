@@ -41,7 +41,7 @@ export default class BurgerConstructor extends React.Component {
                         thumbnail={upperBun.image_mobile}
                     />
                 )}
-                <div className='app-burger-section-content' style={{ height: "100%" }}>
+                <div className='app-burger-section-content custom-scroll' style={{ height: "100%" }}>
                     {this.props.burgers.map((b) =>                      
                         b._id !== upperBun._id && 
                         b._id !== lowerBun._id &&
