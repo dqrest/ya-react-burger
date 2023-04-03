@@ -8,17 +8,29 @@ import BurgerIngredients from './components/burger-ingredients/burger-ingredient
 
 function App() {
     return (
-        <section className="app-burder">
+        <>
             <AppHeader></AppHeader>
-            <main className="app-burger-paddings">
-                
-
+            <main className='app-burger-paddings app-burger-main'>
+                <span className={`text text_type_main-large`}>
+                    Соберите бургер
+                </span>
+                <br></br>
+                <BurgerIngredients />
             </main>
-
-            {/* <AppHeader></AppHeader>
-            <BurgerIngredients /> */}
-        </section>
+        </>
     );
 }
 
 export default App;
+
+
+// <section className="app-burder">
+//     <AppHeader></AppHeader>
+//     <main className="app-burger-paddings">
+
+
+//     </main>
+
+//     <AppHeader></AppHeader>
+//     <BurgerIngredients />
+// </section>

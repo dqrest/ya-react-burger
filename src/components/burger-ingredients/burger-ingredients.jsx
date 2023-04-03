@@ -37,42 +37,47 @@ export default class BurgerIngredients extends React.Component {
         let mains = burgers?.filter(b => b.type === "main") || [];
 
         return (
-            <main className={`${biStyle.mainContainer}`}>
+            <>
+            1
+            2
 
-                <span className={`${biStyle.mainHeaderRow} text text_type_main-large`}>
-                    Соберите бургер
-                </span>
+                {/* <main className={`${biStyle.mainContainer}`}>
 
-                <section className={biStyle.mainBodyRow}>
-                    <section className={biStyle.mainColLeft}>
+                    <span className={`${biStyle.mainHeaderRow} text text_type_main-large`}>
+                        Соберите бургер
+                    </span>
 
-                        <div style={{ display: 'flex', alignSelf: 'flex-end' }}>
-                            <Tab value="bun" active={this.state.currentTab === 'bun'} onClick={this.setCurrent}>
-                                Булки
-                            </Tab>
-                            <Tab value="sauce" active={this.state.currentTab === 'sauce'} onClick={this.setCurrent}>
-                                Соусы
-                            </Tab>
-                            <Tab value="main" active={this.state.currentTab === 'main'} onClick={this.setCurrent}>
-                                Начинки
-                            </Tab>
-                        </div>
+                    <section className={biStyle.mainBodyRow}>
+                        <section className={biStyle.mainColLeft}>
 
-                        <BurgerIngredientsList title="Булки" burgers={buns}></BurgerIngredientsList>
-                        <BurgerIngredientsList title="Соусы" burgers={sauces}></BurgerIngredientsList>
-                        <BurgerIngredientsList title="Начинки" burgers={mains}></BurgerIngredientsList>
+                            <div style={{ display: 'flex', alignSelf: 'flex-end' }}>
+                                <Tab value="bun" active={this.state.currentTab === 'bun'} onClick={this.setCurrent}>
+                                    Булки
+                                </Tab>
+                                <Tab value="sauce" active={this.state.currentTab === 'sauce'} onClick={this.setCurrent}>
+                                    Соусы
+                                </Tab>
+                                <Tab value="main" active={this.state.currentTab === 'main'} onClick={this.setCurrent}>
+                                    Начинки
+                                </Tab>
+                            </div>
+
+                            <BurgerIngredientsList title="Булки" burgers={buns}></BurgerIngredientsList>
+                            <BurgerIngredientsList title="Соусы" burgers={sauces}></BurgerIngredientsList>
+                            <BurgerIngredientsList title="Начинки" burgers={mains}></BurgerIngredientsList>
+
+                        </section>
+
+                        <section className={biStyle.mainColRight}>
+                            <BurgerConstructor burgers={burgers}></BurgerConstructor>
+                        </section>
 
                     </section>
 
-                    <section className={biStyle.mainColRight}>
-                        <BurgerConstructor burgers={burgers}></BurgerConstructor>
-                    </section>
-
-                </section>
 
 
-
-            </main>
+                </main> */}
+            </>
         )
     }
 }
