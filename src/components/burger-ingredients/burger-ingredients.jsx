@@ -50,7 +50,7 @@ export default class BurgerIngredients extends React.Component {
                         Начинки
                     </Tab>
                 </div>
-                <div className="app-burger-section-content" style={{height: "100%"}}>
+                <div className="app-burger-section-content" style={{height: "100%", display: "flex", flexDirection: "row", flexWrap: "wrap"}}>
                     {/* <div style={{height: "100%"}}> */}
                         <BurgerIngredientsList title="Булки" burgers={buns}></BurgerIngredientsList>
                         <BurgerIngredientsList title="Соусы" burgers={sauces}></BurgerIngredientsList>

@@ -32,15 +32,3 @@ function App() {
 }
 
 export default App;
-
-
-// <section className="app-burder">
-//     <AppHeader></AppHeader>
-//     <main className="app-burger-paddings">
-
-
-//     </main>
-
-//     <AppHeader></AppHeader>
-//     <BurgerIngredients />
-// </section>

@@ -12,12 +12,12 @@ class BurgerIngredientItem extends React.Component {
 
     render() {
         return (
-            <>
+            <div style={{flexGrow: 1}}>
                 <img src={this.props.burger?.image}>
                 </img>
                 <div style={{ }}>{this.props.burger?.name} </div>
                 <br></br>
-            </>
+            </div>
         );
     }
 }
