@@ -23,7 +23,7 @@ function App() {
                 <div className='app-burger-section' style={{justifyContent: 'flex-start'}}>
                     <BurgerIngredients />
                 </div>
-                <div className='app-burger-section' style={{justifyContent: 'flex-end'}}>
+                <div className='app-burger-section'>
                     <BurgerConstructor burgers={burgers} />
                 </div>               
             </main>
