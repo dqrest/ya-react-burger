@@ -33,8 +33,8 @@ export default class BurgerConstructor extends React.Component {
 
     render() {
 
-        var upperBun = this.getUpperBun();
-        var lowerBun = this.getLowerBun();
+        let upperBun = this.getUpperBun();
+        let lowerBun = this.getLowerBun();
 
         let total = upperBun?.price || 0 + lowerBun?.price || 0;
 
