@@ -58,7 +58,7 @@ export default class BurgerIngredients extends React.Component {
 }
 
 BurgerIngredients.propTypes = {
-    burgers: PropTypes.arrayOf(burgerIngredientsItemDto)
+    burgers: PropTypes.arrayOf(burgerIngredientsItemDto).isRequired
 }
 
 

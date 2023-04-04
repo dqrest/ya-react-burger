@@ -97,5 +97,5 @@ export default class BurgerConstructor extends React.Component {
 
 
 BurgerConstructor.propTypes = {
-    burgers: PropTypes.arrayOf(burgerIngredientsItemDto)
+    burgers: PropTypes.arrayOf(burgerIngredientsItemDto).isRequired
 }
