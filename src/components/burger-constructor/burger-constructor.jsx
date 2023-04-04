@@ -45,7 +45,7 @@ export default class BurgerConstructor extends React.Component {
                         key={upperBun._id}
                         type="top"
                         isLocked={true}
-                        text={upperBun.name}
+                        text={`Верх: ${upperBun.name}`}
                         price={upperBun.price}
                         thumbnail={upperBun.image_mobile}
                         extraClass={`${bcStyle.burgerItem}`}
@@ -76,7 +76,7 @@ export default class BurgerConstructor extends React.Component {
                         key={lowerBun._id}
                         type="bottom"
                         isLocked={true}
-                        text={lowerBun.name}
+                        text={`Низ: ${lowerBun.name}`}
                         price={lowerBun.price}
                         thumbnail={lowerBun.image_mobile}
                         extraClass={`${bcStyle.burgerItem} mt-4`}
