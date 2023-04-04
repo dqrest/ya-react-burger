@@ -11,6 +11,9 @@ import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients
 // data, dtos
 import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
+// styles
+import appStyle from '../app/App.module.css';
+
 
 export default class BurgerIngredients extends React.Component {
 
@@ -33,7 +36,7 @@ export default class BurgerIngredients extends React.Component {
 
         return (
             <>
-                <div className='app-burger-tabs'>
+                <div className={appStyle.appBurgerTabs}>
                     <Tab value="bun" active={this.state.currentTab === 'bun'} onClick={this.setCurrent}>
                         Булки
                     </Tab>
@@ -44,7 +47,7 @@ export default class BurgerIngredients extends React.Component {
                         Начинки
                     </Tab>
                 </div>
-                <div className="app-burger-section-content custom-scroll" style={{ height: "100%", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: 'center' }}>
+                <div className={`${appStyle.appBurgerSectionContent} custom-scroll`} style={{ height: "100%", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: 'center' }}>
                     <BurgerIngredientsList title="Булки" burgers={buns}></BurgerIngredientsList>
                     <BurgerIngredientsList title="Соусы" burgers={sauces}></BurgerIngredientsList>
                     <BurgerIngredientsList title="Начинки" burgers={mains}></BurgerIngredientsList>

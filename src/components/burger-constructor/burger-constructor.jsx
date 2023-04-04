@@ -13,6 +13,7 @@ import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-i
 
 // styles
 import bcStyle from './burger-constructor.module.css';
+import appStyle from '../app/App.module.css';
 
 export default class BurgerConstructor extends React.Component {
 
@@ -51,7 +52,7 @@ export default class BurgerConstructor extends React.Component {
                     />
                 )}                
 
-                <div className='app-burger-section-content custom-scroll' >
+                <div className={`${appStyle.appBurgerSectionContent} custom-scroll`} >
                     {this.props.burgers.map(b => {
                         if (b._id !== upperBun._id && b._id !== lowerBun._id) {                            
                             total+= b.price;
