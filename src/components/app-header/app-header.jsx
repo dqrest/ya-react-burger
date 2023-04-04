@@ -1,6 +1,8 @@
 import React from 'react';
 
+// styles
 import headerStyle from './app-header.module.css';
+import appStyle from '../app/App.module.css';
 
 import {
     Logo
@@ -14,7 +16,7 @@ class AppHeader extends React.Component {
 
     render() {
         return (
-            <header className={`${headerStyle.header} app-burger-paddings`}>
+            <header className={`${headerStyle.header} ${appStyle.appBurgerPaddings}`}>
 
                 <a className={headerStyle.item} title="Конструктор">
                     <BurgerIcon type="primary"></BurgerIcon>

@@ -1,4 +1,4 @@
-.app-burger-main {
+.appBurgerMain {
   flex: 1 1 auto;
   overflow-y: hidden;
   min-height: 0px;
@@ -7,67 +7,67 @@
   flex-wrap: wrap;
 }
 
-.app-burger-section {
+.appBurgerSection {
   height: 100%;
   width: 50%;
   display: flex;
   flex-direction: column;  
 }
 
-.app-burger-section-content {
+.appBurgerSectionContent {
   flex: 1 1 auto;
   overflow-y: auto;
   min-height: 0px;
   width: 100%;
 }
 
-.app-burger-tabs {
+.appBurgerTabs {
   display: flex;
 }
 
-.app-burger-paddings {
+.appBurgerPaddings{
   padding-left: 500px;
   padding-right: 500px;
 }
 
 /* два столбца */
 @media screen and (max-width: 2300px) {
-  .app-burger-paddings {
+  .appBurgerPaddings {
     padding-left: 400px;
     padding-right: 400px;
   }
 }
 
 @media screen and (max-width: 2100px) {
-  .app-burger-paddings {
+  .appBurgerPaddings {
     padding-left: 300px;
     padding-right: 300px;
   }
 }
 
 @media screen and (max-width: 1900px) {
-  .app-burger-paddings {
+  .appBurgerPaddings {
     padding-left: 200px;
     padding-right: 200px;
   }
 }
 
 @media screen and (max-width: 1700px) {
-  .app-burger-paddings {
+  .appBurgerPaddings {
     padding-left: 100px;
     padding-right: 100px;
   }
 }
 
 @media screen and (max-width: 1500px) {
-  .app-burger-paddings {
+  .appBurgerPaddings {
     padding-left: 50px;
     padding-right: 50px;
   }
 }
 
 @media screen and (max-width: 1400px) {
-  .app-burger-paddings {
+  .appBurgerPaddings {
     padding-left: 5px;
     padding-right: 5px;
   }
@@ -75,52 +75,52 @@
 
 /* один столбец */
 @media screen and (max-width: 1250px) {
-  .app-burger-paddings {
+  .appBurgerPaddings {
     padding-left: 200px;
     padding-right: 200px;
   }
 
-  .app-burger-section {
+  .appBurgerSection {
     width: 100%;
     max-height: 50%;
   }  
 }
 
 @media screen and (max-width: 1100px) {
-  .app-burger-paddings {
+  .appBurgerPaddings {
     padding-left: 100px;
     padding-right: 100px;
   }
 }
 
 @media screen and (max-width: 1000px) {
-  .app-burger-paddings {
+  .appBurgerPaddings {
     padding-left: 50px;
     padding-right: 50px;
   }
 }
 
 @media screen and (max-width: 900px) {
-  .app-burger-paddings {
+  .appBurgerPaddings {
     padding-left: 20px;
     padding-right: 20px;
   }
 }
 
 @media screen and (max-width: 800px) {
-  .app-burger-paddings {
+  .appBurgerPaddings {
     padding-left: 10px;
     padding-right: 10px;
   }
 }
 
 @media screen and (max-width: 700px) {
-  .app-burger-paddings {
+  .appBurgerPaddings {
     padding-left: 2px;
     padding-right: 2px;
   }
 
-  .app-burger-tabs {
+  .appBurgerTabs {
     display: block;
   }  
 }

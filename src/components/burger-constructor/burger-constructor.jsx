@@ -13,6 +13,7 @@ import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-i
 
 // styles
 import bcStyle from './burger-constructor.module.css';
+import appStyle from '../app/App.module.css';
 
 export default class BurgerConstructor extends React.Component {
 
@@ -32,8 +33,8 @@ export default class BurgerConstructor extends React.Component {
 
     render() {
 
-        var upperBun = this.getUpperBun();
-        var lowerBun = this.getLowerBun();
+        let upperBun = this.getUpperBun();
+        let lowerBun = this.getLowerBun();
 
         let total = upperBun?.price || 0 + lowerBun?.price || 0;
 
@@ -44,14 +45,14 @@ export default class BurgerConstructor extends React.Component {
                         key={upperBun._id}
                         type="top"
                         isLocked={true}
-                        text={upperBun.name}
+                        text={`Верх: ${upperBun.name}`}
                         price={upperBun.price}
                         thumbnail={upperBun.image_mobile}
                         extraClass={`${bcStyle.burgerItem}`}
                     />
                 )}                
 
-                <div className='app-burger-section-content custom-scroll' >
+                <div className={`${appStyle.appBurgerSectionContent} custom-scroll`} >
                     {this.props.burgers.map(b => {
                         if (b._id !== upperBun._id && b._id !== lowerBun._id) {                            
                             total+= b.price;
@@ -75,7 +76,7 @@ export default class BurgerConstructor extends React.Component {
                         key={lowerBun._id}
                         type="bottom"
                         isLocked={true}
-                        text={lowerBun.name}
+                        text={`Низ: ${lowerBun.name}`}
                         price={lowerBun.price}
                         thumbnail={lowerBun.image_mobile}
                         extraClass={`${bcStyle.burgerItem} mt-4`}
@@ -96,5 +97,5 @@ export default class BurgerConstructor extends React.Component {
 
 
 BurgerConstructor.propTypes = {
-    burgers: PropTypes.arrayOf(burgerIngredientsItemDto)
+    burgers: PropTypes.arrayOf(burgerIngredientsItemDto).isRequired
 }

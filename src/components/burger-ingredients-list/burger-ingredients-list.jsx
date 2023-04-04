@@ -23,6 +23,6 @@ export default function BurgerIngredientsList({ title, burgers }) {
 }
 
 BurgerIngredientsList.propTypes = {
-    title: PropTypes.string,
-    burgers: PropTypes.arrayOf(burgerIngredientsItemDto)
+    title: PropTypes.string.isRequired,
+    burgers: PropTypes.arrayOf(burgerIngredientsItemDto).isRequired
 }

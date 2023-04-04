@@ -38,7 +38,7 @@ class BurgerIngredientItem extends React.Component {
 
 BurgerIngredientItem.propTypes = {
     burger: burgerIngredientsItemDto.isRequired,
-    count: PropTypes.number
+    count: PropTypes.number.isRequired
 };
 
 export default BurgerIngredientItem;
