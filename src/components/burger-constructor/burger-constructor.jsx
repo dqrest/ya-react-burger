@@ -13,7 +13,7 @@ import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-i
 
 // styles
 import bcStyle from './burger-constructor.module.css';
-import appStyle from '../app/App.module.css';
+import appStyle from '../app/app.module.css';
 
 export default class BurgerConstructor extends React.Component {
 

@@ -7,7 +7,7 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 // styles
-import appStyle from './App.module.css';
+import appStyle from './app.module.css';
 
 function App() {
     return (

@@ -12,7 +12,7 @@ import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients
 import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
 // styles
-import appStyle from '../app/App.module.css';
+import appStyle from '../app/app.module.css';
 
 
 export default class BurgerIngredients extends React.Component {
