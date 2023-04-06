@@ -19,7 +19,7 @@ function App() {
                 </span>
             </div>
             <main className={`${appStyle.appBurgerPaddings} ${appStyle.appBurgerMain}`}>
-                <div className={appStyle.appBurgerSection} style={{justifyContent: 'flex-start'}}>
+                <div className={`${appStyle.appBurgerSection} ${appStyle.appBurgerFirstSection}`}>
                     <BurgerIngredients burgers={burgers} />
                 </div>
                 <div className={appStyle.appBurgerSection}>
