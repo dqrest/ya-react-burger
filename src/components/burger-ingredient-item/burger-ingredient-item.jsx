@@ -1,44 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { 
+import {
     CurrencyIcon
     , Counter
- } from '@ya.praktikum/react-developer-burger-ui-components';
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
 // dtos
 import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
+// styles
 import biStyle from './burger-ingredient-item.module.css';
 
-class BurgerIngredientItem extends React.Component {
+export default function BurgerIngredientItem({ count, burger }) {
 
-    constructor(props) {
-        super(props);
-    }
+    return (
+        <div className={`${biStyle.burgerItem} p-5`}>
 
-    render() {
-        return (           
-            <div className={`${biStyle.burgerItem} p-5`}>
+            <span style={{height: "32px"}}>
+                {count > 0 && (<Counter count={count || 0} size="default" extraClass={biStyle.counterIcon} />)}
+            </span>
+            <img className={biStyle.burgerImage} src={burger?.image} >
+            </img>
+            <div className={`${biStyle.currencyIcon} text text_type_digits-default`}>
+                {burger?.price} &nbsp; <CurrencyIcon />
+            </div>
+            <div className='text text_type_main-small' style={{ textAlign: "center" }}>
+                {burger?.name}
+            </div>
 
-                {this.props.count > 0 && (<Counter count={this.props.count} size="default" extraClass={biStyle.counterIcon}/>)}                 
-                <img className={biStyle.burgerImage} src={this.props.burger?.image} >
-                </img>
-                <div className={`${biStyle.currencyIcon} text text_type_digits-default`}>
-                    {this.props.burger?.price} &nbsp; <CurrencyIcon/>
-                </div>
-                <div className='text text_type_main-small' style={{textAlign: "center"}}>
-                    {this.props.burger?.name}
-                </div>
-                
-            </div>            
-        );
-    }
+        </div>
+    );
+
 }
 
 BurgerIngredientItem.propTypes = {
     burger: burgerIngredientsItemDto.isRequired,
     count: PropTypes.number.isRequired
 };
-
-export default BurgerIngredientItem;
