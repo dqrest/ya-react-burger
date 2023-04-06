@@ -4,6 +4,12 @@
     align-self: flex-end;
 }
 
+.counterIconWrapper{
+    height: 32px;
+    display: flex;
+    justify-content: flex-end;
+}
+
 .burgerItem {
     width: 50%;
     display: flex;

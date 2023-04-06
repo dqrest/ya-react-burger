@@ -17,7 +17,7 @@ export default function BurgerIngredientItem({ count, burger }) {
     return (
         <div className={`${biStyle.burgerItem} p-5`}>
 
-            <span style={{height: "32px"}}>
+            <span className={biStyle.counterIconWrapper}>
                 {count > 0 && (<Counter count={count || 0} size="default" extraClass={biStyle.counterIcon} />)}
             </span>
             <img className={biStyle.burgerImage} src={burger?.image} >
