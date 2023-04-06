@@ -15,48 +15,43 @@ import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-i
 import bcStyle from './burger-constructor.module.css';
 import appStyle from '../app/app.module.css';
 
-export default class BurgerConstructor extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
+export default function BurgerConstructor({ burgers }) {
 
     // Верхняя булка
-    getUpperBun = () => this.props.burgers && this.props.burgers.length > 0
-        ? this.props.burgers[0]
+    const getUpperBun = () => burgers && burgers.length > 0
+        ? burgers[0]
         : null;
 
     // Нижняя булка
-    getLowerBun = () => this.props.burgers && this.props.burgers.length > 1
-        ? this.props.burgers[this.props.burgers.length - 1]
+    const getLowerBun = () => burgers && burgers.length > 1
+        ? burgers[burgers.length - 1]
         : null;
 
-    render() {
+    let upperBun = getUpperBun();
+    let lowerBun = getLowerBun();
 
-        let upperBun = this.getUpperBun();
-        let lowerBun = this.getLowerBun();
+    let total = upperBun?.price || 0 + lowerBun?.price || 0;
 
-        let total = upperBun?.price || 0 + lowerBun?.price || 0;
+    return (
+        <>
+            {upperBun && (
+                <ConstructorElement
+                    key={upperBun._id}
+                    type="top"
+                    isLocked={true}
+                    text={`Верх: ${upperBun.name}`}
+                    price={upperBun.price}
+                    thumbnail={upperBun.image_mobile}
+                    extraClass={`${bcStyle.burgerItem}`}
+                />
+            )}
 
-        return (
-            <>
-                {upperBun && (
-                    <ConstructorElement
-                        key={upperBun._id}
-                        type="top"
-                        isLocked={true}
-                        text={`Верх: ${upperBun.name}`}
-                        price={upperBun.price}
-                        thumbnail={upperBun.image_mobile}
-                        extraClass={`${bcStyle.burgerItem}`}
-                    />
-                )}                
-
-                <div className={`${appStyle.appBurgerSectionContent} custom-scroll`} >
-                    {this.props.burgers.map(b => {
-                        if (b._id !== upperBun._id && b._id !== lowerBun._id) {                            
-                            total+= b.price;
-                            return <div className={`mt-4 ml-1 mr-2 ${bcStyle.dragBurgerItem}`} key={`${b._id}_wrapper`}>
+            <div className={`${appStyle.appBurgerSectionContent} custom-scroll`} >
+                {burgers.map(b => {
+                    if (b._id !== upperBun._id && b._id !== lowerBun._id) {
+                        total += b.price;
+                        return (
+                            <div className={`${bcStyle.dragBurgerItem} mt-4`} key={`${b._id}_wrapper`}>
                                 <DragIcon type="primary" key={`${b._id}_dragicon`} />
                                 <ConstructorElement
                                     key={b._id}
@@ -67,32 +62,33 @@ export default class BurgerConstructor extends React.Component {
                                     extraClass={`${bcStyle.burgerItem}`}
                                 />
                             </div>
-                        }
-                    })}
-                </div>
+                        )
+                    }
+                })}
+            </div>
 
-                {lowerBun && (
-                    <ConstructorElement
-                        key={lowerBun._id}
-                        type="bottom"
-                        isLocked={true}
-                        text={`Низ: ${lowerBun.name}`}
-                        price={lowerBun.price}
-                        thumbnail={lowerBun.image_mobile}
-                        extraClass={`${bcStyle.burgerItem} mt-4`}
-                    />
-                )}
+            {lowerBun && (
+                <ConstructorElement
+                    key={lowerBun._id}
+                    type="bottom"
+                    isLocked={true}
+                    text={`Низ: ${lowerBun.name}`}
+                    price={lowerBun.price}
+                    thumbnail={lowerBun.image_mobile}
+                    extraClass={`${bcStyle.burgerItem} mt-4`}
+                />
+            )}
 
-                <div className={`p-2`} style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
-                    <span className='text text_type_digits-medium'>{total}</span> &nbsp;
-                    <CurrencyIcon ></CurrencyIcon> &nbsp;
-                    <Button htmlType="button" type="primary" size="medium">
-                        Оформить заказ
-                    </Button>
-                </div>
-            </>
-        );
-    };
+            <div className={`p-10`} style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
+                <span className='text text_type_digits-medium mr-1'>{total}</span>
+                <span className='mr-10'><CurrencyIcon/></span>
+                <Button htmlType="button" type="primary" size="medium">
+                    Оформить заказ
+                </Button>
+            </div>
+        </>
+    );
+
 }
 
 
