@@ -7,11 +7,20 @@
     background-color: var(--background-element);
 }
 
-.item{
+.baseItem{
     display: flex;
-    flex-wrap: nowrap;
-    flex-shrink: 0;
     flex-grow: 0;
+    flex-shrink: 0;  
+}
+
+.item{
+    composes: baseItem;  
+    flex-wrap: nowrap;    
+}
+
+.logoItem{
+    composes: baseItem;  
+    justify-content: 'center';        
 }
 
 .itemTitle {
@@ -19,7 +28,8 @@
     padding-top: 2px !important;
 }
 
-@media screen and (max-width: 800px) {
+/* Скрыть .itemTitle при маленьких экранах */
+@media screen and (max-width: 810px) {
     .itemTitle {
         display: none;
     }
