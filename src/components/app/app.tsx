@@ -13,7 +13,7 @@ function App() {
     return (
         <>
             <AppHeader></AppHeader>
-            <div className={`${appStyle.appBurgerPaddings} pb-5 pt-5`}>
+            <div className={`${appStyle.appBurgerPaddings} pb-5 pt-10`}>
                 <span className='text text_type_main-large'>
                     Соберите бургер
                 </span>
