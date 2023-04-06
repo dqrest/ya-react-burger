@@ -15,8 +15,8 @@ export default function BurgerIngredientsList({ title, burgers }) {
             <span className={`text text_type_main-medium pt-4 ${biListStyle.burgerListCaption}`} >
                 {title}
             </span>            
-            {burgers.map((b) =>
-                <BurgerIngredientItem key={b._id} burger={b} count={Math.floor(Math.random() * 3)}/>
+            {burgers.map((b, ind) =>
+                <BurgerIngredientItem key={b._id} burger={b} count={ind % 3}/>
             )}
         </>
     );
