@@ -14,47 +14,34 @@ import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-i
 // styles
 import appStyle from '../app/app.module.css';
 
+export default function BurgerIngredients({burgers}) {
 
-export default class BurgerIngredients extends React.Component {
+    const [currentTab, setCurrentTab] = React.useState("bun");
 
-    constructor(props) {
-        super(props);
-        this.state = { currentTab: "bun" };
-    }
+    let buns = burgers?.filter(b => b.type === "bun") || [];
+    let sauces = burgers?.filter(b => b.type === "sauce") || [];
+    let mains = burgers?.filter(b => b.type === "main") || [];
 
-    setCurrent = (type) => {
-        this.setState({
-            currentTab: type
-        });
-    }
-
-    render() {
-
-        let buns = this.props.burgers?.filter(b => b.type === "bun") || [];
-        let sauces = this.props.burgers?.filter(b => b.type === "sauce") || [];
-        let mains = this.props.burgers?.filter(b => b.type === "main") || [];
-
-        return (
-            <>
-                <div className={appStyle.appBurgerTabs}>
-                    <Tab value="bun" active={this.state.currentTab === 'bun'} onClick={this.setCurrent}>
-                        Булки
-                    </Tab>
-                    <Tab value="sauce" active={this.state.currentTab === 'sauce'} onClick={this.setCurrent}>
-                        Соусы
-                    </Tab>
-                    <Tab value="main" active={this.state.currentTab === 'main'} onClick={this.setCurrent}>
-                        Начинки
-                    </Tab>
-                </div>
-                <div className={`${appStyle.appBurgerSectionContent} custom-scroll`} style={{ height: "100%", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: 'center' }}>
-                    <BurgerIngredientsList title="Булки" burgers={buns}></BurgerIngredientsList>
-                    <BurgerIngredientsList title="Соусы" burgers={sauces}></BurgerIngredientsList>
-                    <BurgerIngredientsList title="Начинки" burgers={mains}></BurgerIngredientsList>
-                </div>
-            </>
-        )
-    }
+    return (
+        <>
+            <div className={appStyle.appBurgerTabs}>
+                <Tab value="bun" active={currentTab === 'bun'} onClick={setCurrentTab}>
+                    Булки
+                </Tab>
+                <Tab value="sauce" active={currentTab === 'sauce'} onClick={setCurrentTab}>
+                    Соусы
+                </Tab>
+                <Tab value="main" active={currentTab === 'main'} onClick={setCurrentTab}>
+                    Начинки
+                </Tab>
+            </div>
+            <div className={`${appStyle.appBurgerSectionContent} custom-scroll`} style={{ height: "100%", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: 'center' }}  >
+                <BurgerIngredientsList title="Булки" burgers={buns}></BurgerIngredientsList>
+                <BurgerIngredientsList title="Соусы" burgers={sauces}></BurgerIngredientsList>
+                <BurgerIngredientsList title="Начинки" burgers={mains}></BurgerIngredientsList>
+            </div>            
+        </>
+    );
 }
 
 BurgerIngredients.propTypes = {
