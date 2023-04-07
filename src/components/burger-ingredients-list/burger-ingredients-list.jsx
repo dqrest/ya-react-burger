@@ -20,7 +20,7 @@ export  function BurgerIngredientsListInner({ title, burgers }, ref) {
 
     const modal = (
         <Modal header="Детали инградиента" setVisible={setModalVisible}>
-            <IngredientDetails item={focusedBurgerItem}></IngredientDetails>
+            <IngredientDetails burger={focusedBurgerItem?.burger}></IngredientDetails>
         </Modal>
     );
 

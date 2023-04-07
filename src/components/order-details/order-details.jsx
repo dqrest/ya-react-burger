@@ -1,8 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // styles
-import odStyles from './order-details.module.css'
+import odStyles from './order-details.module.css';
+
+// dtos
+import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
 export default function OrderDetails({ burgers }) {
 
@@ -38,4 +43,8 @@ export default function OrderDetails({ burgers }) {
             </div>
         </div>
     );
+}
+
+OrderDetails.propTypes = {
+    burgers: PropTypes.arrayOf(burgerIngredientsItemDto).isRequired
 }

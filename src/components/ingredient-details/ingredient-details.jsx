@@ -1,9 +1,12 @@
+import PropTypes from 'prop-types';
+
 // styles
 import idStyles from './ingredient-details.module.css';
 
-export default function IngredientDetails({ item }) {
+// dtos
+import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
-    const burger = item?.burger || {};
+export default function IngredientDetails({ burger }) {    
     
     return (
         <div className={`${idStyles.content}`}>
@@ -22,7 +25,7 @@ export default function IngredientDetails({ item }) {
 }
 
 const DetailItem = ({ title, value, extClass }) => (
-    <div className={`${extClass}`} style={{ display: "flex", flexDirection: "column", flexWrap: "nowrap", justifyContent: "center" }}>
+    <div className={`${extClass} ${idStyles.detailsItem}`}>
         <span className='text text_type_main-small text_color_inactive'>            
             {title}
         </span>
@@ -31,3 +34,8 @@ const DetailItem = ({ title, value, extClass }) => (
         </span>
     </div>
 );
+
+
+IngredientDetails.propTypes = {
+    burger: burgerIngredientsItemDto
+}

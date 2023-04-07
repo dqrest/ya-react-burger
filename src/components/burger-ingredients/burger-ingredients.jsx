@@ -8,7 +8,7 @@ import {
 // components
 import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients-list';
 
-// data, dtos
+// dtos
 import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
 // styles
