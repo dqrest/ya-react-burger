@@ -12,7 +12,7 @@ import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-i
 // styles
 import biListStyle from './burger-ingredients-list.module.css';
 
-export default function BurgerIngredientsList({ title, burgers }) {
+export  function BurgerIngredientsListInner({ title, burgers }, ref) {
 
     const [modalVisible, setModalVisible] = React.useState(false);
 
@@ -35,7 +35,7 @@ export default function BurgerIngredientsList({ title, burgers }) {
             <div style={{ overflow: 'hidden' }}>
                 {modalVisible && modal}
             </div>
-            <span className={`text text_type_main-medium pt-4 ${biListStyle.burgerListCaption}`} >
+            <span className={`text text_type_main-medium pt-4 ${biListStyle.burgerListCaption}`} ref={ref}>
                 {title}
             </span>
             {burgers.map((b, ind) =>
@@ -45,7 +45,11 @@ export default function BurgerIngredientsList({ title, burgers }) {
     );
 }
 
+const BurgerIngredientsList = React.forwardRef(({ title, burgers }, ref) => BurgerIngredientsListInner({ title, burgers }, ref));
+export default BurgerIngredientsList;
+
 BurgerIngredientsList.propTypes = {
     title: PropTypes.string.isRequired,
     burgers: PropTypes.arrayOf(burgerIngredientsItemDto).isRequired
 }
+

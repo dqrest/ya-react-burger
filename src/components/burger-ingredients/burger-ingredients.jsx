@@ -14,32 +14,51 @@ import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-i
 // styles
 import appStyle from '../app/app.module.css';
 
-export default function BurgerIngredients({burgers}) {
+export default function BurgerIngredients({ burgers }) {
 
     const [currentTab, setCurrentTab] = React.useState("bun");
+
+    const bunTitleRef = React.useRef(null);
+    const sauceTitleRef = React.useRef(null);
+    const mainTitleRef = React.useRef(null);
 
     let buns = burgers?.filter(b => b.type === "bun") || [];
     let sauces = burgers?.filter(b => b.type === "sauce") || [];
     let mains = burgers?.filter(b => b.type === "main") || [];
 
+    function tabClick(tab) {
+        setCurrentTab(tab);
+        switch (tab) {
+            case "bun":
+                bunTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
+                break;
+            case "sauce":
+                sauceTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
+                break;
+            case "main":
+                mainTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
+                break;
+        }
+    }
+
     return (
         <>
             <div className={appStyle.appBurgerTabs}>
-                <Tab value="bun" active={currentTab === 'bun'} onClick={setCurrentTab}>
+                <Tab value="bun" active={currentTab === 'bun'} onClick={tabClick}>
                     Булки
                 </Tab>
-                <Tab value="sauce" active={currentTab === 'sauce'} onClick={setCurrentTab}>
+                <Tab value="sauce" active={currentTab === 'sauce'} onClick={tabClick}>
                     Соусы
                 </Tab>
-                <Tab value="main" active={currentTab === 'main'} onClick={setCurrentTab}>
+                <Tab value="main" active={currentTab === 'main'} onClick={tabClick}>
                     Начинки
                 </Tab>
             </div>
             <div className={`${appStyle.appBurgerSectionContent} custom-scroll`} style={{ height: "100%", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: 'center' }}  >
-                <BurgerIngredientsList title="Булки" burgers={buns}></BurgerIngredientsList>
-                <BurgerIngredientsList title="Соусы" burgers={sauces}></BurgerIngredientsList>
-                <BurgerIngredientsList title="Начинки" burgers={mains}></BurgerIngredientsList>
-            </div>            
+                <BurgerIngredientsList title="Булки" burgers={buns} ref={bunTitleRef}></BurgerIngredientsList>
+                <BurgerIngredientsList title="Соусы" burgers={sauces} ref={sauceTitleRef}></BurgerIngredientsList>
+                <BurgerIngredientsList title="Начинки" burgers={mains} ref={mainTitleRef}></BurgerIngredientsList>
+            </div>
         </>
     );
 }
