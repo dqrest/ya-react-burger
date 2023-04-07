@@ -16,7 +16,16 @@
     flex-direction: column; 
     flex-shrink: 0;
     justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 4px;
 }
+
+.burgerItem:hover{    
+    background-color: var(--background-element);
+}
+
+
 
 .burgerImage{
     max-width: 213px;

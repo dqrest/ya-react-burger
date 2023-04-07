@@ -12,10 +12,12 @@ import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-i
 // styles
 import biStyle from './burger-ingredient-item.module.css';
 
-export default function BurgerIngredientItem({ count, burger }) {
+export default function BurgerIngredientItem({ count, burger, itemClick }) {
+
+    const click = () => itemClick && itemClick({burger: burger});    
 
     return (
-        <div className={`${biStyle.burgerItem} p-5`}>
+        <div className={`${biStyle.burgerItem} p-5`} onClick={click}>
 
             <span className={biStyle.counterIconWrapper}>
                 {count > 0 && (<Counter count={count || 0} size="default" extraClass={biStyle.counterIcon} />)}
