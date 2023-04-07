@@ -14,13 +14,23 @@ export default function Modal(props) {
 
     const overlayRef = React.useRef(null);
 
+    React.useEffect(() => {
+
+        // Нажали на Escape ---> скрыть Modal
+        const handleEscapeKey = event =>
+            event?.code === 'Escape' && props?.setVisible(false);
+        document.addEventListener('keydown', handleEscapeKey)
+        return () => document.removeEventListener('keydown', handleEscapeKey);
+    }, []);
+
     function close(e) {
-        if (overlayRef?.current?.className === e?.target?.className) 
+        // buttonclick не на modal ---> скрыть Modal
+        if (overlayRef?.current?.className === e?.target?.className)
             props.setVisible(false);
     }
 
-    function closeIconClick(){
-        props.setVisible(false);        
+    function closeIconClick() {
+        props.setVisible(false);
     }
 
     return ReactDOM.createPortal((
@@ -38,7 +48,7 @@ export default function Modal(props) {
 
 const ModalOverlay = React.forwardRef(({ children, click }, ref) => {
     return (
-        <div className={mStyles.modalOverlay} onClick={click} ref={ref} >
+        <div className={mStyles.modalOverlay} onClick={click} ref={ref}>
             {children}
         </div>
     );
@@ -51,7 +61,7 @@ const ModalHeader = ({ header, closeClick }) => (
         </div>
         <div style={{ alignSelf: "flex-end", display: 'flex', justifyContent: "flex-end", flexGrow: 1 }}>
             <span onClick={closeClick} style={{ cursor: "pointer" }}>
-                <CloseIcon type="default"  />
+                <CloseIcon type="default" />
             </span>
         </div>
     </div>
