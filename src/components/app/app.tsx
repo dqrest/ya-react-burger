@@ -5,7 +5,6 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import ErrorBoundary from '../error-boundary/error-boundary';
-import Modal from '../modal/modal';
 
 // styles
 import appStyle from './app.module.css';
@@ -20,7 +19,7 @@ export default function App() {
         burgers: []
     });    
 
-    const [modalVisible, setModalVisible] = React.useState(true);
+    const [modalVisible, setModalVisible] = React.useState(false);
 
     function getBurgers() {
         setState({ ...state, hasError: false, isLoading: true });
@@ -35,19 +34,10 @@ export default function App() {
         asyncGetBurgers();
     }, []);
 
-    const { burgers, isLoading, hasError } = state;
-
-    const modal = (
-        <Modal header="Детали инградиента" setVisible={setModalVisible}>
-        </Modal>        
-    );
+    const { burgers, isLoading, hasError } = state;  
 
     return (
         <ErrorBoundary>
-            <div style={{ overflow: 'hidden' }}>
-                {modalVisible && modal}
-            </div>
-
             <AppHeader></AppHeader>
             {isLoading && 'Загрузка данных...'}
             {hasError && `Произошла ошибка при получении данных по ${dataUrl}. Проверьте, пожалуйста, эту ссылку.`}
