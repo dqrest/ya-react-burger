@@ -11,9 +11,7 @@
   z-index: 40;
 } 
 
-.modalContent{
-  height: 500px;
-  width: 500px;
+.modalContent{ 
   background-color: var(--background);
   z-index: 50;
   border-radius: 25px;    
