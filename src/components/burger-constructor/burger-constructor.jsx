@@ -8,6 +8,10 @@ import {
     , CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
+// components
+import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
+
 // data, dtos
 import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
@@ -32,8 +36,23 @@ export default function BurgerConstructor({ burgers }) {
 
     let total = upperBun?.price || 0 + lowerBun?.price || 0;
 
+    const [modalVisible, setModalVisible] = React.useState(false);
+
+    const modal = (
+        <Modal setVisible={setModalVisible}>
+            <OrderDetails burgers={burgers}></OrderDetails>
+        </Modal>
+    );
+
+    function orderClick() {
+        setModalVisible(true);
+    }
+
     return (
         <>
+            <div style={{ overflow: 'hidden' }}>
+                {modalVisible && modal}
+            </div>
             {upperBun && (
                 <ConstructorElement
                     key={upperBun._id}
@@ -81,8 +100,8 @@ export default function BurgerConstructor({ burgers }) {
 
             <div className={`p-10`} style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
                 <span className='text text_type_digits-medium mr-1'>{total}</span>
-                <span className='mr-10'><CurrencyIcon/></span>
-                <Button htmlType="button" type="primary" size="medium">
+                <span className='mr-10'><CurrencyIcon /></span>
+                <Button htmlType="button" type="primary" size="medium" onClick={orderClick}>
                     Оформить заказ
                 </Button>
             </div>
