@@ -69,6 +69,6 @@ ModalHeader.propTypes = {
 
 Modal.propTypes = {
     setVisible: PropTypes.func.isRequired,
-    header: PropTypes.string.isRequired
+    header: PropTypes.string
 }
 
