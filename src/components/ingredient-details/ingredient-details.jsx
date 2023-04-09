@@ -37,5 +37,5 @@ const DetailItem = ({ title, value, extClass }) => (
 
 
 IngredientDetails.propTypes = {
-    burger: burgerIngredientsItemDto
+    burger: burgerIngredientsItemDto.isRequired
 }

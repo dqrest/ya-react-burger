@@ -38,5 +38,6 @@ export default function BurgerIngredientItem({ count, burger, itemClick }) {
 
 BurgerIngredientItem.propTypes = {
     burger: burgerIngredientsItemDto.isRequired,
-    count: PropTypes.number.isRequired
+    count: PropTypes.number.isRequired,
+    itemClick: PropTypes.func.isRequired
 };

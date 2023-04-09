@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // styles
 import mStyles from '././modal-overlay.module.css';
@@ -10,3 +11,7 @@ const ModalOverlay = React.forwardRef(({ click }, ref) => {
 });
 
 export default ModalOverlay;
+
+ModalOverlay.propTypes = {
+    click: PropTypes.func.isRequired
+}
