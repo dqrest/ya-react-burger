@@ -61,5 +61,3 @@ const ModalHeader = ({ header, closeClick }) => (
         </div>
     </div>
 );
-
-ModalHeader.propTypes = PropTypes();
