@@ -9,10 +9,8 @@ import ErrorBoundary from '../error-boundary/error-boundary';
 // styles
 import appStyle from './app.module.css';
 
-// utils
-import { checkResponse } from '../../shared/utils/check-response';
-
-const dataUrl = "https://norma.nomoreparties.space/api/ingredients";
+// api
+import { getIngredients } from '../../utils/burger-api';
 
 export default function App() {
 
@@ -26,14 +24,13 @@ export default function App() {
 
     function getBurgers() {
         setState({ ...state, hasError: false, isLoading: true });
-        fetch(dataUrl)
-            .then(checkResponse)
+        getIngredients()
             .then(data => setState({ ...state, burgers: data.data, isLoading: false }))
             .catch(e => setState({ ...state, hasError: true, isLoading: false }));
     }
 
     React.useEffect(() => {
-        const asyncGetBurgers = async () => getBurgers();
+        const asyncGetBurgers = () => getBurgers();
         asyncGetBurgers();
     }, []);
 
@@ -43,7 +40,7 @@ export default function App() {
         <ErrorBoundary>
             <AppHeader></AppHeader>
             {isLoading && 'Загрузка данных...'}
-            {hasError && `Произошла ошибка при получении данных по ${dataUrl}. Проверьте, пожалуйста, эту ссылку.`}
+            {hasError && `Произошла ошибка при получении данных по бургерам.`}
             {!isLoading && !hasError && (
                 <>
                     <div className={`${appStyle.appBurgerPaddings} pb-5 pt-10`}>
