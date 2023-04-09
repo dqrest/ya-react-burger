@@ -22,9 +22,9 @@ export default function BurgerIngredients({ burgers }) {
     const sauceTitleRef = React.useRef(null);
     const mainTitleRef = React.useRef(null);
 
-    const buns = burgers?.filter(b => b.type === "bun") || [];
-    const sauces = burgers?.filter(b => b.type === "sauce") || [];
-    const mains = burgers?.filter(b => b.type === "main") || [];
+    const buns = React.useMemo(() => burgers?.filter(b => b.type === "bun") || [], []);
+    const sauces = React.useMemo(() => burgers?.filter(b => b.type === "sauce") || [], []);
+    const mains = React.useMemo(() => burgers?.filter(b => b.type === "main") || [], []);
 
     function tabClick(tab) {
         setCurrentTab(tab);
