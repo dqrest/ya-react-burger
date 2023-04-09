@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-// styles
-import mStyles from './modal.module.css';
+import PropTypes from 'prop-types';
 
 // ya
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components"
+
+// components
+import ModalOverlay from '../modal-overlay/modal-overlay';
+
+// styles
+import mStyles from './modal.module.css';
 
 // #react-modals находится в public/index.html
 const modalRoot = document.getElementById("react-modals");
@@ -15,7 +19,6 @@ export default function Modal(props) {
     const overlayRef = React.useRef(null);
 
     React.useEffect(() => {
-
         // Нажали на Escape ---> скрыть Modal
         const handleEscapeKey = event =>
             event?.code === 'Escape' && props?.setVisible(false);
@@ -36,23 +39,15 @@ export default function Modal(props) {
     return ReactDOM.createPortal((
         <>
             <ModalOverlay click={close} ref={overlayRef}>
-                <div className={`${mStyles.modalContent} pt-10 pr-10 pl-10 pb-15`}>
-                    <ModalHeader header={props.header} closeClick={closeIconClick} />
-                    {props.children}
-                </div>
             </ModalOverlay>
+            <div className={`${mStyles.modalContent} pt-10 pr-10 pl-10 pb-15`}>
+                <ModalHeader header={props.header} closeClick={closeIconClick} />
+                {props.children}
+            </div>
         </>
     ), modalRoot);
-
 }
 
-const ModalOverlay = React.forwardRef(({ children, click }, ref) => {
-    return (
-        <div className={mStyles.modalOverlay} onClick={click} ref={ref}>
-            {children}
-        </div>
-    );
-});
 
 const ModalHeader = ({ header, closeClick }) => (
     <div style={{ display: "flex", width: "100%" }}>
@@ -66,3 +61,5 @@ const ModalHeader = ({ header, closeClick }) => (
         </div>
     </div>
 );
+
+ModalHeader.propTypes = PropTypes();
