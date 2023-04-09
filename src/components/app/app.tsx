@@ -9,6 +9,9 @@ import ErrorBoundary from '../error-boundary/error-boundary';
 // styles
 import appStyle from './app.module.css';
 
+// utils
+import { checkResponse } from '../../shared/utils/check-response';
+
 const dataUrl = "https://norma.nomoreparties.space/api/ingredients";
 
 export default function App() {
@@ -24,7 +27,7 @@ export default function App() {
     function getBurgers() {
         setState({ ...state, hasError: false, isLoading: true });
         fetch(dataUrl)
-            .then(res => res.json())
+            .then(checkResponse)
             .then(data => setState({ ...state, burgers: data.data, isLoading: false }))
             .catch(e => setState({ ...state, hasError: true, isLoading: false }));
     }
