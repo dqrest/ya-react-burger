@@ -16,11 +16,14 @@ export  function BurgerIngredientsListInner({ title, burgers }, ref) {
 
     const [modalVisible, setModalVisible] = React.useState(false);
 
-    const [focusedBurgerItem, setFocusedBurgerItem] = React.useState({});
+    const [focusedBurgerItem, setFocusedBurgerItem] = React.useState();
 
     const modal = (
         <Modal header="Детали инградиента" setVisible={setModalVisible}>
-            <IngredientDetails burger={focusedBurgerItem?.burger}></IngredientDetails>
+            {focusedBurgerItem?.burger
+                ? <IngredientDetails burger={focusedBurgerItem?.burger}></IngredientDetails>
+                : <div>Невозможно отобразить такой инградиент. Попытайтесь, пожалуйста, отобразить его позже.</div>
+            }
         </Modal>
     );
 
