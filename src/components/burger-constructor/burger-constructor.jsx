@@ -34,7 +34,7 @@ export default function BurgerConstructor({ burgers }) {
     const upperBun = getUpperBun();
     const lowerBun = getLowerBun();
 
-    const total = upperBun?.price || 0 + lowerBun?.price || 0;
+    let total = upperBun?.price || 0 + lowerBun?.price || 0;
 
     const [modalVisible, setModalVisible] = React.useState(false);
 
