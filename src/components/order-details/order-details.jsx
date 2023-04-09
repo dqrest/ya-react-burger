@@ -25,8 +25,8 @@ export default function OrderDetails({ burgers }) {
     }, []);
 
     return (
-        <div className={odStyles.orderDetailContent}>
-            <div className={`text text_type_digits-large`}>
+        <div className={odStyles.orderDetailContent} >
+            <div className={`text text_type_digits-large`} style={{ alignSelf: "center" }}>
                 {getOrderNumber()}
             </div>
             <div className={`text text_type_main-medium mt-8`} style={{alignSelf: "center"}}>

@@ -13,8 +13,7 @@
     align-self: center;
 }
 
-.detailsContainer{
-    max-width: 450px;
+.detailsContainer{ 
     display: flex;
     flex-direction: row;
     justify-content: center;
