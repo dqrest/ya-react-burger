@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useMemo, useCallback} from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -8,13 +8,13 @@ import {
 // components
 import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients-list';
 
-// dtos
-import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+// shared
+import {BurgerContext} from '../../shared/contexts/burger-context';
 
 // styles
 import appStyle from '../app/app.module.css';
 
-export default function BurgerIngredients({ burgers }) {
+export default function BurgerIngredients() {
 
     const [currentTab, setCurrentTab] = React.useState("bun");
 
@@ -22,6 +22,7 @@ export default function BurgerIngredients({ burgers }) {
     const sauceTitleRef = React.useRef(null);
     const mainTitleRef = React.useRef(null);
 
+    const burgers = useContext(BurgerContext)?.burgers || [];
     const buns = React.useMemo(() => burgers?.filter(b => b.type === "bun") || [], []);
     const sauces = React.useMemo(() => burgers?.filter(b => b.type === "sauce") || [], []);
     const mains = React.useMemo(() => burgers?.filter(b => b.type === "main") || [], []);
@@ -63,8 +64,7 @@ export default function BurgerIngredients({ burgers }) {
     );
 }
 
-BurgerIngredients.propTypes = {
-    burgers: PropTypes.arrayOf(burgerIngredientsItemDto).isRequired
+BurgerIngredients.propTypes = { 
 }
 
 

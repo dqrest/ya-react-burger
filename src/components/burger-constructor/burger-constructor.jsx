@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -12,14 +12,16 @@ import {
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 
-// data, dtos
-import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+// shared
+import {BurgerContext} from '../../shared/contexts/burger-context';
 
 // styles
 import bcStyle from './burger-constructor.module.css';
 import appStyle from '../app/app.module.css';
 
-export default function BurgerConstructor({ burgers }) {
+export default function BurgerConstructor() {
+
+    const burgers = useContext(BurgerContext)?.burgers || [];
 
     // Верхняя булка
     const getUpperBun = () => burgers && burgers.length > 0
@@ -98,7 +100,7 @@ export default function BurgerConstructor({ burgers }) {
                 />
             )}
 
-            <div className={`p-10`} style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
+            <div className={`p-10 ${bcStyle.orderButtonWrapper}`}>
                 <span className='text text_type_digits-medium mr-1'>{total}</span>
                 <span className='mr-10'><CurrencyIcon /></span>
                 <Button htmlType="button" type="primary" size="medium" onClick={orderClick}>
@@ -111,6 +113,5 @@ export default function BurgerConstructor({ burgers }) {
 }
 
 
-BurgerConstructor.propTypes = {
-    burgers: PropTypes.arrayOf(burgerIngredientsItemDto).isRequired
+BurgerConstructor.propTypes = {    
 }

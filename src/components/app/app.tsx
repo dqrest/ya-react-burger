@@ -11,6 +11,7 @@ import appStyle from './app.module.css';
 
 // api
 import { getIngredients } from '../../utils/burger-api';
+import { BurgerContext } from '../../shared/contexts/burger-context';
 
 export default function App() {
 
@@ -19,8 +20,6 @@ export default function App() {
         hasError: false,
         burgers: []
     });    
-
-    const [modalVisible, setModalVisible] = React.useState(false);
 
     function getBurgers() {
         setState({ ...state, hasError: false, isLoading: true });
@@ -34,7 +33,9 @@ export default function App() {
         asyncGetBurgers();
     }, []);
 
-    const { burgers, isLoading, hasError } = state;  
+    const { burgers, isLoading, hasError } = state;
+
+    const burgersData = { burgers: burgers};
 
     return (
         <ErrorBoundary>
@@ -49,12 +50,14 @@ export default function App() {
                         </span>
                     </div>
                     <main className={`${appStyle.appBurgerPaddings} ${appStyle.appBurgerMain}`}>
-                        <div className={`${appStyle.appBurgerSection} ${appStyle.appBurgerFirstSection}`}>
-                            <BurgerIngredients burgers={burgers} />
-                        </div>
-                        <div className={appStyle.appBurgerSection}>
-                            <BurgerConstructor burgers={burgers} />
-                        </div>
+                        <BurgerContext.Provider value={burgersData}>
+                            <div className={`${appStyle.appBurgerSection} ${appStyle.appBurgerFirstSection}`}>
+                                <BurgerIngredients/>
+                            </div>
+                            <div className={appStyle.appBurgerSection}>
+                                <BurgerConstructor/>
+                            </div>
+                        </BurgerContext.Provider>
                     </main>
                 </>
             )}
