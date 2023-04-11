@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -13,7 +13,7 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 
 // shared
-import {BurgerContext} from '../../shared/contexts/burger-context';
+import { BurgerContext } from '../../shared/contexts/burger-context';
 
 // styles
 import bcStyle from './burger-constructor.module.css';
@@ -21,20 +21,18 @@ import appStyle from '../app/app.module.css';
 
 export default function BurgerConstructor() {
 
-    const burgers = useContext(BurgerContext)?.burgers || [];
+    const ingredients = useContext(BurgerContext)?.ingredients || [];
 
-    // Верхняя булка
-    const getUpperBun = () => burgers && burgers.length > 0
-        ? burgers[0]
+    // Булки
+    const buns = ingredients?.filter(i => i.type === 'bun') || [];
+    const otherIngredients = useMemo(() => ingredients.filter(i => i.type !== 'bun'));
+
+    const getFirstBun = () => buns.length > 0
+        ? buns[0]
         : null;
 
-    // Нижняя булка
-    const getLowerBun = () => burgers && burgers.length > 1
-        ? burgers[burgers.length - 1]
-        : null;
-
-    const upperBun = getUpperBun();
-    const lowerBun = getLowerBun();
+    const upperBun = getFirstBun();
+    const lowerBun = getFirstBun();
 
     let total = upperBun?.price || 0 + lowerBun?.price || 0;
 
@@ -42,7 +40,7 @@ export default function BurgerConstructor() {
 
     const modal = (
         <Modal setVisible={setModalVisible}>
-            <OrderDetails burgers={burgers}></OrderDetails>
+            <OrderDetails burgers={[upperBun, otherIngredients, lowerBun]}></OrderDetails>
         </Modal>
     );
 
@@ -68,23 +66,21 @@ export default function BurgerConstructor() {
             )}
 
             <div className={`${appStyle.appBurgerSectionContent} custom-scroll`} >
-                {burgers.map(b => {
-                    if (b._id !== upperBun._id && b._id !== lowerBun._id) {
-                        total += b.price;
-                        return (
-                            <div className={`${bcStyle.dragBurgerItem} mt-4`} key={`${b._id}_wrapper`}>
-                                <DragIcon type="primary" key={`${b._id}_dragicon`} />
-                                <ConstructorElement
-                                    key={b._id}
-                                    isLocked={false}
-                                    text={b.name}
-                                    price={b.price}
-                                    thumbnail={b.image_mobile}
-                                    extraClass={`${bcStyle.burgerItem}`}
-                                />
-                            </div>
-                        )
-                    }
+                {otherIngredients.map(b => {
+                    total += b.price;
+                    return (
+                        <div className={`${bcStyle.dragBurgerItem} mt-4`} key={`${b._id}_wrapper`}>
+                            <DragIcon type="primary" key={`${b._id}_dragicon`} />
+                            <ConstructorElement
+                                key={b._id}
+                                isLocked={false}
+                                text={b.name}
+                                price={b.price}
+                                thumbnail={b.image_mobile}
+                                extraClass={`${bcStyle.burgerItem}`}
+                            />
+                        </div>
+                    )
                 })}
             </div>
 
@@ -113,5 +109,5 @@ export default function BurgerConstructor() {
 }
 
 
-BurgerConstructor.propTypes = {    
+BurgerConstructor.propTypes = {
 }

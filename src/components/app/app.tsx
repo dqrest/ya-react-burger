@@ -18,13 +18,13 @@ export default function App() {
     const [state, setState] = React.useState({
         isLoading: false,
         hasError: false,
-        burgers: []
+        ingredients: []
     });    
 
     function getBurgers() {
         setState({ ...state, hasError: false, isLoading: true });
         getIngredients()
-            .then(data => setState({ ...state, burgers: data.data, isLoading: false }))
+            .then(data => setState({ ...state, ingredients: data.data, isLoading: false }))
             .catch(e => setState({ ...state, hasError: true, isLoading: false }));
     }
 
@@ -33,9 +33,9 @@ export default function App() {
         asyncGetBurgers();
     }, []);
 
-    const { burgers, isLoading, hasError } = state;
+    const { ingredients, isLoading, hasError } = state;
 
-    const burgersData = { burgers: burgers};
+    const burgersData = { ingredients: ingredients};
 
     return (
         <ErrorBoundary>
