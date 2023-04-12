@@ -7,27 +7,24 @@ import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-component
 import odStyles from './order-details.module.css';
 
 // dtos
-import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+import { burgerOrderItemDto } from '../../shared/dtos/burger-order-item-dto';
 
-export default function OrderDetails({ burgers }) {
-
-    // Номер заказа
-    const getOrderNumber = () => "034546";
+export default function OrderDetails({ order }) {    
 
     const refCheckIcon = React.useRef(null);
 
-    React.useEffect(() => {        
+    React.useEffect(() => {           
         let children = refCheckIcon?.current?.getElementsByTagName("svg");
         if(children && children.length > 0){
             children[0].style.width = "100%";
             children[0].style.height = "120px";            
-        }       
+        }           
     }, []);
 
     return (
         <div className={odStyles.orderDetailContent} >
             <div className={`text text_type_digits-large`} style={{ alignSelf: "center" }}>
-                {getOrderNumber()}
+                {order?.number}
             </div>
             <div className={`text text_type_main-medium mt-8`} style={{alignSelf: "center"}}>
                 идентификатор заказа
@@ -46,5 +43,5 @@ export default function OrderDetails({ burgers }) {
 }
 
 OrderDetails.propTypes = {
-    burgers: PropTypes.arrayOf(burgerIngredientsItemDto).isRequired
+    order: burgerOrderItemDto.isRequired    
 }
