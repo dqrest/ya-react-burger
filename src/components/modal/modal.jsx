@@ -63,7 +63,7 @@ const ModalHeader = ({ header, closeClick }) => (
 );
 
 ModalHeader.propTypes = {
-    header: PropTypes.string.isRequired,
+    header: PropTypes.string,
     closeClick: PropTypes.func.isRequired
 };
 
