@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer, useMemo } from 'react';
 
 import {
     ConstructorElement
@@ -95,8 +95,7 @@ export default function BurgerConstructor() {
 
     const { upperBun, lowerBun, ingredients } = stateBurger;
     const { isLoading, hasError, order } = stateOrder;
-
-    let total = (upperBun?.price || 0) + (lowerBun?.price || 0);
+    const total = useMemo(() => (upperBun?.price || 0) + (lowerBun?.price || 0) + (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [stateBurger]);
 
     const modal = (
         <Modal setVisible={() => setStateOrder({...stateOrder, order: null})}>
@@ -136,7 +135,7 @@ export default function BurgerConstructor() {
             <div className={`${appStyle.appBurgerSectionContent} custom-scroll`} >
                 {
                     ingredients.map(ing => {
-                        total += ing.price;
+                        // total += ing.price;
                         return (
                             <div className={`${bcStyle.dragBurgerItem} mt-4`} key={`${ing._id}_wrapper`}>
                                 <DragIcon type="primary" key={`${ing._id}_dragicon`} />
