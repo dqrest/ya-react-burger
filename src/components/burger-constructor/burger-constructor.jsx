@@ -69,9 +69,7 @@ export default function BurgerConstructor() {
                 : null
             , type: 'init'
         });
-    }, []);
-
-    const [modalVisible, setModalVisible] = React.useState(false);
+    }, []);    
 
     const [stateOrder, setStateOrder] = React.useState({
         isLoading: false,
@@ -86,8 +84,7 @@ export default function BurgerConstructor() {
             .catch(e => setStateOrder({ ...stateOrder, hasError: true, isLoading: false }));
     }
 
-    function clickMakeOrder() {
-        setModalVisible(true);
+    function clickMakeOrder() {        
         let ids = ingredients.filter(ing => ing?._id).map(ing => ing._id) || [];
         if (upperBun && lowerBun) {
             ids.push(upperBun._id);
@@ -102,7 +99,7 @@ export default function BurgerConstructor() {
     let total = (upperBun?.price || 0) + (lowerBun?.price || 0);
 
     const modal = (
-        <Modal setVisible={setModalVisible}>
+        <Modal setVisible={() => setStateOrder({...stateOrder, order: null})}>
             {isLoading && <div className='text text_type_main-medium'>Формируется заказ. Ждите...</div>}
             {hasError && <div className='text text_type_main-medium'>Произошла ошибка при оформилении заказа.</div>}
             {!isLoading && !hasError
@@ -122,7 +119,7 @@ export default function BurgerConstructor() {
     return (
         <>
             <div style={{ overflow: 'hidden' }}>
-                {modalVisible && modal}
+                {order?.number && modal}
             </div>
 
             {upperBun && (
