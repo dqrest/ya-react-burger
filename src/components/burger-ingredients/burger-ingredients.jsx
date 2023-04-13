@@ -9,7 +9,8 @@ import {
 import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients-list';
 
 // shared
-import {BurgerContext} from '../../shared/contexts/burger-context';
+import { BurgerContext } from '../../shared/contexts/burger-context';
+import { IngredientType } from '../../shared/types/ingredient-type';
 
 // styles
 import appStyle from '../app/app.module.css';
@@ -23,9 +24,9 @@ export default function BurgerIngredients() {
     const mainTitleRef = React.useRef(null);
 
     const ingredients = useContext(BurgerContext)?.ingredients || [];
-    const buns = React.useMemo(() => ingredients?.filter(b => b.type === "bun") || [], []);
-    const sauces = React.useMemo(() => ingredients?.filter(b => b.type === "sauce") || [], []);
-    const mains = React.useMemo(() => ingredients?.filter(b => b.type === "main") || [], []);
+    const buns = React.useMemo(() => ingredients?.filter(b => b.type === IngredientType.Bun) || [], []);
+    const sauces = React.useMemo(() => ingredients?.filter(b => b.type === IngredientType.Sauce) || [], []);
+    const mains = React.useMemo(() => ingredients?.filter(b => b.type === IngredientType.Main) || [], []);
 
     function tabClick(tab) {
         setCurrentTab(tab);
@@ -45,13 +46,13 @@ export default function BurgerIngredients() {
     return (
         <>
             <div className={appStyle.appBurgerTabs}>
-                <Tab value="bun" active={currentTab === 'bun'} onClick={tabClick}>
+                <Tab value={IngredientType.Bun} active={currentTab === IngredientType.Bun} onClick={tabClick}>
                     Булки
                 </Tab>
-                <Tab value="sauce" active={currentTab === 'sauce'} onClick={tabClick}>
+                <Tab value={IngredientType.Sauce} active={currentTab === IngredientType.Sauce} onClick={tabClick}>
                     Соусы
                 </Tab>
-                <Tab value="main" active={currentTab === 'main'} onClick={tabClick}>
+                <Tab value={IngredientType.Main} active={currentTab === IngredientType.Main} onClick={tabClick}>
                     Начинки
                 </Tab>
             </div>
