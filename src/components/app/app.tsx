@@ -29,8 +29,7 @@ export default function App() {
     }
 
     React.useEffect(() => {
-        const asyncGetBurgers = () => getBurgers();
-        asyncGetBurgers();
+        getBurgers();
     }, []);
 
     const { ingredients, isLoading, hasError } = state;
