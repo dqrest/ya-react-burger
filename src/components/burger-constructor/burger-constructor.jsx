@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useReducer, useMemo } from 'react';
 
 import {
     ConstructorElement
@@ -12,50 +11,118 @@ import {
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 
-// data, dtos
-import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+// shared
+import { BurgerContext } from '../../shared/contexts/burger-context';
+
+// api
+import { makeOrder } from '../../utils/order-api';
 
 // styles
 import bcStyle from './burger-constructor.module.css';
 import appStyle from '../app/app.module.css';
 
-export default function BurgerConstructor({ burgers }) {
+const initialBurger = {
+    ingredients: []
+    , upperBun: null
+    , lowerBun: null
+};
 
-    // Верхняя булка
-    const getUpperBun = () => burgers && burgers.length > 0
-        ? burgers[0]
-        : null;
+function burgerReducer(state, action) {
+    switch (action.type) {
+        case 'init':
+            return {
+                ingredients: action.ingredients
+                , upperBun: action.upperBun
+                , lowerBun: action.lowerBun
+            };
+        case 'remove':
+            if (!action?.ingredient?._id) return state;
+            let ingredients = state?.ingredients || [];
+            let ind = ingredients.findIndex(ing => ing?._id === action.ingredient._id);
+            ind >= 0 && ingredients.splice(ind, 1);
+            return {
+                ingredients: ingredients
+                , upperBun: state?.upperBun
+                , lowerBun: state?.lowerBun
+            };
+    }
+    return initialBurger;
+}
 
-    // Нижняя булка
-    const getLowerBun = () => burgers && burgers.length > 1
-        ? burgers[burgers.length - 1]
-        : null;
+export default function BurgerConstructor() {
 
-    const upperBun = getUpperBun();
-    const lowerBun = getLowerBun();
+    const ingredientsFromStorage = useContext(BurgerContext)?.ingredients || [];
+    const [stateBurger, dispatchBurger] = useReducer(burgerReducer, initialBurger);
 
-    let total = upperBun?.price || 0 + lowerBun?.price || 0;
+    useEffect(() => {
+        // init ingredients from context        
+        const buns = ingredientsFromStorage?.filter(i => i.type === 'bun') || [];
+        const otherIngredients = ingredientsFromStorage?.filter(i => i.type !== 'bun') || [];
 
-    const [modalVisible, setModalVisible] = React.useState(false);
+        dispatchBurger({
+            ingredients: otherIngredients
+            , upperBun: buns.length > 0
+                ? buns[0]
+                : null
+            , lowerBun: buns.length > 1
+                ? buns[1]
+                : null
+            , type: 'init'
+        });
+    }, []);    
+
+    const [stateOrder, setStateOrder] = React.useState({
+        isLoading: false,
+        hasError: false,
+        order: null
+    });
+
+    function getOrder(ids) {
+        setStateOrder({ ...stateOrder, hasError: false, isLoading: true });
+        makeOrder(ids)
+            .then(data => setStateOrder({ ...stateOrder, order: data.order, isLoading: false }))
+            .catch(e => setStateOrder({ ...stateOrder, hasError: true, isLoading: false }));
+    }
+
+    function clickMakeOrder() {        
+        let ids = ingredients.filter(ing => ing?._id).map(ing => ing._id) || [];
+        if (upperBun && lowerBun) {
+            ids.push(upperBun._id);
+            ids.push(lowerBun._id);
+            getOrder(ids);
+        }
+    }
+
+    const { upperBun, lowerBun, ingredients } = stateBurger;
+    const { isLoading, hasError, order } = stateOrder;
+    const total = useMemo(() => (upperBun?.price || 0) + (lowerBun?.price || 0) + (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [stateBurger]);
 
     const modal = (
-        <Modal setVisible={setModalVisible}>
-            <OrderDetails burgers={burgers}></OrderDetails>
+        <Modal setVisible={() => setStateOrder({...stateOrder, order: null})}>
+            {isLoading && <div className='text text_type_main-medium'>Формируется заказ. Ждите...</div>}
+            {hasError && <div className='text text_type_main-medium'>Произошла ошибка при оформилении заказа.</div>}
+            {!isLoading && !hasError
+                && upperBun && lowerBun && order
+                && <OrderDetails order={order} />}
+            {!upperBun || !lowerBun
+                ? <div className='text text_type_main-medium'>
+                    Извините, Вы не добавили булки в список ингредиентов.
+                    <br />
+                    Добавьте, пожалуйста, верхнюю и/или нижнюю булку в список ингредиентов.
+                </div>
+                : <></>
+                            }
         </Modal>
     );
-
-    function orderClick() {
-        setModalVisible(true);
-    }
 
     return (
         <>
             <div style={{ overflow: 'hidden' }}>
-                {modalVisible && modal}
+                {order?.number && modal}
             </div>
+
             {upperBun && (
                 <ConstructorElement
-                    key={upperBun._id}
                     type="top"
                     isLocked={true}
                     text={`Верх: ${upperBun.name}`}
@@ -66,29 +133,29 @@ export default function BurgerConstructor({ burgers }) {
             )}
 
             <div className={`${appStyle.appBurgerSectionContent} custom-scroll`} >
-                {burgers.map(b => {
-                    if (b._id !== upperBun._id && b._id !== lowerBun._id) {
-                        total += b.price;
+                {
+                    ingredients.map(ing => {
+                        // total += ing.price;
                         return (
-                            <div className={`${bcStyle.dragBurgerItem} mt-4`} key={`${b._id}_wrapper`}>
-                                <DragIcon type="primary" key={`${b._id}_dragicon`} />
+                            <div className={`${bcStyle.dragBurgerItem} mt-4`} key={`${ing._id}_wrapper`}>
+                                <DragIcon type="primary" key={`${ing._id}_dragicon`} />
                                 <ConstructorElement
-                                    key={b._id}
+                                    key={ing._id}
                                     isLocked={false}
-                                    text={b.name}
-                                    price={b.price}
-                                    thumbnail={b.image_mobile}
+                                    text={ing.name}
+                                    price={ing.price}
+                                    thumbnail={ing.image_mobile}
                                     extraClass={`${bcStyle.burgerItem}`}
+                                    handleClose={() => dispatchBurger({ type: "remove", ingredient: ing })}
                                 />
                             </div>
                         )
-                    }
-                })}
+                    })
+                }
             </div>
 
             {lowerBun && (
                 <ConstructorElement
-                    key={lowerBun._id}
                     type="bottom"
                     isLocked={true}
                     text={`Низ: ${lowerBun.name}`}
@@ -98,10 +165,10 @@ export default function BurgerConstructor({ burgers }) {
                 />
             )}
 
-            <div className={`p-10`} style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
+            <div className={`p-10 ${bcStyle.orderButtonWrapper}`}>
                 <span className='text text_type_digits-medium mr-1'>{total}</span>
                 <span className='mr-10'><CurrencyIcon /></span>
-                <Button htmlType="button" type="primary" size="medium" onClick={orderClick}>
+                <Button htmlType="button" type="primary" size="medium" onClick={clickMakeOrder}>
                     Оформить заказ
                 </Button>
             </div>
@@ -112,5 +179,4 @@ export default function BurgerConstructor({ burgers }) {
 
 
 BurgerConstructor.propTypes = {
-    burgers: PropTypes.arrayOf(burgerIngredientsItemDto).isRequired
 }
