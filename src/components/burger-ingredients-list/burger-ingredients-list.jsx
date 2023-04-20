@@ -1,36 +1,41 @@
 import React from "react"
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
 // components
 import BurgerIngredientItem from '../burger-ingredient-item/burger-ingredient-item';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
-// dtos
+// shared
 import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+import { setIngredientDetails } from '../../services/actions/ingredient-details';
 
 // styles
 import biListStyle from './burger-ingredients-list.module.css';
 
-export  function BurgerIngredientsListInner({ title, burgers }, ref) {
+export function BurgerIngredientsListInner({ title, burgers }, ref) {
 
+    const dispatch = useDispatch();
     const [modalVisible, setModalVisible] = React.useState(false);
 
     const [focusedBurgerItem, setFocusedBurgerItem] = React.useState();
 
     const modal = (
         <Modal header="Детали инградиента" setVisible={setModalVisible}>
-            {focusedBurgerItem?.burger
+            <IngredientDetails></IngredientDetails>
+            {/* {focusedBurgerItem?.burger
                 ? <IngredientDetails burger={focusedBurgerItem?.burger}></IngredientDetails>
                 : <div>Невозможно отобразить такой инградиент. Попытайтесь, пожалуйста, отобразить его позже.</div>
-            }
+            } */}
         </Modal>
     );
 
     const itemClick = (e) => {
-        if(!e?.burger) return;
+        if (!e?.burger) return;
         setModalVisible(true);
-        setFocusedBurgerItem(e);
+        //setFocusedBurgerItem(e);
+        dispatch(setIngredientDetails(e.burger));
     }
 
     return (
