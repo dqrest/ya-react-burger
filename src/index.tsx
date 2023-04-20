@@ -16,20 +16,14 @@ declare global {
   }
 }
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const enhancer = composeEnhancers(applyMiddleware(thunk));
-const store = createStore(rootReducer, enhancer);
-
-const initialState = {
-  // все ингредиенты
-  ingredients: []
-  // ингредиенты в конструкторе бургера
-  , constructorIngredients: []
-  // просматриваемый ингредиент
-  , ingredient: null
-  // текущий заказ
-  , order: null
+const actionLogger = (store: any) => (next: any) => (action: any) => {
+  console.log(`${new Date().getTime()} | Action: ${JSON.stringify(action?.type)}` );
+  return next(action);
 };
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const enhancer = composeEnhancers(applyMiddleware(actionLogger, thunk));
+const store = createStore(rootReducer, enhancer);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
