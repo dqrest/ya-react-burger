@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useReducer, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
 
 import {
@@ -13,71 +14,51 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 
 // shared
-import { BurgerContext } from '../../shared/contexts/burger-context';
-
-// api
+import { IngredientType } from '../../shared/types/ingredient-type';
+import { addConstructorIngredient, deleteConstructorIngredientsByType } from '../../services/actions/burger-constructor-ingredients';
 import { makeOrder } from '../../utils/order-api';
 
 // styles
 import bcStyle from './burger-constructor.module.css';
 import appStyle from '../app/app.module.css';
 
-const initialBurger = {
-    ingredients: []
-    , upperBun: null
-    , lowerBun: null
-};
-
-function burgerReducer(state, action) {
-    switch (action.type) {
-        case 'init':
-            return {
-                ingredients: action.ingredients
-                , upperBun: action.upperBun
-                , lowerBun: action.lowerBun
-            };
-        case 'remove':
-            if (!action?.ingredient?._id) return state;
-            let ingredients = state?.ingredients || [];
-            let ind = ingredients.findIndex(ing => ing?._id === action.ingredient._id);
-            ind >= 0 && ingredients.splice(ind, 1);
-            return {
-                ingredients: ingredients
-                , upperBun: state?.upperBun
-                , lowerBun: state?.lowerBun
-            };
-    }
-    return initialBurger;
-}
-
 export default function BurgerConstructor() {
+
+    const dispatch = useDispatch();
 
     const [, dropTarget] = useDrop({
         accept: "ingredient"
         , drop(payload) {
-            debugger;
+            switch (payload?.ingredient?.type) {
+                case IngredientType.Bun:
+                    // delete all buns
+                    dispatch(deleteConstructorIngredientsByType(IngredientType.Bun));
+                    // add upper and lower buns
+                    dispatch(addConstructorIngredient(payload?.ingredient));
+                    dispatch(addConstructorIngredient(payload?.ingredient));
+                    break;
+                default:
+                    dispatch(addConstructorIngredient(payload?.ingredient));
+            }
         }
     });
 
-    const ingredientsFromStorage = useContext(BurgerContext)?.ingredients || [];
-    const [stateBurger, dispatchBurger] = useReducer(burgerReducer, initialBurger);
-
-    useEffect(() => {
-        // init ingredients from context        
-        const buns = ingredientsFromStorage?.filter(i => i.type === 'bun') || [];
-        const otherIngredients = ingredientsFromStorage?.filter(i => i.type !== 'bun') || [];
-
-        dispatchBurger({
+    const { ingredients, upperBun, lowerBun } = useSelector(store => {
+        const ings = store?.constructorIngredients?.items || [];
+        const buns = ings?.filter(i => i.type === IngredientType.Bun) || [];
+        const otherIngredients = ings?.filter(i => i.type !== IngredientType.Bun) || [];
+        const upperBun = buns.length > 0
+            ? buns[0]
+            : null;
+        const lowerBun = buns.length > 1
+            ? buns[1]
+            : null
+         return {
             ingredients: otherIngredients
-            , upperBun: buns.length > 0
-                ? buns[0]
-                : null
-            , lowerBun: buns.length > 1
-                ? buns[1]
-                : null
-            , type: 'init'
-        });
-    }, []);
+            , upperBun: upperBun
+            , lowerBun: lowerBun
+        }
+    });  
 
     const [stateOrder, setStateOrder] = React.useState({
         isLoading: false,
@@ -100,10 +81,9 @@ export default function BurgerConstructor() {
             getOrder(ids);
         }
     }
-
-    const { upperBun, lowerBun, ingredients } = stateBurger;
+    
     const { isLoading, hasError, order } = stateOrder;
-    const total = useMemo(() => (upperBun?.price || 0) + (lowerBun?.price || 0) + (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [stateBurger]);
+    const total = useMemo(() => (upperBun?.price || 0) + (lowerBun?.price || 0) + (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [ingredients]);
 
     const modal = (
         <Modal setVisible={() => setStateOrder({ ...stateOrder, order: null })}>
@@ -142,37 +122,35 @@ export default function BurgerConstructor() {
 
             <div ref={dropTarget} className={`${appStyle.appBurgerSectionContent} custom-scroll`} >
                 {
-                    ingredients.map(ing => {
-                        // total += ing.price;
+                    ingredients.map((ing, ind, array) => {                        
                         return (
-                            <div className={`${bcStyle.dragBurgerItem} mt-4`} key={`${ing._id}_wrapper`}>
-                                <DragIcon type="primary" key={`${ing._id}_dragicon`} />
+                            <div className={`${bcStyle.dragBurgerItem} mt-4`} key={`${ind}_${ing._id}_wrapper`}>
+                                <DragIcon type="primary" key={`${ind}_${ing._id}_dragicon`} />
                                 <ConstructorElement
-                                    key={ing._id}
+                                    key={`${ind}_{ing._id}`}
                                     isLocked={false}
                                     text={ing.name}
                                     price={ing.price}
                                     thumbnail={ing.image_mobile}
                                     extraClass={`${bcStyle.burgerItem}`}
-                                    handleClose={() => dispatchBurger({ type: "remove", ingredient: ing })}
+                                    handleClose={() => { /*call dispatch*/ }}
                                 />
                             </div>
                         )
                     })
                 }
-
-
-                {lowerBun && (
-                    <ConstructorElement
-                        type="bottom"
-                        isLocked={true}
-                        text={`Низ: ${lowerBun.name}`}
-                        price={lowerBun.price}
-                        thumbnail={lowerBun.image_mobile}
-                        extraClass={`${bcStyle.burgerItem} mt-4`}
-                    />
-                )}
             </div>
+
+            {lowerBun && (
+                <ConstructorElement
+                    type="bottom"
+                    isLocked={true}
+                    text={`Низ: ${lowerBun.name}`}
+                    price={lowerBun.price}
+                    thumbnail={lowerBun.image_mobile}
+                    extraClass={`${bcStyle.burgerItem} mt-4`}
+                />
+            )}
 
             <div className={`p-10 ${bcStyle.orderButtonWrapper}`}>
                 <span className='text text_type_digits-medium mr-1'>{total}</span>
