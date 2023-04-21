@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useReducer, useMemo } from 'react';
+import { useDrop } from "react-dnd";
 
 import {
     ConstructorElement
@@ -51,6 +52,13 @@ function burgerReducer(state, action) {
 
 export default function BurgerConstructor() {
 
+    const [, dropTarget] = useDrop({
+        accept: "ingredient"
+        , drop(payload) {
+            debugger;
+        }
+    });
+
     const ingredientsFromStorage = useContext(BurgerContext)?.ingredients || [];
     const [stateBurger, dispatchBurger] = useReducer(burgerReducer, initialBurger);
 
@@ -69,7 +77,7 @@ export default function BurgerConstructor() {
                 : null
             , type: 'init'
         });
-    }, []);    
+    }, []);
 
     const [stateOrder, setStateOrder] = React.useState({
         isLoading: false,
@@ -84,7 +92,7 @@ export default function BurgerConstructor() {
             .catch(e => setStateOrder({ ...stateOrder, hasError: true, isLoading: false }));
     }
 
-    function clickMakeOrder() {        
+    function clickMakeOrder() {
         let ids = ingredients.filter(ing => ing?._id).map(ing => ing._id) || [];
         if (upperBun && lowerBun) {
             ids.push(upperBun._id);
@@ -98,7 +106,7 @@ export default function BurgerConstructor() {
     const total = useMemo(() => (upperBun?.price || 0) + (lowerBun?.price || 0) + (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [stateBurger]);
 
     const modal = (
-        <Modal setVisible={() => setStateOrder({...stateOrder, order: null})}>
+        <Modal setVisible={() => setStateOrder({ ...stateOrder, order: null })}>
             {isLoading && <div className='text text_type_main-medium'>Формируется заказ. Ждите...</div>}
             {hasError && <div className='text text_type_main-medium'>Произошла ошибка при оформилении заказа.</div>}
             {!isLoading && !hasError
@@ -111,7 +119,7 @@ export default function BurgerConstructor() {
                     Добавьте, пожалуйста, верхнюю и/или нижнюю булку в список ингредиентов.
                 </div>
                 : <></>
-                            }
+            }
         </Modal>
     );
 
@@ -132,7 +140,7 @@ export default function BurgerConstructor() {
                 />
             )}
 
-            <div className={`${appStyle.appBurgerSectionContent} custom-scroll`} >
+            <div ref={dropTarget} className={`${appStyle.appBurgerSectionContent} custom-scroll`} >
                 {
                     ingredients.map(ing => {
                         // total += ing.price;
@@ -152,18 +160,19 @@ export default function BurgerConstructor() {
                         )
                     })
                 }
-            </div>
 
-            {lowerBun && (
-                <ConstructorElement
-                    type="bottom"
-                    isLocked={true}
-                    text={`Низ: ${lowerBun.name}`}
-                    price={lowerBun.price}
-                    thumbnail={lowerBun.image_mobile}
-                    extraClass={`${bcStyle.burgerItem} mt-4`}
-                />
-            )}
+
+                {lowerBun && (
+                    <ConstructorElement
+                        type="bottom"
+                        isLocked={true}
+                        text={`Низ: ${lowerBun.name}`}
+                        price={lowerBun.price}
+                        thumbnail={lowerBun.image_mobile}
+                        extraClass={`${bcStyle.burgerItem} mt-4`}
+                    />
+                )}
+            </div>
 
             <div className={`p-10 ${bcStyle.orderButtonWrapper}`}>
                 <span className='text text_type_digits-medium mr-1'>{total}</span>

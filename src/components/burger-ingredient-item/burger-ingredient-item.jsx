@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDrag } from 'react-dnd'
 
 import {
     CurrencyIcon
@@ -15,11 +16,15 @@ import biStyle from './burger-ingredient-item.module.css';
 export default function BurgerIngredientItem({ count, ingredient, itemClick }) {
 
     const click = () => itemClick && itemClick({ ingredient: ingredient });
- 
+
+    const [, dragRef] = useDrag({
+        type: "ingredient"
+        , item: { ingredient }
+    });
 
 
     return (
-        <div className={`${biStyle.burgerItem} p-5`} onClick={click}>
+        <div ref={dragRef} className={`${biStyle.burgerItem} p-5`} onClick={click}>
 
             <span className={biStyle.counterIconWrapper}>
                 {count > 0 && (<Counter count={count || 0} size="default" extraClass={biStyle.counterIcon} />)}

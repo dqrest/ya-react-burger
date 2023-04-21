@@ -1,3 +1,6 @@
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
 // components
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
@@ -7,7 +10,7 @@ import ErrorBoundary from '../error-boundary/error-boundary';
 // styles
 import appStyle from './app.module.css';
 
-export default function App() {       
+export default function App() {
 
     return (
         <ErrorBoundary>
@@ -18,12 +21,14 @@ export default function App() {
                 </span>
             </div>
             <main className={`${appStyle.appBurgerPaddings} ${appStyle.appBurgerMain}`}>
-                <div className={`${appStyle.appBurgerSection} ${appStyle.appBurgerFirstSection}`}>
-                    <BurgerIngredients />
-                </div>
-                <div className={appStyle.appBurgerSection}>
-                    <BurgerConstructor />
-                </div>
+                <DndProvider backend={HTML5Backend}>
+                    <div className={`${appStyle.appBurgerSection} ${appStyle.appBurgerFirstSection}`}>
+                        <BurgerIngredients />
+                    </div>
+                    <div className={appStyle.appBurgerSection}>
+                        <BurgerConstructor />
+                    </div>
+                </DndProvider>
             </main>
         </ErrorBoundary>
     );
