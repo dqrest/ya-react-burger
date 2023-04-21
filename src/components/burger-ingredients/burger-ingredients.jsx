@@ -75,9 +75,9 @@ export default function BurgerIngredients() {
                         </Tab>
                     </div>
                     <div className={`${appStyle.appBurgerSectionContent} custom-scroll`} style={{ height: "100%", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: 'center' }}  >
-                        <BurgerIngredientsList title="Булки" burgers={buns} ref={bunTitleRef}></BurgerIngredientsList>
-                        <BurgerIngredientsList title="Соусы" burgers={sauces} ref={sauceTitleRef}></BurgerIngredientsList>
-                        <BurgerIngredientsList title="Начинки" burgers={mains} ref={mainTitleRef}></BurgerIngredientsList>
+                        <BurgerIngredientsList title="Булки" ingredients={buns} ref={bunTitleRef}></BurgerIngredientsList>
+                        <BurgerIngredientsList title="Соусы" ingredients={sauces} ref={sauceTitleRef}></BurgerIngredientsList>
+                        <BurgerIngredientsList title="Начинки" ingredients={mains} ref={mainTitleRef}></BurgerIngredientsList>
                     </div>
                 </>
             )}

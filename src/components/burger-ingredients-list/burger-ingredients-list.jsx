@@ -14,7 +14,7 @@ import { setIngredientDetails } from '../../services/actions/ingredient-details'
 // styles
 import biListStyle from './burger-ingredients-list.module.css';
 
-export function BurgerIngredientsListInner({ title, burgers }, ref) {
+export function BurgerIngredientsListInner({ title, ingredients }, ref) {
 
     const dispatch = useDispatch();
     const [modalVisible, setModalVisible] = React.useState(false);    
@@ -39,18 +39,18 @@ export function BurgerIngredientsListInner({ title, burgers }, ref) {
             <span className={`text text_type_main-medium pt-4 ${biListStyle.burgerListCaption}`} ref={ref}>
                 {title}
             </span>
-            {burgers.map((b, ind) =>
+            {ingredients.map((b, ind) =>
                 <BurgerIngredientItem key={b._id} burger={b} count={1} itemClick={itemClick} />
             )}
         </>
     );
 }
 
-const BurgerIngredientsList = React.forwardRef(({ title, burgers }, ref) => BurgerIngredientsListInner({ title, burgers }, ref));
+const BurgerIngredientsList = React.forwardRef(({ title, ingredients }, ref) => BurgerIngredientsListInner({ title, ingredients }, ref));
 export default BurgerIngredientsList;
 
 BurgerIngredientsList.propTypes = {
     title: PropTypes.string.isRequired,
-    burgers: PropTypes.arrayOf(burgerIngredientsItemDto).isRequired
+    ingredients: PropTypes.arrayOf(burgerIngredientsItemDto).isRequired
 }
 
