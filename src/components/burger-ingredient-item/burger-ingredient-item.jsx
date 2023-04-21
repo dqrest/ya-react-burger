@@ -12,9 +12,11 @@ import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-i
 // styles
 import biStyle from './burger-ingredient-item.module.css';
 
-export default function BurgerIngredientItem({ count, burger, itemClick }) {
+export default function BurgerIngredientItem({ count, ingredient, itemClick }) {
 
-    const click = () => itemClick && itemClick({burger: burger});    
+    const click = () => itemClick && itemClick({ ingredient: ingredient });
+ 
+
 
     return (
         <div className={`${biStyle.burgerItem} p-5`} onClick={click}>
@@ -22,13 +24,13 @@ export default function BurgerIngredientItem({ count, burger, itemClick }) {
             <span className={biStyle.counterIconWrapper}>
                 {count > 0 && (<Counter count={count || 0} size="default" extraClass={biStyle.counterIcon} />)}
             </span>
-            <img className={biStyle.burgerImage} src={burger?.image} >
+            <img className={biStyle.burgerImage} src={ingredient?.image} >
             </img>
             <div className={`${biStyle.currencyIcon} text text_type_digits-default`}>
-                {burger?.price} &nbsp; <CurrencyIcon />
+                {ingredient?.price} &nbsp; <CurrencyIcon />
             </div>
             <div className='text text_type_main-small' style={{ textAlign: "center" }}>
-                {burger?.name}
+                {ingredient?.name}
             </div>
 
         </div>
@@ -37,7 +39,7 @@ export default function BurgerIngredientItem({ count, burger, itemClick }) {
 }
 
 BurgerIngredientItem.propTypes = {
-    burger: burgerIngredientsItemDto.isRequired,
+    ingredient: burgerIngredientsItemDto.isRequired,
     count: PropTypes.number.isRequired,
     itemClick: PropTypes.func.isRequired
 };

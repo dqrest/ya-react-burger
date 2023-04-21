@@ -26,9 +26,9 @@ export function BurgerIngredientsListInner({ title, ingredients }, ref) {
     );
 
     const itemClick = (e) => {
-        if (!e?.burger) return;
+        if (!e?.ingredient) return;
         setModalVisible(true);        
-        dispatch(setIngredientDetails(e.burger));
+        dispatch(setIngredientDetails(e.ingredient));
     }
 
     return (
@@ -40,7 +40,7 @@ export function BurgerIngredientsListInner({ title, ingredients }, ref) {
                 {title}
             </span>
             {ingredients.map((b, ind) =>
-                <BurgerIngredientItem key={b._id} burger={b} count={1} itemClick={itemClick} />
+                <BurgerIngredientItem key={b._id} ingredient={b} count={1} itemClick={itemClick} />
             )}
         </>
     );
