@@ -39,8 +39,12 @@ export function BurgerIngredientsListInner({ title, ingredients }, ref) {
             <span className={`text text_type_main-medium pt-4 ${biListStyle.burgerListCaption}`} ref={ref}>
                 {title}
             </span>
-            {ingredients.map((b, ind) =>
-                <BurgerIngredientItem key={b._id} ingredient={b} count={1} itemClick={itemClick} />
+            {ingredients.map((ing, ind) =>
+                <BurgerIngredientItem
+                    key={ing._id}
+                    ingredient={ing}
+                    count={ing.count || 0}
+                    itemClick={itemClick} />
             )}
         </>
     );

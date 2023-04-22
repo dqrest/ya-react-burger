@@ -20,6 +20,11 @@ import {
     , deleteConstructorIngredientsByType
     , deleteConstructorIngredient
 } from '../../services/actions/burger-constructor-ingredients';
+import {
+    increaseIngredientCount
+    , decreaseIngredientCount
+    , resetIngredientsCountByType
+} from '../../services/actions/burger-incredients';
 import { makeOrder } from '../../utils/order-api';
 
 // styles
@@ -36,12 +41,18 @@ export default function BurgerConstructor() {
                 case IngredientType.Bun:
                     // delete all buns
                     dispatch(deleteConstructorIngredientsByType(IngredientType.Bun));
-                    // add upper and lower buns
+                    dispatch(resetIngredientsCountByType(IngredientType.Bun));
+                    // add upper bun
                     dispatch(addConstructorIngredient(payload?.ingredient));
+                    dispatch(increaseIngredientCount(payload?.ingredient?._id));
+                    // add lower bun
                     dispatch(addConstructorIngredient(payload?.ingredient));
+                    dispatch(increaseIngredientCount(payload?.ingredient?._id));
                     break;
                 default:
                     dispatch(addConstructorIngredient(payload?.ingredient));
+                    dispatch(increaseIngredientCount(payload?.ingredient?._id));
+                    break;
             }
         }
     });
@@ -130,13 +141,16 @@ export default function BurgerConstructor() {
                             <div className={`${bcStyle.dragBurgerItem} mt-4`} key={`${ind}_${ing._id}_wrapper`}>
                                 <DragIcon type="primary" key={`${ind}_${ing._id}_dragicon`} />
                                 <ConstructorElement
-                                    key={`${ind}_{ing._id}`}
+                                    key={`${ind}_${ing._id}`}
                                     isLocked={false}
                                     text={ing.name}
                                     price={ing.price}
                                     thumbnail={ing.image_mobile}
                                     extraClass={`${bcStyle.burgerItem}`}
-                                    handleClose={() => dispatch(deleteConstructorIngredient(ind))}
+                                    handleClose={() => {
+                                        dispatch(deleteConstructorIngredient(ind));
+                                        dispatch(decreaseIngredientCount(ing._id));
+                                    }}
                                 />                                
                             </div>
                         )
