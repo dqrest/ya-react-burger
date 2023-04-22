@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useReducer, useMemo } from 'react';
+import React, { useState, useContext, useEffect, useReducer, useMemo, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useDrop } from "react-dnd";
+import { useDrop, useDrag } from "react-dnd";
 
 import {
     ConstructorElement
@@ -12,6 +12,7 @@ import {
 // components
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
+import BurgerDraggableConstructorItem from '../burger-draggable-constructor-item/burger-draggable-constructor-item';
 
 // shared
 import { IngredientType } from '../../shared/types/ingredient-type';
@@ -33,10 +34,12 @@ import appStyle from '../app/app.module.css';
 
 export default function BurgerConstructor() {
 
+
     const dispatch = useDispatch();
     const [, dropTarget] = useDrop({
         accept: "ingredient"
         , drop(payload) {
+            // constructing
             switch (payload?.ingredient?.type) {
                 case IngredientType.Bun:
                     // delete all buns
@@ -54,12 +57,17 @@ export default function BurgerConstructor() {
                     dispatch(increaseIngredientCount(payload?.ingredient?._id));
                     break;
             }
+            // ordering
         }
     });
 
+
+
+    const [draggedItem, setDraggedItem] = useState();
+
     const { ingredients, upperBun, lowerBun } = useSelector(store => {
         const ings = store?.constructorIngredients?.items || [];
-        const buns = ings?.filter(i => i.type === IngredientType.Bun) || [];        
+        const buns = ings?.filter(i => i.type === IngredientType.Bun) || [];
         const upperBun = buns.length > 0
             ? buns[0]
             : null;
@@ -116,6 +124,19 @@ export default function BurgerConstructor() {
         </Modal>
     );
 
+    function handleMouseLeave(e) {
+        
+        //console.log('leave');
+        //e.currentTarget.style.borderBottom = "";
+    }
+
+    function handleMouseEnter(e) {
+        //debugger;
+        const el = e?.currentTarget;
+        //e.currentTarget.style.borderBottom = "2px solid blue"
+        //console.log('enter');
+    }
+
     return (
         <>
             <div style={{ overflow: 'hidden' }}>
@@ -138,21 +159,15 @@ export default function BurgerConstructor() {
                     ingredients.map((ing, ind) => {
                         return (
                             ing.type !== IngredientType.Bun &&
-                            <div className={`${bcStyle.dragBurgerItem} mt-4`} key={`${ind}_${ing._id}_wrapper`}>
-                                <DragIcon type="primary" key={`${ind}_${ing._id}_dragicon`} />
-                                <ConstructorElement
-                                    key={`${ind}_${ing._id}`}
-                                    isLocked={false}
-                                    text={ing.name}
-                                    price={ing.price}
-                                    thumbnail={ing.image_mobile}
-                                    extraClass={`${bcStyle.burgerItem}`}
-                                    handleClose={() => {
-                                        dispatch(deleteConstructorIngredient(ind));
-                                        dispatch(decreaseIngredientCount(ing._id));
-                                    }}
-                                />                                
-                            </div>
+                            <BurgerDraggableConstructorItem
+                                key={`${ind}_${ing._id}_wrapper`}
+                                ingredient={ing}
+                                index={ind}
+                                onEndDragging={() => setDraggedItem(null)}
+                                onStartDragging={setDraggedItem}
+                                onMouseLeave={handleMouseLeave}
+                                onMouseEnter={handleMouseEnter}
+                            />
                         )
                     })
                 }

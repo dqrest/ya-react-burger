@@ -5,6 +5,8 @@ export const ADD_CONSTRUCTOR_INGREDIENT = 'ADD_CONSTRUCTOR_INGREDIENT';
 export const DELETE_CONSTRUCTOR_INGREDIENT = 'DELETE_CONSTRUCTOR_INGREDIENT';
 export const DELETE_CONSTRUCTOR_INGREDIENTS_BY_TYPE = 'DELETE_CONSTRUCTOR_INGREDIENTS_BY_TYPE';
 
+export const CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS = 'CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS';
+
 export function getConstructorIngredients() {
     return function (dispatch) {
         dispatch({ type: GET_CONSTRUCTOR_INGREDIENTS });        
@@ -26,5 +28,15 @@ export function deleteConstructorIngredientsByType(ingredientType) {
 export function deleteConstructorIngredient(deleteIndex) {
     return function (dispatch) {
         dispatch({ type: DELETE_CONSTRUCTOR_INGREDIENT, deleteIndex: deleteIndex });
+    }
+}
+
+export function changeOrderConstructorIngredients(sourceIndex, targetIndex) {
+    return function (dispatch) {     
+        dispatch({
+            type: CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS
+            , sourceIndex: sourceIndex
+            , targetIndex: targetIndex
+        });
     }
 }
