@@ -17,17 +17,18 @@ import biListStyle from './burger-ingredients-list.module.css';
 export function BurgerIngredientsListInner({ title, ingredients }, ref) {
 
     const dispatch = useDispatch();
-    const [modalVisible, setModalVisible] = React.useState(false);    
+    const [modalVisible, setModalVisible] = React.useState(false);
 
     const modal = (
-        <Modal header="Детали инградиента" setVisible={(e) => { setModalVisible(e); dispatch(setIngredientDetails(null)); }}>
-            <IngredientDetails></IngredientDetails>            
+        <Modal header="Детали инградиента"
+            setVisible={(e) => { setModalVisible(e); dispatch(setIngredientDetails(null)); }}>
+            <IngredientDetails></IngredientDetails>
         </Modal>
     );
 
     const itemClick = (e) => {
         if (!e?.ingredient) return;
-        setModalVisible(true);        
+        setModalVisible(true);
         dispatch(setIngredientDetails(e.ingredient));
     }
 

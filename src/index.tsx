@@ -17,7 +17,7 @@ declare global {
 }
 
 const actionLogger = (store: any) => (next: any) => (action: any) => {
-  console.log(`${new Date().getTime()} | Action: ${JSON.stringify(action?.type)}` );
+  //console.log(`${new Date().getTime()} | Action: ${JSON.stringify(action?.type)}` );
   return next(action);
 };
 

@@ -23,7 +23,7 @@ import {
     increaseIngredientCount
     , resetIngredientsCountByType
 } from '../../services/actions/burger-incredients';
-import { makeOrder } from '../../utils/order-api';
+import { deleteOrderDetails } from '../../services/actions/order-details';
 
 // styles
 import bcStyle from './burger-constructor.module.css';
@@ -57,7 +57,6 @@ export default function BurgerConstructor() {
             isOver: monitor.isOver(),
         })
     });
-
     const { ingredients, upperBun, lowerBun } = useSelector(store => {
         const ings = store?.constructorIngredients?.items || [];
         const buns = ings?.filter(i => i.type === IngredientType.Bun) || [];
@@ -66,7 +65,7 @@ export default function BurgerConstructor() {
             : null;
         const lowerBun = buns.length > 1
             ? buns[1]
-            : null
+            : null;
         return {
             ingredients: ings
             , upperBun: upperBun
@@ -74,55 +73,24 @@ export default function BurgerConstructor() {
         }
     });
 
-    const [stateOrder, setStateOrder] = useState({
-        isLoading: false,
-        hasError: false,
-        order: null
-    });
-
-    function getOrder(ids) {
-        setStateOrder({ ...stateOrder, hasError: false, isLoading: true });
-        makeOrder(ids)
-            .then(data => setStateOrder({ ...stateOrder, order: data.order, isLoading: false }))
-            .catch(e => setStateOrder({ ...stateOrder, hasError: true, isLoading: false }));
-    }
-
-    function clickMakeOrder() {
-        let ids = ingredients.filter(ing => ing?._id).map(ing => ing._id) || [];
-        if (upperBun && lowerBun) {
-            ids.push(upperBun._id);
-            ids.push(lowerBun._id);
-            getOrder(ids);
-        }
-    }
-
-    const { isLoading, hasError, order } = stateOrder;
+    const [modalVisible, setModalVisible] = useState(false);
 
     const total = useMemo(() => (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [ingredients]);
     const lastIngredientIndex = useMemo(() => ingredients.findLastIndex(ing => ing.type !== IngredientType.Bun), [ingredients]);
 
     const modal = (
-        <Modal setVisible={() => setStateOrder({ ...stateOrder, order: null })}>
-            {isLoading && <div className='text text_type_main-medium'>Формируется заказ. Ждите...</div>}
-            {hasError && <div className='text text_type_main-medium'>Произошла ошибка при оформилении заказа.</div>}
-            {!isLoading && !hasError
-                && upperBun && lowerBun && order
-                && <OrderDetails order={order} />}
-            {!upperBun || !lowerBun
-                ? <div className='text text_type_main-medium'>
-                    Извините, Вы не добавили булки в список ингредиентов.
-                    <br />
-                    Добавьте, пожалуйста, верхнюю и/или нижнюю булку в список ингредиентов.
-                </div>
-                : <></>
-            }
+        <Modal setVisible={e => {
+            setModalVisible(e);
+            dispatch(deleteOrderDetails());
+        }}>
+            <OrderDetails />
         </Modal>
     );
 
     return (
         <>
             <div style={{ overflow: 'hidden' }}>
-                {order?.number && modal}
+                {modalVisible && modal}
             </div>
 
             {upperBun && (
@@ -171,7 +139,10 @@ export default function BurgerConstructor() {
             <div className={`p-10 ${bcStyle.orderButtonWrapper}`}>
                 <span className='text text_type_digits-medium mr-1'>{total}</span>
                 <span className='mr-10'><CurrencyIcon /></span>
-                <Button htmlType="button" type="primary" size="medium" onClick={clickMakeOrder}>
+                <Button htmlType="button"
+                    type="primary"
+                    size="medium"
+                    onClick={() => setModalVisible(true)}>
                     Оформить заказ
                 </Button>
             </div>
