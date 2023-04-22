@@ -21,6 +21,15 @@
   width: 100%;
 }
 
+.appBurgerSectionScrollingContent {
+    composes: appBurgerSectionContent;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .appBurgerTabs {
   display: flex;
 }
