@@ -1,6 +1,5 @@
 import React, { useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import {
     Tab
@@ -44,17 +43,9 @@ export default function BurgerIngredients() {
 
     function tabClick(tab) {
         setCurrentTab(tab);
-        switch (tab) {
-            case "bun":
-                bunTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
-                break;
-            case "sauce":
-                sauceTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
-                break;
-            case "main":
-                mainTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
-                break;
-        }
+        tab === IngredientType.Bun && bunTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
+        tab === IngredientType.Sauce && sauceTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
+        tab === IngredientType.Main && mainTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });        
     }
 
     function handleScroll(e) {
@@ -103,8 +94,3 @@ export default function BurgerIngredients() {
         </>
     );
 }
-
-BurgerIngredients.propTypes = {
-}
-
-

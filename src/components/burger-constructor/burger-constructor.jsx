@@ -1,11 +1,10 @@
-import React, { useState, useContext, useEffect, useReducer, useMemo, useRef } from 'react';
+import { useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useDrop, useDrag } from "react-dnd";
+import { useDrop } from "react-dnd";
 
 import {
     ConstructorElement
     , Button
-    , DragIcon
     , CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -19,11 +18,9 @@ import { IngredientType } from '../../shared/types/ingredient-type';
 import {
     addConstructorIngredient
     , deleteConstructorIngredientsByType
-    , deleteConstructorIngredient
 } from '../../services/actions/burger-constructor-ingredients';
 import {
     increaseIngredientCount
-    , decreaseIngredientCount
     , resetIngredientsCountByType
 } from '../../services/actions/burger-incredients';
 import { makeOrder } from '../../utils/order-api';
@@ -34,12 +31,10 @@ import appStyle from '../app/app.module.css';
 
 export default function BurgerConstructor() {
 
-
     const dispatch = useDispatch();
-    const [, dropTarget] = useDrop({
+    const [{ isOver }, dropTarget] = useDrop({
         accept: "ingredient"
         , drop(payload) {
-            // constructing
             switch (payload?.ingredient?.type) {
                 case IngredientType.Bun:
                     // delete all buns
@@ -57,13 +52,11 @@ export default function BurgerConstructor() {
                     dispatch(increaseIngredientCount(payload?.ingredient?._id));
                     break;
             }
-            // ordering
         }
+        , collect: (monitor) => ({
+            isOver: monitor.isOver(),
+        })
     });
-
-
-
-    const [draggedItem, setDraggedItem] = useState();
 
     const { ingredients, upperBun, lowerBun } = useSelector(store => {
         const ings = store?.constructorIngredients?.items || [];
@@ -81,7 +74,7 @@ export default function BurgerConstructor() {
         }
     });
 
-    const [stateOrder, setStateOrder] = React.useState({
+    const [stateOrder, setStateOrder] = useState({
         isLoading: false,
         hasError: false,
         order: null
@@ -104,7 +97,9 @@ export default function BurgerConstructor() {
     }
 
     const { isLoading, hasError, order } = stateOrder;
+
     const total = useMemo(() => (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [ingredients]);
+    const lastIngredientIndex = useMemo(() => ingredients.findLastIndex(ing => ing.type !== IngredientType.Bun), [ingredients]);
 
     const modal = (
         <Modal setVisible={() => setStateOrder({ ...stateOrder, order: null })}>
@@ -124,19 +119,6 @@ export default function BurgerConstructor() {
         </Modal>
     );
 
-    function handleMouseLeave(e) {
-        
-        //console.log('leave');
-        //e.currentTarget.style.borderBottom = "";
-    }
-
-    function handleMouseEnter(e) {
-        //debugger;
-        const el = e?.currentTarget;
-        //e.currentTarget.style.borderBottom = "2px solid blue"
-        //console.log('enter');
-    }
-
     return (
         <>
             <div style={{ overflow: 'hidden' }}>
@@ -154,7 +136,12 @@ export default function BurgerConstructor() {
                 />
             )}
 
-            <div ref={dropTarget} className={`${appStyle.appBurgerSectionContent} custom-scroll`} >
+            <div ref={dropTarget} className={`${appStyle.appBurgerSectionContent} custom-scroll ${isOver && appStyle.appBurgerSectionContentBordered}`}>
+                {ingredients.length === 0 &&
+                    <div className='text text_type_main-medium text_color_inactive' style={{ textAlign: "center" }}>
+                        Перетяните сюда инградиенты...
+                    </div>
+                }
                 {
                     ingredients.map((ing, ind) => {
                         return (
@@ -163,10 +150,7 @@ export default function BurgerConstructor() {
                                 key={`${ind}_${ing._id}_wrapper`}
                                 ingredient={ing}
                                 index={ind}
-                                onEndDragging={() => setDraggedItem(null)}
-                                onStartDragging={setDraggedItem}
-                                onMouseLeave={handleMouseLeave}
-                                onMouseEnter={handleMouseEnter}
+                                isLast={ind + 1 > lastIngredientIndex}
                             />
                         )
                     })
@@ -193,8 +177,4 @@ export default function BurgerConstructor() {
             </div>
         </>
     );
-}
-
-
-BurgerConstructor.propTypes = {
 }

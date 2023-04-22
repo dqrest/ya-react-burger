@@ -1,34 +1,26 @@
 import { useDispatch } from 'react-redux';
 import { useDrop, useDrag } from "react-dnd";
+import PropTypes from 'prop-types';
 
 import {
     ConstructorElement
-    , Button
     , DragIcon
-    , CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // shared
 import {
-    addConstructorIngredient
-    , deleteConstructorIngredientsByType
-    , deleteConstructorIngredient
+    deleteConstructorIngredient
     , changeOrderConstructorIngredients
 } from '../../services/actions/burger-constructor-ingredients';
-import {
-    increaseIngredientCount
-    , decreaseIngredientCount
-    , resetIngredientsCountByType
-} from '../../services/actions/burger-incredients';
+import { decreaseIngredientCount } from '../../services/actions/burger-incredients';
+import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
 // styles
 import bcStyle from '../burger-constructor/burger-constructor.module.css';
-import { useState } from 'react';
 
 export default function BurgerDraggableConstructorItem(props) {
 
-    const { ingredient, index, onDraggedItem, onStartDragging, onEndDragging } = props;
-    const { onMouseEnter, onMouseLeave } = props;
+    const { ingredient, index, isLast } = props;
     const dispatch = useDispatch();
 
     const [{ isDrag }, dragRef] = useDrag({
@@ -36,25 +28,12 @@ export default function BurgerDraggableConstructorItem(props) {
         , collect: monitor => ({
             isDrag: monitor.isDragging()
         })
-        , end: (item, monitor) => {
-            onEndDragging && onEndDragging();
-           
-        }, item: () => {
-            const item = {
-                orderedIngredient: ingredient,
-                index: index
-            };
-            onStartDragging && onStartDragging({});
-            return item;
-        }
+        , item: { index: index }
     });
 
     const [{ isOverBefore }, beforeDropTarget] = useDrop({
         accept: "ordering_ingredient"
-        , drop: (payload) => {
-            console.log("order from: " + payload.index + " order to: " + index);
-            dispatch(changeOrderConstructorIngredients(payload.index, index));
-        }
+        , drop: payload => dispatch(changeOrderConstructorIngredients(payload.index, index))        
         , collect: (monitor) => ({
             isOverBefore: monitor.isOver(),
         })
@@ -62,10 +41,7 @@ export default function BurgerDraggableConstructorItem(props) {
 
     const [{ isOverAfter }, afterDropTarget] = useDrop({
         accept: "ordering_ingredient"
-        , drop: (payload) => {
-            console.log("order from: " + payload.index + " order to: " + index);
-            dispatch(changeOrderConstructorIngredients(payload.index, index));
-        }
+        , drop: payload => dispatch(changeOrderConstructorIngredients(payload.index, index + 1))
         , collect: (monitor) => ({
             isOverAfter: monitor.isOver(),
         })
@@ -74,12 +50,10 @@ export default function BurgerDraggableConstructorItem(props) {
     return (
         !isDrag &&
         <>
-            <div ref={beforeDropTarget} style={{ width: "100%", height: "5px", backgroundColor: isOverBefore ? "blue" : "inherit" }}></div>
-            <div className={`${bcStyle.dragBurgerItem}`}
-                ref={dragRef}
-                style={{ boxSizing: "border-box" }}
-                onMouseEnter={onMouseEnter}
-                onMouseLeave={onMouseLeave}>
+            <div ref={beforeDropTarget} className={`${bcStyle.dropLine}`}>
+                <div className={`${isOverBefore && bcStyle.dropLinePainted}`}></div>
+            </div>
+            <div className={`${bcStyle.dragBurgerItem}`} ref={dragRef}>
                 <div style={{ cursor: 'pointer' }}>
                     <DragIcon type="primary" />
                 </div>
@@ -95,10 +69,16 @@ export default function BurgerDraggableConstructorItem(props) {
                     }}
                 />
             </div>
-            <div ref={afterDropTarget} style={{ width: "100%", height: "5px", backgroundColor: isOverAfter ? "blue" : "inherit" }}></div>
+            {isLast &&
+                <div ref={afterDropTarget} className={`${bcStyle.dropLine}`}>
+                    <div className={`${isOverAfter && bcStyle.dropLinePainted}`}></div>
+                </div>}
         </>
     );
 }
 
-
-/*<div ref={afterDropTarget} style={{ width: "100%", height: "5px", backgroundColor: "gray" }}></div>*/
+BurgerDraggableConstructorItem.propTypes = {
+    ingredient: burgerIngredientsItemDto.isRequired
+    , index: PropTypes.number.isRequired
+    , isLast: PropTypes.bool.isRequired
+};

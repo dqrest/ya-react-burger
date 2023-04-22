@@ -38,7 +38,7 @@ export const constructorIngredientsReducer = (state = initialState, action) => {
                 targetIndex = action?.targetIndex ?? -1,
                 items = state?.items || [];
             if (sourceIndex < 0 || targetIndex < 0
-                || sourceIndex >= items.length || targetIndex >= items.length) return state;
+                || sourceIndex >= items.length || targetIndex > items.length) return state;
             items.splice(targetIndex, 0, items[sourceIndex]);
             const deleteIndex = sourceIndex < targetIndex
                 ? sourceIndex
