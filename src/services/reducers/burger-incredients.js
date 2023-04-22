@@ -9,7 +9,9 @@ import {
 
 
 const initialState = {
-    items: []    
+    items: []
+    , itemsFailed: false
+    , itemsRequest: false
 };
 
 export const ingredientsReducer = (state = initialState, action) => {    
