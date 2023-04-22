@@ -15,7 +15,11 @@ import OrderDetails from '../order-details/order-details';
 
 // shared
 import { IngredientType } from '../../shared/types/ingredient-type';
-import { addConstructorIngredient, deleteConstructorIngredientsByType } from '../../services/actions/burger-constructor-ingredients';
+import {
+    addConstructorIngredient
+    , deleteConstructorIngredientsByType
+    , deleteConstructorIngredient
+} from '../../services/actions/burger-constructor-ingredients';
 import { makeOrder } from '../../utils/order-api';
 
 // styles
@@ -25,7 +29,6 @@ import appStyle from '../app/app.module.css';
 export default function BurgerConstructor() {
 
     const dispatch = useDispatch();
-
     const [, dropTarget] = useDrop({
         accept: "ingredient"
         , drop(payload) {
@@ -45,20 +48,19 @@ export default function BurgerConstructor() {
 
     const { ingredients, upperBun, lowerBun } = useSelector(store => {
         const ings = store?.constructorIngredients?.items || [];
-        const buns = ings?.filter(i => i.type === IngredientType.Bun) || [];
-        const otherIngredients = ings?.filter(i => i.type !== IngredientType.Bun) || [];
+        const buns = ings?.filter(i => i.type === IngredientType.Bun) || [];        
         const upperBun = buns.length > 0
             ? buns[0]
             : null;
         const lowerBun = buns.length > 1
             ? buns[1]
             : null
-         return {
-            ingredients: otherIngredients
+        return {
+            ingredients: ings
             , upperBun: upperBun
             , lowerBun: lowerBun
         }
-    });  
+    });
 
     const [stateOrder, setStateOrder] = React.useState({
         isLoading: false,
@@ -81,9 +83,9 @@ export default function BurgerConstructor() {
             getOrder(ids);
         }
     }
-    
+
     const { isLoading, hasError, order } = stateOrder;
-    const total = useMemo(() => (upperBun?.price || 0) + (lowerBun?.price || 0) + (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [ingredients]);
+    const total = useMemo(() => (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [ingredients]);
 
     const modal = (
         <Modal setVisible={() => setStateOrder({ ...stateOrder, order: null })}>
@@ -122,8 +124,9 @@ export default function BurgerConstructor() {
 
             <div ref={dropTarget} className={`${appStyle.appBurgerSectionContent} custom-scroll`} >
                 {
-                    ingredients.map((ing, ind, array) => {                        
+                    ingredients.map((ing, ind) => {
                         return (
+                            ing.type !== IngredientType.Bun &&
                             <div className={`${bcStyle.dragBurgerItem} mt-4`} key={`${ind}_${ing._id}_wrapper`}>
                                 <DragIcon type="primary" key={`${ind}_${ing._id}_dragicon`} />
                                 <ConstructorElement
@@ -133,8 +136,8 @@ export default function BurgerConstructor() {
                                     price={ing.price}
                                     thumbnail={ing.image_mobile}
                                     extraClass={`${bcStyle.burgerItem}`}
-                                    handleClose={() => { /*call dispatch*/ }}
-                                />
+                                    handleClose={() => dispatch(deleteConstructorIngredient(ind))}
+                                />                                
                             </div>
                         )
                     })
@@ -161,7 +164,6 @@ export default function BurgerConstructor() {
             </div>
         </>
     );
-
 }
 
 
