@@ -1,14 +1,14 @@
 import {
     GET_CONSTRUCTOR_INGREDIENTS
-    , ADD_CONSTRUCTOR_INGREDIENT
-    , DELETE_CONSTRUCTOR_INGREDIENTS_BY_TYPE
+    , ADD_CONSTRUCTOR_INGREDIENT    
     , DELETE_CONSTRUCTOR_INGREDIENT
     , CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS
-}
-    from '../actions/burger-constructor-ingredients';
+    , SET_BUN_TO_CONSTRUCTOR
+} from '../actions/burger-constructor-ingredients';
 
 const initialState = {
     items: []
+    , bun: null
 };
 
 export const constructorIngredientsReducer = (state = initialState, action) => {
@@ -19,11 +19,7 @@ export const constructorIngredientsReducer = (state = initialState, action) => {
         case ADD_CONSTRUCTOR_INGREDIENT:
             if (!action?.item) return state;
             const newItems = [...(state.items || []), action.item]
-            return { ...state, items: newItems };
-
-        case DELETE_CONSTRUCTOR_INGREDIENTS_BY_TYPE:
-            const notDeleteItems = (state?.items || []).filter(ing => ing?.type !== action?.ingredientType) || [];
-            return { ...state, items: notDeleteItems };
+            return { ...state, items: newItems };        
 
         case DELETE_CONSTRUCTOR_INGREDIENT:
             if (state?.items && action?.deleteIndex >= 0 && action?.deleteIndex < state?.items?.length) {
@@ -45,6 +41,9 @@ export const constructorIngredientsReducer = (state = initialState, action) => {
             items.splice(deleteIndex, 1);
             return { ...state, items: [...items] };
         }
+
+        case SET_BUN_TO_CONSTRUCTOR:            
+            return {...state, bun: action?.bun}
         default:
             return state;
     }

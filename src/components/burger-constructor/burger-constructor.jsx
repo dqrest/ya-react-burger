@@ -16,8 +16,8 @@ import BurgerDraggableConstructorItem from '../burger-draggable-constructor-item
 // shared
 import { IngredientType } from '../../shared/types/ingredient-type';
 import {
-    addConstructorIngredient
-    , deleteConstructorIngredientsByType
+    addConstructorIngredient 
+    , setBunToConstructor
 } from '../../services/actions/burger-constructor-ingredients';
 import {
     increaseIngredientCount
@@ -37,14 +37,12 @@ export default function BurgerConstructor() {
         , drop(payload) {
             switch (payload?.ingredient?.type) {
                 case IngredientType.Bun:
-                    // delete all buns
-                    dispatch(deleteConstructorIngredientsByType(IngredientType.Bun));
+                    // reset all buns
                     dispatch(resetIngredientsCountByType(IngredientType.Bun));
-                    // add upper bun
-                    dispatch(addConstructorIngredient(payload?.ingredient));
+                    dispatch(setBunToConstructor(payload?.ingredient));
+                    // increase for upperBun
                     dispatch(increaseIngredientCount(payload?.ingredient?._id));
-                    // add lower bun
-                    dispatch(addConstructorIngredient(payload?.ingredient));
+                    // increase for lowerBun
                     dispatch(increaseIngredientCount(payload?.ingredient?._id));
                     break;
                 default:
@@ -57,26 +55,16 @@ export default function BurgerConstructor() {
             isOver: monitor.isOver(),
         })
     });
-    const { ingredients, upperBun, lowerBun } = useSelector(store => {
-        const ings = store?.constructorIngredients?.items || [];
-        const buns = ings?.filter(i => i.type === IngredientType.Bun) || [];
-        const upperBun = buns.length > 0
-            ? buns[0]
-            : null;
-        const lowerBun = buns.length > 1
-            ? buns[1]
-            : null;
+
+    const { ingredients, bun } = useSelector(store => {
         return {
-            ingredients: ings
-            , upperBun: upperBun
-            , lowerBun: lowerBun
+            ingredients: store?.constructorIngredients?.items || []
+            , bun: store?.constructorIngredients?.bun
         }
     });
 
     const [modalVisible, setModalVisible] = useState(false);
-
-    const total = useMemo(() => (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [ingredients]);
-    const lastIngredientIndex = useMemo(() => ingredients.findLastIndex(ing => ing.type !== IngredientType.Bun), [ingredients]);
+    const total = useMemo(() => (2 * bun?.price || 0) + (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [ingredients, bun]);
 
     const modal = (
         <Modal setVisible={e => {
@@ -93,19 +81,19 @@ export default function BurgerConstructor() {
                 {modalVisible && modal}
             </div>
 
-            {upperBun && (
+            {bun && (
                 <ConstructorElement
                     type="top"
                     isLocked={true}
-                    text={`Верх: ${upperBun.name}`}
-                    price={upperBun.price}
-                    thumbnail={upperBun.image_mobile}
+                    text={`Верх: ${bun.name}`}
+                    price={bun.price}
+                    thumbnail={bun.image_mobile}
                     extraClass={`${bcStyle.burgerItem}`}
                 />
             )}
 
             <div ref={dropTarget} className={`${appStyle.appBurgerSectionContent} custom-scroll ${isOver && appStyle.appBurgerSectionContentBordered}`}>
-                {ingredients.length === 0 &&
+                {!bun && ingredients.length === 0 &&
                     <div className='text text_type_main-medium text_color_inactive' style={{ textAlign: "center" }}>
                         Перетяните сюда инградиенты...
                     </div>
@@ -118,20 +106,20 @@ export default function BurgerConstructor() {
                                 key={`${ind}_${ing._id}_wrapper`}
                                 ingredient={ing}
                                 index={ind}
-                                isLast={ind + 1 > lastIngredientIndex}
+                                isLast={ind < ingredients.length}
                             />
                         )
                     })
                 }
             </div>
 
-            {lowerBun && (
+            {bun && (
                 <ConstructorElement
                     type="bottom"
                     isLocked={true}
-                    text={`Низ: ${lowerBun.name}`}
-                    price={lowerBun.price}
-                    thumbnail={lowerBun.image_mobile}
+                    text={`Низ: ${bun.name}`}
+                    price={bun.price}
+                    thumbnail={bun.image_mobile}
                     extraClass={`${bcStyle.burgerItem} mt-4`}
                 />
             )}
