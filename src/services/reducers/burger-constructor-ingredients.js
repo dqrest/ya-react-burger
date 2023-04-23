@@ -32,8 +32,7 @@ export const constructorIngredientsReducer = (state = initialState, action) => {
             }
             return state;
 
-        case CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS: {
-            debugger;
+        case CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS: {            
             const sourceIndex = action?.sourceIndex ?? -1,
                 targetIndex = action?.targetIndex ?? -1,
                 items = state?.items || [];
