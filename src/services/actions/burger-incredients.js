@@ -26,21 +26,18 @@ export function getIngredients() {
     };
 }
 
-export function increaseIngredientCount(id) {
-    return function (dispatch) {
-        dispatch({ type: INCREASE_INGREDIENT_COUNT, id: id});
-    }
-}
+export const increaseIngredientCount = (id) => (
+    { type: INCREASE_INGREDIENT_COUNT, id: id }
+);
+  
 
-export function decreaseIngredientCount(id) {
-    return function (dispatch) {
-        dispatch({ type: DECREASE_INGREDIENT_COUNT, id: id });
-    }
-}
+export const decreaseIngredientCount = (id) => (
+    { type: DECREASE_INGREDIENT_COUNT, id: id }
+);
+ 
 
-export function resetIngredientsCountByType(typeIngredient) {
-    return function (dispatch) {
-        dispatch({ type: RESET_INGREDIENTS_COUNT_BY_TYPE, typeIngredient: typeIngredient });
-    }
-}
+export const resetIngredientsCountByType = (typeIngredient) => (
+    { type: RESET_INGREDIENTS_COUNT_BY_TYPE, typeIngredient: typeIngredient }
+);
+    
 

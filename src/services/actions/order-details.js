@@ -25,8 +25,7 @@ export function makeOrder(idIngredients){
     };
 }
 
-export function deleteOrderDetails() {
-    return function (dispatch) {
-        dispatch({ type: DELETE_ORDER_DETAILS});
-    }
-}
+export const deleteOrderDetails = () => (
+    { type: DELETE_ORDER_DETAILS }
+);
+   
