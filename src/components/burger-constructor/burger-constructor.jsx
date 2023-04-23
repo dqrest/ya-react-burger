@@ -10,13 +10,15 @@ import {
 
 // components
 import Modal from '../modal/modal';
-import OrderDetails from '../order-details/order-details';
+import OrderDetails, { getOrderDetails } from '../order-details/order-details';
 import BurgerDraggableConstructorItem from '../burger-draggable-constructor-item/burger-draggable-constructor-item';
+
 
 // shared
 import { IngredientType } from '../../shared/types/ingredient-type';
 import {
     addConstructorIngredient
+    , deleteAllConstructorIngredients
     , setBunToConstructor
 } from '../../services/actions/burger-constructor-ingredients';
 import {
@@ -28,6 +30,11 @@ import { deleteOrderDetails } from '../../services/actions/order-details';
 // styles
 import bcStyle from './burger-constructor.module.css';
 import appStyle from '../app/app.module.css';
+
+export const getConstructorIngredients = (store) => ({
+    ingredients: store?.constructorIngredients?.items || []
+    , bun: store?.constructorIngredients?.bun
+});
 
 export default function BurgerConstructor() {
 
@@ -54,14 +61,10 @@ export default function BurgerConstructor() {
         , collect: (monitor) => ({
             isOver: monitor.isOver(),
         })
-    });
+    });    
 
-    const { ingredients, bun } = useSelector(store => {
-        return {
-            ingredients: store?.constructorIngredients?.items || []
-            , bun: store?.constructorIngredients?.bun
-        }
-    });
+    const { ingredients, bun } = useSelector(getConstructorIngredients);
+    const { order } = useSelector(getOrderDetails);
 
     const [modalVisible, setModalVisible] = useState(false);
     const total = useMemo(() => (2 * bun?.price || 0) + (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [ingredients, bun]);
@@ -69,6 +72,9 @@ export default function BurgerConstructor() {
     const modal = (
         <Modal setVisible={e => {
             setModalVisible(e);
+            if (!order?.number) return;
+            dispatch(setBunToConstructor(null));
+            dispatch(deleteAllConstructorIngredients());
             dispatch(deleteOrderDetails());
         }}>
             {!bun
@@ -78,7 +84,7 @@ export default function BurgerConstructor() {
                     Добавьте, пожалуйста, булки в список ингредиентов.
                 </div>
                 : <OrderDetails />
-            }
+            }            
         </Modal>
     );
 

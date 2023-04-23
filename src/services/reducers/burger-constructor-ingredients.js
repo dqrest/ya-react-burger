@@ -4,6 +4,7 @@ import {
     , DELETE_CONSTRUCTOR_INGREDIENT
     , CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS
     , SET_BUN_TO_CONSTRUCTOR
+    , DELETE_ALL_CONSTRUCTOR_INGREDIENTS
 } from '../actions/burger-constructor-ingredients';
 
 const initialState = {
@@ -43,7 +44,10 @@ export const constructorIngredientsReducer = (state = initialState, action) => {
         }
 
         case SET_BUN_TO_CONSTRUCTOR:            
-            return {...state, bun: action?.bun}
+            return { ...state, bun: action?.bun }
+
+        case DELETE_ALL_CONSTRUCTOR_INGREDIENTS:
+            return {...state, items: []}
         default:
             return state;
     }

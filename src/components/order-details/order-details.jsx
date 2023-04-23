@@ -7,71 +7,46 @@ import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-component
 import odStyles from './order-details.module.css';
 
 // shared
-import { IngredientType } from '../../shared/types/ingredient-type';
 import { makeOrder } from '../../services/actions/order-details';
+
+// components
+import { getConstructorIngredients } from '../burger-constructor/burger-constructor';
+
+export const getOrderDetails = (store) => ({
+    order: store?.orderDetails?.item
+    , orderDetailsRequest: store?.orderDetails?.itemRequest
+    , orderDetailsFailed: store?.orderDetails?.itemFailed
+});
 
 export default function OrderDetails() {
 
     const dispatch = useDispatch();
-    const refCheckIcon = React.useRef(null);
+    const refCheckIcon = React.useRef(null);  
 
-    const { ingredients, upperBun, lowerBun } = useSelector(store => {
-        const ings = store?.constructorIngredients?.items || [];
-        const buns = ings?.filter(i => i.type === IngredientType.Bun) || [];
-        const upperBun = buns.length > 0
-            ? buns[0]
-            : null;
-        const lowerBun = buns.length > 1
-            ? buns[1]
-            : null;
-        return {
-            ingredients: ings
-            , upperBun: upperBun
-            , lowerBun: lowerBun
-        }
-    });
+    const { ingredients, bun } = useSelector(getConstructorIngredients);
+    const { order, orderDetailsRequest, orderDetailsFailed } = useSelector(getOrderDetails);   
 
-    const ids = useMemo(() => ingredients.filter(ing => ing?._id).map(ing => ing._id) || [], [ingredients]);   
-    const { order, orderDetailsRequest, orderDetailsFailed } = useSelector(store => {
-        return {
-            order: store?.orderDetails?.item
-            , orderDetailsRequest: store?.orderDetails?.itemRequest || false
-            , orderDetailsFailed: store?.orderDetails?.itemFailed || false
-        }
-    });
-
-    useEffect(() => {
-        if (lowerBun && upperBun)
-            dispatch(makeOrder(ids));
-    }, [ingredients]);
+    // ids = [ingredints, upperBun, lowerBun]
+    const ids = useMemo(() => [...ingredients.filter(ing => ing?._id).map(ing => ing._id) || [], bun?._id, bun?._id], [ingredients, bun]);
 
     useEffect(() => {        
+        if (bun) dispatch(makeOrder(ids));               
+    }, [dispatch, ids, bun]);
+
+    useEffect(() => {
         let children = refCheckIcon?.current?.getElementsByTagName("svg");
         if (children && children.length > 0) {
             children[0].style.width = "100%";
             children[0].style.height = "120px";
-        }
-    }, [orderDetailsRequest, orderDetailsFailed, ingredients]);
-
-    const notUpperLowerBunMessage = (
-        <>
-            {!upperBun || !lowerBun
-                ? <div className='text text_type_main-medium'>
-                    Извините, Вы не добавили булки в список ингредиентов.
-                    <br />
-                    Добавьте, пожалуйста, верхнюю и/или нижнюю булку в список ингредиентов.
-                </div>
-                : <></>
-            }
-        </>
-    );
+        }        
+    }, [orderDetailsRequest, orderDetailsFailed, ingredients]);    
 
     return (
         <>
-            {notUpperLowerBunMessage}
             {orderDetailsRequest && <div className='text text_type_main-medium'>Формируется заказ. Ждите...</div>}
             {orderDetailsFailed && <div className='text text_type_main-medium'>Произошла ошибка при оформилении заказа.</div>}
-            {upperBun && lowerBun && !orderDetailsRequest && !orderDetailsFailed &&
+            {
+                order?.number && !orderDetailsRequest && !orderDetailsFailed &&
                 <div className={odStyles.orderDetailContent}>
                     <div className={`text text_type_digits-large`} style={{ alignSelf: "center" }}>
                         {order?.number}
