@@ -16,7 +16,7 @@ import BurgerDraggableConstructorItem from '../burger-draggable-constructor-item
 // shared
 import { IngredientType } from '../../shared/types/ingredient-type';
 import {
-    addConstructorIngredient 
+    addConstructorIngredient
     , setBunToConstructor
 } from '../../services/actions/burger-constructor-ingredients';
 import {
@@ -71,7 +71,14 @@ export default function BurgerConstructor() {
             setModalVisible(e);
             dispatch(deleteOrderDetails());
         }}>
-            <OrderDetails />
+            {!bun
+                ? <div className='text text_type_main-medium'>
+                    Извините, Вы не добавили булки в список ингредиентов.
+                    <br />
+                    Добавьте, пожалуйста, булки в список ингредиентов.
+                </div>
+                : <OrderDetails />
+            }
         </Modal>
     );
 
