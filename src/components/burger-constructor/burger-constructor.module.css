@@ -10,12 +10,26 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    padding: 2px;
 }
 
-.orderButtonWrapper{
+.orderButtonWrapper {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
+}
+
+.dropLine {
+    width: 100%;
+    height: 8px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.dropLinePainted {
+    width: 100%;
+    height: 100%;
+    background-color: var(--colors-interface-accent)
 }

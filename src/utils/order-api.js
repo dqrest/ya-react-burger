@@ -3,7 +3,7 @@ import { checkResponse } from '../shared/utils/check-response';
 const NORMA_API = "https://norma.nomoreparties.space/api";
 
 
-export function makeOrder(idIngredients): Promise<any> {    
+export function makeOrderRequest(idIngredients) {    
     idIngredients = idIngredients || [];
     return fetch(`${NORMA_API}/orders`, {
         method: 'POST',
