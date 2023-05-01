@@ -1,0 +1,20 @@
+.wrapper{
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    min-height: 0;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.sideColumn{
+    width: 250px;
+}
+
+.centerColumn{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
