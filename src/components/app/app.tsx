@@ -10,11 +10,10 @@ import {
     , ResetPasswordPage
     , ProfilePage
     , IngredientPage
+    , NotFound404Page
 } from '../../pages';
 
-
 export default function App() {
-
     return (
         <Router>
             <Routes>
@@ -27,6 +26,7 @@ export default function App() {
                     <Route path="profile" element={<ProfilePage />} />
                     <Route path="ingredients/:id" element={<IngredientPage />} />
                 </Route>
+                <Route path="*" element={<NotFound404Page />} />
             </Routes>
         </Router>        
     );
