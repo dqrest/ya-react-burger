@@ -1,0 +1,22 @@
+.list{
+    list-style-type: none;
+    padding: 0;
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.item {
+    height: 60px;
+    color: var(--text-inactive-color);
+    cursor: pointer;
+}
+
+.selected {
+    color: var(--text-primary-color);
+}
+
+
+
