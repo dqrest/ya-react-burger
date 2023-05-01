@@ -1,7 +1,7 @@
-import { AppPage } from './app';
+import { HomePage } from './home';
 import { BurgerContructorPage } from './burger-constructor';
 
 export {
-    AppPage
+    HomePage
     , BurgerContructorPage
 };
