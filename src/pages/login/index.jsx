@@ -5,17 +5,16 @@ import {
     , Button
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-
 // styles
-import loginStyles from './login.module.css';
+import styles from '../pages.module.css';
 
 export const LoginPage = () => (
-    <div className={loginStyles.wrapper}>
+    <div className={styles.wrapper}>
         <span className="text text_type_main-medium">
             Вход
         </span>
-        <PasswordInput />
         <EmailInput />
+        <PasswordInput />        
         <Button htmlType="button" type="primary" size="medium">
             Войти
         </Button>
@@ -23,7 +22,7 @@ export const LoginPage = () => (
             Вы - новый пользователь?
             <Link
                 to={{ pathname: `/register` }}
-                className={`${loginStyles.link} ml-4`}>
+                className={`${styles.link} ml-4`}>
                 Зарегистрироваться
             </Link>
         </span>
@@ -31,7 +30,7 @@ export const LoginPage = () => (
             Забыли пароль?
             <Link
                 to={{ pathname: `/forgot-password` }}
-                className={`${loginStyles.link} ml-4`}>
+                className={`${styles.link} ml-4`}>
                 Восстановить пароль
             </Link>
         </span>
