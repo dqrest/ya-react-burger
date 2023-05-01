@@ -37,7 +37,7 @@ export function BurgerIngredientsListInner({ title, ingredients }, ref) {
             <div style={{ overflow: 'hidden' }}>
                 {modalVisible && modal}
             </div>
-            <span className={`text text_type_main-medium pt-4 ${biListStyle.burgerListCaption}`} ref={ref}>
+            <span className={`text text_type_main-medium mt-2 ${biListStyle.burgerListCaption}`} ref={ref}>
                 {title}
             </span>
             {ingredients.map((ing, ind) =>
