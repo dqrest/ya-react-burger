@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // styles
 import menuStyles from './profile-menu.module.css';
@@ -24,8 +24,14 @@ const menuIems = [{
 export const ProfileMenu = () => {
 
     const [selectedItem, setSelectedItem] = useState();
-    useEffect(() => menuIems?.length > 0 && setSelectedItem(menuIems[0])
-        , []);
+    const navigate = useNavigate(); 
+
+    useEffect(() => {
+        if (menuIems?.length > 0 && menuIems[0]?.url?.length > 0) {
+            setSelectedItem(menuIems[0]);
+            navigate(menuIems[0].url);
+        }
+    }, []);
 
     return (
         <>
