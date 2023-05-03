@@ -15,7 +15,8 @@
 
 .item{
     composes: baseItem;  
-    flex-wrap: nowrap;    
+    flex-wrap: nowrap;   
+    color: var(--text-inactive-color); 
 }
 
 .logoItem{
@@ -33,6 +34,16 @@
     .itemTitle {
         display: none;
     }
+}
+
+
+.link {
+    text-decoration: none;    
+}
+
+
+.selected {
+    color: var(--text-primary-color);
 }
 
 
