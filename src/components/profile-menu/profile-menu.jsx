@@ -38,7 +38,7 @@ export const ProfileMenu = () => {
             <ul className={menuStyles.list}>
                 {menuIems.map((item) => (
                     <li key={item.key}
-                        className={`text text_type_main-default ${menuStyles.item} ${menuStyles.item} ${selectedItem?.key === item?.key && menuStyles.selected}`}
+                        className={`text text_type_main-default ${menuStyles.item} ${selectedItem?.key === item?.key && menuStyles.selected}`}
                         onClick={() => setSelectedItem(item)}>
 
                         <Link key={`link_${item.key}`}
