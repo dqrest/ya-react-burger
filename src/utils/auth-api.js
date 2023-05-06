@@ -15,7 +15,7 @@ export const registerRequest = async formData => {
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
         body: JSON.stringify(formData)
-    });
+    }).then(checkResponse);
 }
 
 
