@@ -34,14 +34,14 @@ export const RegisterPage = () => {
         , email: 'snakbag@mail.ru'
     });
 
-    function registerClick(e) {        
-        e.preventDefault();        
+    function registerClick(e) {
+        e.preventDefault();
         dispatch(register(formData));
         return false;
     }
 
     const errorMessage = (
-        <div  className={styles.wrapper}>
+        <div className={styles.wrapper}>
             <span className='text text_type_main-medium'>
                 Возникла ошибка: {message}
             </span>
@@ -59,53 +59,51 @@ export const RegisterPage = () => {
     );
 
     return (
-        <>
-            <div className={styles.wrapper}>
-                {registerRequest && <div className='text text_type_main-medium'>Происходит регистрация. Ждите...</div>}
-                {registerFailed && errorMessage}
-                {!registerRequest && !registerFailed &&
-                    <>
-                        <span className="text text_type_main-medium">
-                            Регистрация
-                        </span>
-                        <form style={{ display: 'flex', flexDirection: "column" }} onSubmit={registerClick}>
-                            <Input type={'text'}
-                                value={formData.name}
-                                placeholder={'Имя'}
-                                required
-                                onChange={e => { setFormData({ ...formData, name: e.target.value }); console.log(JSON.stringify(formData)); }}
-                                extraClass="mb-4"
-                            />
-                            <EmailInput required
-                                extraClass="mb-4"
-                                value={formData.email}
-                                onChange={e => { setFormData({ ...formData, email: e.target.value }); console.log(JSON.stringify(formData)); }}
-                            />
-                            <PasswordInput required
-                                extraClass="mb-4"
-                                value={formData.password}
-                                onChange={e => { setFormData({ ...formData, password: e.target.value }); console.log(JSON.stringify(formData)); }}
-                            />
-                            <div style={{ alignSelf: "center" }}>
-                                <Button htmlType="submit"
-                                    type="primary"
-                                    size="medium"
-                                    onClick={() => false}>
-                                    Зарегистрироваться
-                                </Button>
-                            </div>
-                        </form>
-                        <span className="text text_type_main-small mt-10">
-                            Уже зарегистрированы?
-                            <Link
-                                to={{ pathname: `/login` }}
-                                className={`${styles.link} ml-4`}>
-                                Войти
-                            </Link>
-                        </span>
-                    </>
-                }
-            </div>
-        </>
+        <div className={styles.wrapper}>
+            {registerRequest && <div className='text text_type_main-medium'>Происходит регистрация. Ждите...</div>}
+            {registerFailed && errorMessage}
+            {!registerRequest && !registerFailed &&
+                <>
+                    <span className="text text_type_main-medium">
+                        Регистрация
+                    </span>
+                    <form style={{ display: 'flex', flexDirection: "column" }} onSubmit={registerClick}>
+                        <Input type={'text'}
+                            value={formData.name}
+                            placeholder={'Имя'}
+                            required
+                            onChange={e => { setFormData({ ...formData, name: e.target.value }); console.log(JSON.stringify(formData)); }}
+                            extraClass="mb-4"
+                        />
+                        <EmailInput required
+                            extraClass="mb-4"
+                            value={formData.email}
+                            onChange={e => { setFormData({ ...formData, email: e.target.value }); console.log(JSON.stringify(formData)); }}
+                        />
+                        <PasswordInput required
+                            extraClass="mb-4"
+                            value={formData.password}
+                            onChange={e => { setFormData({ ...formData, password: e.target.value }); console.log(JSON.stringify(formData)); }}
+                        />
+                        <div style={{ alignSelf: "center" }}>
+                            <Button htmlType="submit"
+                                type="primary"
+                                size="medium"
+                                onClick={() => false}>
+                                Зарегистрироваться
+                            </Button>
+                        </div>
+                    </form>
+                    <span className="text text_type_main-small mt-10">
+                        Уже зарегистрированы?
+                        <Link
+                            to={{ pathname: `/login` }}
+                            className={`${styles.link} ml-4`}>
+                            Войти
+                        </Link>
+                    </span>
+                </>
+            }
+        </div>
     );
 }
