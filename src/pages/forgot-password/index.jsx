@@ -26,7 +26,7 @@ export const ForgotPasswordPage = () => {
     const { forgotPasswordRequest, forgotPasswordFailed, message } = useSelector(getForgottenPassword);
 
     const [formData, setFormData] = useState({
-        email: 'snakbag@mail1.ru'
+        email: 'snakbag@mail.ru'
     });
 
     function forgotPasswordSubmit(e) {
@@ -38,7 +38,7 @@ export const ForgotPasswordPage = () => {
     const errorMessage = (
         <div className={styles.wrapper}>
             <span className='text text_type_main-medium'>
-                Возникла ошибка: {message}
+                Возникла ошибка: {message || 'Неопознанная ошибка...'}
             </span>
             <br />
             <span className="text text_type_main-small mt-2">
