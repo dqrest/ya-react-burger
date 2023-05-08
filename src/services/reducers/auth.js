@@ -8,6 +8,11 @@ import {
     , LOGIN_USER_SUCCESS
     , LOGIN_USER_REQUEST
     , REFRESH_LOGINING
+
+    , FORGOT_PASSWORD_FAILED
+    , FORGOT_PASSWORD_SUCCESS
+    , FORGOT_PASSWORD_REQUEST
+    , REFRESH_FORGOTING_PASSWORD
 } from '../actions/auth';
 
 const registerInitialState = {
@@ -37,7 +42,6 @@ export const registerReducer = (state = registerInitialState, action) => {
     }
 }
 
-
 const loginInitialState = {
     email: null
     , name: null
@@ -59,6 +63,32 @@ export const loginReducer = (state = loginInitialState, action) => {
         }
         case REFRESH_LOGINING: {
             return { ...state, loginRequest: action.loginRequest, loginFailed: action.loginFailed};
+        }
+        default:
+            return state;
+    }
+}
+
+const forgotPasswordInitialState = {
+    email: null    
+    , message: null
+    , forgotPasswordRequest: false
+    , forgotPasswordFailed: false
+};
+
+export const forgotPasswordReducer = (state = forgotPasswordInitialState, action) => {
+    switch (action.type) {
+        case FORGOT_PASSWORD_REQUEST: {
+            return { ...state, forgotPasswordRequest: true };
+        }
+        case FORGOT_PASSWORD_SUCCESS: {
+            return { ...state, forgotPasswordRequest: false, forgotPasswordFailed: false, email: action.email, name: action.name, };
+        }
+        case FORGOT_PASSWORD_FAILED: {
+            return { ...state, forgotPasswordRequest: false, forgotPasswordFailed: true, message: action.message };
+        }
+        case REFRESH_FORGOTING_PASSWORD: {
+            return { ...state, forgotPasswordRequest: action.forgotPasswordRequest, forgotPasswordFailed: action.forgotPasswordFailed };
         }
         default:
             return state;

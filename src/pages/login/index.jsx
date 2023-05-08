@@ -30,8 +30,7 @@ export const LoginPage = () => {
         , email: 'snakbag@mail.ru'
     });
 
-    function loginClick(e) {
-        debugger;
+    function loginClick(e) {        
         e.preventDefault();
         dispatch(login(formData));
         return false;
