@@ -13,7 +13,162 @@ import {
     , FORGOT_PASSWORD_SUCCESS
     , FORGOT_PASSWORD_REQUEST
     , REFRESH_FORGOTING_PASSWORD
+
+    , GET_USER_FAILED
+    , GET_USER_SUCCESS
+    , GET_USER_REQUEST,
+    REFRESH_TOKEN_REQUEST,
+    REFRESH_TOKEN_SUCCESS,
+    REFRESH_TOKEN_FAILED,
+    PATCH_USER_REQUEST,
+    PATCH_USER_SUCCESS,
+    PATCH_USER_FAILED
 } from '../actions/auth';
+
+
+const authInitialState = {
+    user: null
+    , message: null
+    , request: false
+    , failed: false
+    , accessToken: null
+    , refreshToken: null
+};
+
+export const authReducer = (state = authInitialState, action) => {
+    switch (action.type) {
+        case LOGIN_USER_REQUEST: {
+            return { ...state, request: true };
+        }
+        case LOGIN_USER_SUCCESS: {
+            return {
+                ...state
+                , request: false
+                , failed: false
+                , user: action.user
+                , accessToken: action.accessToken
+                , refreshToken: action.refreshToken
+            };
+        }
+        case LOGIN_USER_FAILED: {
+            return {
+                ...state
+                , request: false
+                , failed: true
+                , message: action.message
+                , user: null
+
+            };
+        }
+        case GET_USER_REQUEST:
+        case PATCH_USER_REQUEST: {
+            return { ...state, request: true };
+        }
+        case GET_USER_SUCCESS:
+        case PATCH_USER_SUCCESS: {
+            return {
+                ...state
+                , request: false
+                , failed: false
+                , user: action.user
+                //, message: "jwt expired"
+            };
+        }
+        case GET_USER_FAILED:
+        case PATCH_USER_FAILED: {
+            return {
+                ...state
+                , request: false
+                , failed: true
+                , message: action.message
+            };
+        }
+        case REFRESH_TOKEN_REQUEST: {
+            return { ...state, request: true };
+        }
+        case REFRESH_TOKEN_SUCCESS: {
+            return {
+                ...state
+                , request: false
+                , failed: false
+                , refreshToken: action.refreshToken
+                , accessToken: action.accessToken
+            };
+        }
+        case REFRESH_TOKEN_FAILED: {
+            return {
+                ...state
+                , request: false
+                , failed: true
+                , message: action.message
+            };
+        }
+        default:
+            return state;
+    }
+}
+
+////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+const userProfileInitialState = {
+    name: null
+    , email: null
+    , password: null
+    , request: false
+    , failed: false
+    , message: null
+};
+
+export const userProfileReducer = (state = userProfileInitialState, action) => {
+    switch (action.type) {
+        case GET_USER_REQUEST: {
+            return { ...state, request: true };
+        }
+        case GET_USER_SUCCESS: {
+            return {
+                ...state
+                , request: false
+                , failed: false
+                , name: action.name
+                , email: action.email
+                , password: action.password
+            };
+        }
+        case GET_USER_FAILED: {
+            return {
+                ...state
+                , request: false
+                , failed: true
+                , message: action.message
+            };
+        }
+        default:
+            return state;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
 
 const registerInitialState = {
     email: null
@@ -62,7 +217,7 @@ export const loginReducer = (state = loginInitialState, action) => {
             return { ...state, loginRequest: false, loginFailed: true, message: action.message };
         }
         case REFRESH_LOGINING: {
-            return { ...state, loginRequest: action.loginRequest, loginFailed: action.loginFailed};
+            return { ...state, loginRequest: action.loginRequest, loginFailed: action.loginFailed };
         }
         default:
             return state;
@@ -70,7 +225,7 @@ export const loginReducer = (state = loginInitialState, action) => {
 }
 
 const forgotPasswordInitialState = {
-    email: null    
+    email: null
     , message: null
     , forgotPasswordRequest: false
     , forgotPasswordFailed: false

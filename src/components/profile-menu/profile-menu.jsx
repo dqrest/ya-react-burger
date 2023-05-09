@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+// shared
+import { useAuth } from '../../services/auth';
+
 // styles
 import menuStyles from './profile-menu.module.css';
 
@@ -24,6 +27,7 @@ const menuIems = [{
 export const ProfileMenu = () => {
 
     const [selectedItem, setSelectedItem] = useState();
+    const { signOut } = useAuth();
     const navigate = useNavigate(); 
 
     useEffect(() => {
@@ -31,7 +35,7 @@ export const ProfileMenu = () => {
             setSelectedItem(menuIems[0]);
             navigate(menuIems[0].url);
         }
-    }, []);
+    }, []);   
 
     return (
         <>
@@ -39,7 +43,7 @@ export const ProfileMenu = () => {
                 {menuIems.map((item) => (
                     <li key={item.key}
                         className={`text text_type_main-default ${menuStyles.item} ${selectedItem?.key === item?.key && menuStyles.selected}`}
-                        onClick={() => setSelectedItem(item)}>
+                        onClick={() => { setSelectedItem(item); item === 'logout' && signOut(); }}>
 
                         <Link key={`link_${item.key}`}
                             className={`${menuStyles.link}`}

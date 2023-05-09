@@ -7,6 +7,8 @@ import {
     registerReducer
     , loginReducer
     , forgotPasswordReducer
+    , authReducer
+    //, userProfileReducer
 } from './auth';
 
 export const rootReducer = combineReducers({
@@ -15,6 +17,8 @@ export const rootReducer = combineReducers({
     , constructorIngredients: constructorIngredientsReducer
     , orderDetails: orderDetailsReducer
     , register: registerReducer
-    , login: loginReducer
+    //, login: loginReducer
     , forgotPassword: forgotPasswordReducer
+    , auth: authReducer
+    //, userProfile: userProfileReducer
 });

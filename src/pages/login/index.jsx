@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
@@ -9,55 +8,35 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // shared
-import { login, refreshLogining } from '../../services/actions/auth';
+import { useAuth } from '../../services/auth';
 
 // styles
 import styles from '../pages.module.css';
 
-export const getLoginedUser = (store) => ({
-    user: store?.login?.item
-    , loginRequest: store?.login?.loginRequest
-    , loginFailed: store?.login?.loginFailed
-    , message: store?.login?.message
-});
-
 export const LoginPage = () => {
 
-    const dispatch = useDispatch();
-    const { loginRequest, loginFailed, message } = useSelector(getLoginedUser);
+    const { signIn, request, failed, message } = useAuth();
     const [formData, setFormData] = useState({
         password: 'snakbag12345!'
         , email: 'snakbag@mail.ru'
     });
 
-    function loginClick(e) {        
+    function loginClick(e) {
         e.preventDefault();
-        dispatch(login(formData));
+        signIn(formData);
         return false;
     }
 
     const errorMessage = (
-        <div className={styles.wrapper}>
-            <span className='text text_type_main-medium'>
-                Возникла ошибка: {message}
-            </span>
-            <br />
-            <span className="text text_type_main-small mt-2">
-                <Link
-                    to={{ pathname: `/login` }}
-                    className={`${styles.link} ml-4`}
-                    onClick={() => dispatch(refreshLogining())}>
-                    Войти заново?
-                </Link>
-            </span>
-        </div>
+        <span className='text text_type_main-default' style={{ color: 'red' }}>
+            Возникла ошибка: {message}
+        </span>
     );
 
     return (
         <div className={styles.wrapper}>
-            {loginRequest && <div className='text text_type_main-medium'>Вход в систему. Ждите...</div>}
-            {loginFailed && errorMessage}
-            {!loginRequest && !loginFailed &&
+            {request && <div className='text text_type_main-medium'>Вход в систему. Ждите...</div>}
+            {!request &&
                 <>
                     <span className="text text_type_main-medium">
                         Вход
@@ -82,6 +61,8 @@ export const LoginPage = () => {
                             </Button>
                         </div>
                     </form>
+
+                    {failed && errorMessage}
 
                     <span className="text text_type_main-small mt-10">
                         Вы - новый пользователь?

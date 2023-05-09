@@ -1,7 +1,11 @@
 import {
     registerRequest
     , loginRequest
+    , logoutRequest
     , forgotPasswordRequest
+    , getUserRequest
+    , patchUserRequest
+    , refreshTokenRequest
 } from '../../utils/auth-api';
 
 export const REGISTER_USER_REQUEST = 'REGISTER_USER_REQUEST';
@@ -14,6 +18,10 @@ export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST';
 export const LOGIN_USER_SUCCESS = 'LOGIN_USER_SUCCESS';
 export const LOGIN_USER_FAILED = 'LOGIN_USER_FAILED';
 
+export const LOGOUT_USER_REQUEST = 'LOGOUT_USER_REQUEST';
+export const LOGOUT_USER_SUCCESS = 'LOGOUT_USER_SUCCESS';
+export const LOGOUT_USER_FAILED = 'LOGOUT_USER_FAILED';
+
 export const REFRESH_LOGINING = 'REFRESH_LOGINING';
 
 export const FORGOT_PASSWORD_REQUEST = 'FORGOT_PASSWORD_REQUEST';
@@ -21,6 +29,19 @@ export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
 export const FORGOT_PASSWORD_FAILED = 'FORGOT_PASSWORD_FAILED';
 
 export const REFRESH_FORGOTING_PASSWORD = 'REFRESH_FORGOTING_PASSWORD';
+
+export const GET_USER_REQUEST = 'GET_USER_REQUEST';
+export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
+export const GET_USER_FAILED = 'GET_USER_FAILED';
+
+export const PATCH_USER_REQUEST = 'PATCH_USER_REQUEST';
+export const PATCH_USER_SUCCESS = 'PATCH_USER_SUCCESS';
+export const PATCH_USER_FAILED = 'PATCH_USER_FAILED';
+
+export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
+export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
+export const REFRESH_TOKEN_FAILED = 'REFRESH_TOKEN_FAILED';
+
 
 export function register(formData) {
     return function (dispatch) {
@@ -53,12 +74,33 @@ export function login(formData) {
         loginRequest(formData)
             .then(res => {
                 if (res && res.success) {
+                    //debugger;
                     dispatch({
-                        type: LOGIN_USER_SUCCESS,
-                        user: {
-                            email: res.email
-                            , name: res.name
-                        }
+                        type: LOGIN_USER_SUCCESS
+                        , user: res.user
+                        , refreshToken: res.refreshToken
+                        , accessToken: res.accessToken
+                    });
+                    return;
+                }
+                dispatch({ type: LOGIN_USER_FAILED });
+            })
+            .catch(e => dispatch({ type: LOGIN_USER_FAILED, message: e.message }));
+    };
+}
+
+export function logout(refreshToken) {
+    return function (dispatch) {
+        dispatch({ type: LOGIN_USER_REQUEST });
+        logoutRequest(refreshToken)
+            .then(res => {
+                if (res && res.success) {
+                    //debugger;
+                    dispatch({
+                        type: LOGIN_USER_SUCCESS
+                        , user: res.user
+                        , refreshToken: res.refreshToken
+                        , accessToken: res.accessToken
                     });
                     return;
                 }
@@ -96,3 +138,67 @@ export function forgotPassword(formData) {
 export const refreshForgotingPassword = () => (
     { type: REFRESH_FORGOTING_PASSWORD, forgotPasswordRequest: false, forgotPasswordFailed: false }
 );
+
+export function getUser(cookie) {
+    return function (dispatch) {
+        dispatch({ type: GET_USER_REQUEST });
+        getUserRequest(cookie)
+            .then(res => {
+                //debugger;
+                if (res && res.success) {
+                    //debugger;
+                    dispatch({
+                        type: GET_USER_SUCCESS
+                        , user: res.user                        
+                    });
+                    return;
+                }
+                dispatch({ type: GET_USER_FAILED, message: 'qq' });
+            })
+            .catch(e => { debugger; dispatch({ type: GET_USER_FAILED, message: e.message }); });
+    };
+}
+
+export function patchUser(accessToken, formData) {
+    return function (dispatch) {
+        dispatch({ type: PATCH_USER_REQUEST });
+        patchUserRequest(accessToken, formData)
+            .then(res => {
+                debugger;
+                if (res && res.success) {
+                    //debugger;
+                    dispatch({
+                        type: PATCH_USER_SUCCESS
+                        , user: res.user
+                        , refreshToken: res.refreshToken
+                        , accessToken: res.accessToken
+                    });
+                    return;
+                }
+                dispatch({ type: PATCH_USER_FAILED });
+            })
+            .catch(e => { debugger; dispatch({ type: PATCH_USER_FAILED, message: e.message }); });
+    };
+}
+
+export function refreshAccessToken(refreshToken) {
+    return function (dispatch) {        
+        dispatch({ type: REFRESH_TOKEN_REQUEST });
+        refreshTokenRequest(refreshToken)
+            .then(res => {
+                debugger;
+                if (res && res.success) {
+                    //debugger;
+                    dispatch({
+                        type: REFRESH_TOKEN_SUCCESS                       
+                        , refreshToken: res.refreshToken
+                        , accessToken: res.accessToken
+                        , message: null
+                    });
+                    return;
+                }
+                dispatch({ type: REFRESH_TOKEN_FAILED });
+            })
+            .catch(e => dispatch({ type: REFRESH_TOKEN_FAILED, message: e.message }));
+    };
+}
