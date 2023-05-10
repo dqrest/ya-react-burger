@@ -6,16 +6,16 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { deleteCookie, setCookie, getCookie } from '../shared/utils/cookie';
 import { loginRequest, getUserRequest, logoutRequest } from '../utils/auth-api';
 import { login, logout, getUser, patchUser, refreshAccessToken } from '../services/actions/auth';
-import { 
+import {
     LOGIN_USER_SUCCESS
     , LOGOUT_USER_SUCCESS
- } from './actions/auth';
+    , GET_USER_FAILED
+} from './actions/auth';
 
-const test1 = undefined;
 const AuthContext = createContext(undefined);
 
-export function ProvideAuth({ children, setSignIn }) {
-    const auth = useProvideAuth({ setSignIn });
+export function ProvideAuth({ children }) {
+    const auth = useProvideAuth();
     return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 }
 
@@ -36,46 +36,43 @@ export function getAuthUser(store) {
         });
 }
 
-export function useProvideAuth({ setSignIn }) {
+export function useProvideAuth() {
 
     const dispatch = useDispatch();
-    const { user, request, failed, accessToken, refreshToken, message, actionType } = useSelector(getAuthUser);
-
-    const [isTokenRefreshed, setTokenRefreshed] = useState(false);       
-
-    useEffect(() => {
-        console.log(`auth>> request: ${request}, failed: ${failed}, at: ${accessToken}, rt: ${refreshToken}`);        
-        // accessToken expired ---> refresh token
-        if (!request && failed && message === "jwt expired" && !isTokenRefreshed) {            
-            setTokenRefreshed(true);
-            updateAccessToken();
-        }
-    }, [accessToken, refreshToken, request, failed, message]);
+    const { user, request, failed, accessToken, refreshToken, message, actionType } = useSelector(getAuthUser);  
 
     useEffect(() => {
         switch (actionType) {
-            case LOGIN_USER_SUCCESS:
+            case LOGIN_USER_SUCCESS: {
                 setCookie('token', accessToken, { expires: 100200, path: '/' });
                 setCookie('refreshToken', refreshToken, { expires: 400200, path: '/' });
                 break;
-            case LOGOUT_USER_SUCCESS:
-                deleteCookie('token');
-                deleteCookie('refreshToken');
+            }
+            case LOGOUT_USER_SUCCESS: {                
+                deleteCookie('token', {path: '/'});
+                deleteCookie('refreshToken', {path: '/'});
                 break;
+            }
+            case GET_USER_FAILED: {
+                debugger;
+                if (message === "jwt expired")
+                    updateAccessToken();
+                break;
+            }
         }
-    }, [actionType, accessToken, refreshToken])
+    }, [actionType, accessToken, refreshToken, message])
 
 
-    const signIn = (formData) => {        
+    const signIn = (formData) => {
         dispatch(login(formData));
     };
 
     const signOut = () => {
-        dispatch(logout(getCookie('refreshToken')));        
+        dispatch(logout(getCookie('refreshToken')));
     };
 
     const getUserProfile = () => {
-        debugger;
+        //debugger;
         let qq = getCookie('token');
         dispatch(getUser(getCookie('token')));
     };
@@ -84,7 +81,8 @@ export function useProvideAuth({ setSignIn }) {
         dispatch(patchUser(getCookie('token'), formData));
     };
 
-    const updateAccessToken = () => {        
+    const updateAccessToken = () => {
+        //debugger;
         dispatch(refreshAccessToken(getCookie('refreshToken')));
     };
 
@@ -95,8 +93,8 @@ export function useProvideAuth({ setSignIn }) {
         , request
         , failed
         , message
-        , signIn        
-        , actionType        
+        , signIn
+        , actionType
         , signOut
         , updateAccessToken
         , getUserProfile

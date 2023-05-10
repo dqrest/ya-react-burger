@@ -7,7 +7,7 @@ import { useAuth } from '../../services/auth';
 import { getCookie } from '../../shared/utils/cookie';
 
 export default function ProtectedRouteElement({ element }) {
-    //debugger;
+    
     const { user, getUserProfile, request } = useAuth();
     const [userLoaded, setUserLoaded] = useState(false);
 

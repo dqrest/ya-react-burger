@@ -3,9 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // shared
 import { useAuth } from '../../services/auth';
+import { LOGOUT_USER_SUCCESS } from '../../services/actions/auth';
 
 // styles
 import menuStyles from './profile-menu.module.css';
+import { deleteCookie } from '../../shared/utils/cookie';
 
 const menuIems = [{
     title: 'Профиль'
@@ -27,7 +29,7 @@ const menuIems = [{
 export const ProfileMenu = () => {
 
     const [selectedItem, setSelectedItem] = useState();
-    const { signOut } = useAuth();
+    const { signOut, actionType } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -36,6 +38,14 @@ export const ProfileMenu = () => {
             navigate(menuIems[0].url);
         }
     }, []);
+
+    useEffect(() => {
+        if(actionType === LOGOUT_USER_SUCCESS){
+            //deleteCookie('token');
+            //deleteCookie('refreshToken');
+            navigate('/login?fallback=/profile/user', {replace: true});
+        }
+    }, [actionType])
 
     return (
         <>
