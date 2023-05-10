@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // styles
@@ -15,6 +15,22 @@ import {
 export default function AppHeader() {
 
     const [selectedItem, setSelectedItem] = useState('home');
+
+    useEffect(() => {        
+        switch (document.location.pathname) {
+            case '/':
+                setSelectedItem('home');
+                break;
+            case '/history-order':
+                setSelectedItem('history-order');
+                break;
+            case '/profile':
+            case '/profile/user':
+            case '/profile/orders':
+                setSelectedItem('profile');
+                break;           
+        }
+    }, []);
 
     return (
         <header className={`${headerStyle.header} ${appStyle.appBurgerPaddings}`}>
@@ -44,10 +60,10 @@ export default function AppHeader() {
             </a>
 
             <Link className={`${headerStyle.item} ${headerStyle.link} ${selectedItem === 'profile' && headerStyle.selected}`}
-                to='/profile'
+                to='/profile/user'
                 title="Личный кабинет"
                 onClick={() => setSelectedItem('profile')}>
-                <ProfileIcon type={`${selectedItem === 'profile' ? 'primary' : 'secondary'}`} /> 
+                <ProfileIcon type={`${selectedItem === 'profile' ? 'primary' : 'secondary'}`} />
                 <span className={`${headerStyle.itemTitle} text text_type_main-small ml-2`}>
                     Личный кабинет
                 </span>
