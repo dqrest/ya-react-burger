@@ -23,7 +23,7 @@ import {
 
 export default function App() {
     return (
-        <ProvideAuth setSignIn={() => { debugger;}}>
+        <ProvideAuth>
             <Router>
                 <Routes>
                     <Route path="/" element={ <HomePage />}>
