@@ -19,7 +19,7 @@ const menuIems = [{
     , tooltip: 'В этом разделе Вы можете просмотреть свою историю заказов'
 }, {
     title: 'Выход'
-    , url: '/logout'
+    , url: '/login'
     , key: 'logout'
     , tooltip: 'Выйти из системы'
 }];
@@ -28,14 +28,14 @@ export const ProfileMenu = () => {
 
     const [selectedItem, setSelectedItem] = useState();
     const { signOut } = useAuth();
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (menuIems?.length > 0 && menuIems[0]?.url?.length > 0) {
             setSelectedItem(menuIems[0]);
             navigate(menuIems[0].url);
         }
-    }, []);   
+    }, []);
 
     return (
         <>
@@ -43,14 +43,9 @@ export const ProfileMenu = () => {
                 {menuIems.map((item) => (
                     <li key={item.key}
                         className={`text text_type_main-default ${menuStyles.item} ${selectedItem?.key === item?.key && menuStyles.selected}`}
-                        onClick={() => { setSelectedItem(item); item === 'logout' && signOut(); }}>
-
-                        <Link key={`link_${item.key}`}
-                            className={`${menuStyles.link}`}
-                            to={`${item.url}`}>
-                            {item.title}
-                        </Link>
-
+                        onClick={() => { debugger; if (item?.key === 'logout') { debugger; signOut(); return; } setSelectedItem(item); navigate(item?.url, { replace: true }); }}
+                    >
+                        {item.title}
                     </li>
                 ))}
             </ul>

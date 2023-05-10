@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useCallback, useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import {
     PasswordInput
@@ -9,17 +9,32 @@ import {
 
 // shared
 import { useAuth } from '../../services/auth';
+import { LOGIN_USER_SUCCESS } from '../../services/actions/auth';
 
 // styles
 import styles from '../pages.module.css';
 
 export const LoginPage = () => {
 
-    const { signIn, request, failed, message } = useAuth();
+    const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const fallback = searchParams?.get('fallback');
+
+    const { signIn, request, failed, message, actionType } = useAuth();
     const [formData, setFormData] = useState({
         password: 'snakbag12345!'
         , email: 'snakbag@mail.ru'
     });
+
+    useEffect(() => {
+        switch (actionType) {
+            case LOGIN_USER_SUCCESS:
+                // login success ---> redirect to fallback
+                fallback && navigate(fallback, { replace: true });
+                break;
+        }
+
+    }, [actionType]);
 
     function loginClick(e) {
         e.preventDefault();

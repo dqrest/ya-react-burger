@@ -33,9 +33,11 @@ const authInitialState = {
     , failed: false
     , accessToken: null
     , refreshToken: null
+    , actionType: null
 };
 
 export const authReducer = (state = authInitialState, action) => {
+    state = {...state, actionType: action.type};
     switch (action.type) {
         case LOGIN_USER_REQUEST: {
             return { ...state, request: true };
@@ -47,7 +49,7 @@ export const authReducer = (state = authInitialState, action) => {
                 , failed: false
                 , user: action.user
                 , accessToken: action.accessToken
-                , refreshToken: action.refreshToken
+                , refreshToken: action.refreshToken                
             };
         }
         case LOGIN_USER_FAILED: {

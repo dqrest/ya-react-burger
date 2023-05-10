@@ -8,6 +8,9 @@ import {
     , refreshTokenRequest
 } from '../../utils/auth-api';
 
+
+export const SET_USER = 'SET_USER';
+
 export const REGISTER_USER_REQUEST = 'REGISTER_USER_REQUEST';
 export const REGISTER_USER_SUCCESS = 'REGISTER_USER_SUCCESS';
 export const REGISTER_USER_FAILED = 'REGISTER_USER_FAILED';
@@ -68,6 +71,10 @@ export const refreshRegistering = () => (
     { type: REFRESH_REGISTERING, registerRequest: false, registerFailed: false }
 );
 
+export const setUser = (user) => (
+    { type: SET_USER, user: user }
+);
+
 export function login(formData) {
     return function (dispatch) {
         dispatch({ type: LOGIN_USER_REQUEST });
@@ -91,22 +98,23 @@ export function login(formData) {
 
 export function logout(refreshToken) {
     return function (dispatch) {
-        dispatch({ type: LOGIN_USER_REQUEST });
+        debugger;
+        dispatch({ type: LOGOUT_USER_REQUEST });
         logoutRequest(refreshToken)
             .then(res => {
                 if (res && res.success) {
-                    //debugger;
+                    debugger;
                     dispatch({
-                        type: LOGIN_USER_SUCCESS
-                        , user: res.user
+                        type: LOGOUT_USER_SUCCESS
+                        , user: null
                         , refreshToken: res.refreshToken
                         , accessToken: res.accessToken
                     });
                     return;
                 }
-                dispatch({ type: LOGIN_USER_FAILED });
+                dispatch({ type: LOGOUT_USER_FAILED });
             })
-            .catch(e => dispatch({ type: LOGIN_USER_FAILED, message: e.message }));
+            .catch(e => dispatch({ type: LOGOUT_USER_FAILED, message: e.message }));
     };
 }
 
@@ -142,6 +150,10 @@ export const refreshForgotingPassword = () => (
 export function getUser(cookie) {
     return function (dispatch) {
         dispatch({ type: GET_USER_REQUEST });
+        if(!cookie){
+            dispatch({ type: GET_USER_FAILED, message: 'Unable to get UserProfile. Empty access token.' });
+            return;
+        }
         getUserRequest(cookie)
             .then(res => {
                 //debugger;
@@ -153,9 +165,9 @@ export function getUser(cookie) {
                     });
                     return;
                 }
-                dispatch({ type: GET_USER_FAILED, message: 'qq' });
+                dispatch({ type: GET_USER_FAILED });
             })
-            .catch(e => { debugger; dispatch({ type: GET_USER_FAILED, message: e.message }); });
+            .catch(e => { dispatch({ type: GET_USER_FAILED, message: e.message }); });
     };
 }
 

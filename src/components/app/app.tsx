@@ -23,7 +23,7 @@ import {
 
 export default function App() {
     return (
-        <ProvideAuth>
+        <ProvideAuth setSignIn={() => { debugger;}}>
             <Router>
                 <Routes>
                     <Route path="/" element={ <HomePage />}>
@@ -33,8 +33,8 @@ export default function App() {
                         <Route path="forgot-password" element={<ForgotPasswordPage />} />
                         <Route path="reset-password" element={<ResetPasswordPage />} />
                         <Route path="profile" element={<ProtectedRouteElement element={<ProfilePage />} />}>
-                            <Route path="user" element={<ProfileUserPage />} />
-                            <Route path="orders" element={<ProfileOrdersPage />} />
+                            <Route path="user" element={<ProtectedRouteElement element={<ProfileUserPage />} /> }/>
+                            <Route path="orders" element={<ProtectedRouteElement element={<ProfileOrdersPage />} />} />
                         </Route>
                         <Route path="ingredients/:id" element={<IngredientPage />} />
                     </Route>

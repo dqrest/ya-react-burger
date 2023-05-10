@@ -1,15 +1,21 @@
-import { useContext, useState, createContext, useEffect } from 'react';
+import { useContext, useState, createContext, useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 // shared
 import { deleteCookie, setCookie, getCookie } from '../shared/utils/cookie';
 import { loginRequest, getUserRequest, logoutRequest } from '../utils/auth-api';
 import { login, logout, getUser, patchUser, refreshAccessToken } from '../services/actions/auth';
+import { 
+    LOGIN_USER_SUCCESS
+    , LOGOUT_USER_SUCCESS
+ } from './actions/auth';
 
+const test1 = undefined;
 const AuthContext = createContext(undefined);
 
-export function ProvideAuth({ children }) {
-    const auth = useProvideAuth();
+export function ProvideAuth({ children, setSignIn }) {
+    const auth = useProvideAuth({ setSignIn });
     return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 }
 
@@ -26,47 +32,51 @@ export function getAuthUser(store) {
             , message: store?.auth?.message
             , accessToken: store?.auth?.accessToken
             , refreshToken: store?.auth?.refreshToken
+            , actionType: store?.auth?.actionType
         });
 }
 
-export function useProvideAuth() {
+export function useProvideAuth({ setSignIn }) {
 
     const dispatch = useDispatch();
-    const { user, request, failed, accessToken, refreshToken, message } = useSelector(getAuthUser);
+    const { user, request, failed, accessToken, refreshToken, message, actionType } = useSelector(getAuthUser);
 
-    const [isTokenRefreshed, setTokenRefreshed] = useState(false);
+    const [isTokenRefreshed, setTokenRefreshed] = useState(false);       
 
     useEffect(() => {
-        console.log(`auth>> request: ${request}, failed: ${failed}, at: ${accessToken}, rt: ${refreshToken }`);
-        // get valid accessToken ---> setCookie
-        if (accessToken && !request && !failed)
-            setCookie('token', accessToken, { expires: 100200, path: '/' });
-
-        // get valid refreshToken ---> setCookie
-        if (refreshToken && !request && !failed) {
-            setCookie('refreshToken', refreshToken, { expires: 400200, path: '/' });
-            setTokenRefreshed(false);
-        }
-
+        console.log(`auth>> request: ${request}, failed: ${failed}, at: ${accessToken}, rt: ${refreshToken}`);        
         // accessToken expired ---> refresh token
-        if (!request && failed && message === "jwt expired" && !isTokenRefreshed) {
-            //debugger;
+        if (!request && failed && message === "jwt expired" && !isTokenRefreshed) {            
             setTokenRefreshed(true);
-            updateAccessToken();            
+            updateAccessToken();
         }
     }, [accessToken, refreshToken, request, failed, message]);
-    
 
-    const signIn = (formData) => {
+    useEffect(() => {
+        switch (actionType) {
+            case LOGIN_USER_SUCCESS:
+                setCookie('token', accessToken, { expires: 100200, path: '/' });
+                setCookie('refreshToken', refreshToken, { expires: 400200, path: '/' });
+                break;
+            case LOGOUT_USER_SUCCESS:
+                deleteCookie('token');
+                deleteCookie('refreshToken');
+                break;
+        }
+    }, [actionType, accessToken, refreshToken])
+
+
+    const signIn = (formData) => {        
         dispatch(login(formData));
     };
 
     const signOut = () => {
-        dispatch(logout(getCookie('refreshToken')));
+        dispatch(logout(getCookie('refreshToken')));        
     };
 
     const getUserProfile = () => {
         debugger;
+        let qq = getCookie('token');
         dispatch(getUser(getCookie('token')));
     };
 
@@ -74,8 +84,7 @@ export function useProvideAuth() {
         dispatch(patchUser(getCookie('token'), formData));
     };
 
-    const updateAccessToken = () => {
-        //debugger;
+    const updateAccessToken = () => {        
         dispatch(refreshAccessToken(getCookie('refreshToken')));
     };
 
@@ -86,9 +95,10 @@ export function useProvideAuth() {
         , request
         , failed
         , message
-        , signIn
+        , signIn        
+        , actionType        
         , signOut
-        , updateAccessToken        
+        , updateAccessToken
         , getUserProfile
         , patchUserProfile
     };
