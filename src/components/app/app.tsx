@@ -5,6 +5,7 @@ import { ProvideAuth } from '../../services/auth';
 
 // components
 import ProtectedRouteElement from '../protected-route-element/protected-route-element';
+import ProtectedRouteElementFromUser from '../protected-route-element/protected-route-element-from-user';
 
 // pages
 import {
@@ -28,7 +29,7 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={ <HomePage />}>
                         <Route path="" element={<BurgerContructorPage />} />
-                        <Route path="login" element={<LoginPage />} />
+                        <Route path="login" element={<ProtectedRouteElementFromUser element={ <LoginPage /> } />} />
                         <Route path="register" element={<RegisterPage />} />
                         <Route path="forgot-password" element={<ForgotPasswordPage />} />
                         <Route path="reset-password" element={<ResetPasswordPage />} />

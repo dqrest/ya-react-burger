@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 // shared
 import { useAuth } from '../../services/auth';
 import { getCookie } from '../../shared/utils/cookie';
 
 export default function ProtectedRouteElement({ element }) {
-    
+    // debugger;
     const { user, getUserProfile, request } = useAuth();
     const [userLoaded, setUserLoaded] = useState(false);
 
-    useEffect(() => {        
+    useEffect(() => {
         if (getCookie('token'))
             getUserProfile();
         else
@@ -25,9 +25,30 @@ export default function ProtectedRouteElement({ element }) {
 
     if (!userLoaded) return null;
 
-    const fallback = document.location.pathname !== '/login'
-        ? document.location.pathname
-        : null;
+    const pathname = document.location.pathname || '';
+
+    // authorized case
+    // if (user) {
+    //     switch (pathname) {
+    //         case '/login':
+    //         case '/register':
+    //         case '/forgot-password':
+    //         case '/reset-password':
+    //             return <Navigate to={`/`} replace />;
+    //         default:
+    //             return element;
+    //     }
+    // }
+
+    // // nonautorized case
+    // switch (pathname) {
+    //     case '/login':
+    //         return element;
+    // }
+
+    const fallback = pathname !== '/login'
+        ? pathname
+        : '/';
 
     const fallbackParam = fallback
         ? `?fallback=${fallback}`
