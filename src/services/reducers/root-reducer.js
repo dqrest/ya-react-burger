@@ -16,9 +16,7 @@ export const rootReducer = combineReducers({
     , ingredientDetails: ingredientDetailsReducer
     , constructorIngredients: constructorIngredientsReducer
     , orderDetails: orderDetailsReducer
-    , register: registerReducer
-    //, login: loginReducer
+    , register: registerReducer    
     , forgotPassword: forgotPasswordReducer
-    , auth: authReducer
-    //, userProfile: userProfileReducer
+    , auth: authReducer    
 });

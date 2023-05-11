@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import {
     EmailInput
@@ -8,22 +8,33 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // shared
-import { forgotPassword, refreshForgotingPassword } from '../../services/actions/auth';
+import { forgotPassword, refreshForgotingPassword, FORGOT_PASSWORD_SUCCESS } from '../../services/actions/auth';
 
 // styles
 import styles from '../pages.module.css';
 
 export const getForgottenPassword = (store) => ({
-    user: store?.login?.item
+    email: store?.forgotPassword?.email
     , forgotPasswordRequest: store?.forgotPassword?.forgotPasswordRequest
     , forgotPasswordFailed: store?.forgotPassword?.forgotPasswordFailed
     , message: store?.forgotPassword?.message
+    , actionType: store?.forgotPassword?.actionType    
 });
 
 export const ForgotPasswordPage = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const { forgotPasswordRequest, forgotPasswordFailed, message } = useSelector(getForgottenPassword);
+    const [resetClicked, setResetClicked] = useState(false);
+
+    useEffect(() => {        
+        if (!forgotPasswordRequest && !forgotPasswordFailed && resetClicked){
+            navigate('/reset-password', {replace: false});
+            setResetClicked(false);            
+        }
+    }, [resetClicked, forgotPasswordRequest, forgotPasswordFailed]);
 
     const [formData, setFormData] = useState({
         email: 'snakbag@mail.ru'
@@ -31,6 +42,7 @@ export const ForgotPasswordPage = () => {
 
     function forgotPasswordSubmit(e) {
         e.preventDefault();
+        setResetClicked(true);
         dispatch(forgotPassword(formData));
         return false;
     }

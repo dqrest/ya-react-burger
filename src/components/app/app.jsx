@@ -56,7 +56,7 @@ function UnAuthApp({ user }) {
                         <Route path="" element={<BurgerContructorPage />} />
                         <Route path="login" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
                         <Route path="register" element={<ProtectedRouteElement user={user} element={<RegisterPage />} />} />
-                        <Route path="forgot-password" element={<ProtectedRouteElement user={user} element={<ForgotPasswordPage />} />} />
+                        <Route path="forgot-password" element={<ProtectedRouteElement user={user} element={<ForgotPasswordPage /> } />} />
                         <Route path="reset-password" element={<ProtectedRouteElement user={user} element={<ResetPasswordPage />} />} />
                         <Route path="profile" element={<ProtectedRouteElement user={user} element={<LoginPage />} />}>
                             <Route path="user" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />

@@ -127,13 +127,11 @@ export function forgotPassword(formData) {
         dispatch({ type: FORGOT_PASSWORD_REQUEST });
         forgotPasswordRequest(formData)
             .then(res => {
+                debugger;
                 if (res && res.success) {
                     dispatch({
                         type: FORGOT_PASSWORD_SUCCESS,
-                        user: {
-                            email: res.email
-                            , name: res.name
-                        }
+                        email: formData?.email
                     });
                     return;
                 }
@@ -144,7 +142,7 @@ export function forgotPassword(formData) {
 }
 
 export const refreshForgotingPassword = () => (
-    { type: REFRESH_FORGOTING_PASSWORD, forgotPasswordRequest: false, forgotPasswordFailed: false }
+    { type: REFRESH_FORGOTING_PASSWORD, forgotPasswordRequest: false, forgotPasswordFailed: false, email: null, message: null }
 );
 
 export function getUser(cookie) {
