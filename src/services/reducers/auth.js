@@ -18,6 +18,10 @@ import {
     , FORGOT_PASSWORD_REQUEST
     , REFRESH_FORGOTING_PASSWORD
 
+    , RESET_PASSWORD_FAILED
+    , RESET_PASSWORD_SUCCESS
+    , RESET_PASSWORD_REQUEST
+
     , GET_USER_FAILED
     , GET_USER_SUCCESS
     , GET_USER_REQUEST
@@ -189,17 +193,6 @@ export const userProfileReducer = (state = userProfileInitialState, action) => {
     }
 };
 
-
-
-
-
-
-
-
-
-
-
-
 const registerInitialState = {
     email: null
     , name: null
@@ -276,6 +269,29 @@ export const forgotPasswordReducer = (state = forgotPasswordInitialState, action
         case REFRESH_FORGOTING_PASSWORD: {
             return { ...state, forgotPasswordRequest: action.forgotPasswordRequest, forgotPasswordFailed: action.forgotPasswordFailed };
         }
+        default:
+            return state;
+    }
+}
+
+const resetPasswordInitialState = {
+    message: null
+    , resetPasswordRequest: false
+    , resetPasswordFailed: false
+};
+
+export const resetPasswordReducer = (state = resetPasswordInitialState, action) => {
+    state = {...state, actionType: action.type};
+    switch (action.type) {
+        case RESET_PASSWORD_REQUEST: {
+            return { ...state, resetPasswordRequest: true };
+        }
+        case RESET_PASSWORD_SUCCESS: {
+            return { ...state, resetPasswordRequest: false, resetPasswordFailed: false, message: action.message };
+        }
+        case RESET_PASSWORD_FAILED: {
+            return { ...state, resetPasswordRequest: false, resetPasswordFailed: true, message: action.message };
+        }        
         default:
             return state;
     }

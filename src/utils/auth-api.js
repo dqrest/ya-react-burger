@@ -91,6 +91,20 @@ export const forgotPasswordRequest = async (formData) =>
         body: JSON.stringify(formData)
     }).then(checkResponse);
 
+export const resetPasswordRequest = async (formData) =>
+    await fetch(`${NORMA_API}/password-reset/reset1`, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+        body: JSON.stringify(formData)
+    }).then(checkResponse);
+
 export const refreshTokenRequest = async (refreshToken) =>
     await fetch(`${NORMA_API}/auth/token`, {
         method: 'POST',

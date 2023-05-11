@@ -3,6 +3,7 @@ import {
     , loginRequest
     , logoutRequest
     , forgotPasswordRequest
+    , resetPasswordRequest
     , getUserRequest
     , patchUserRequest
     , refreshTokenRequest
@@ -32,6 +33,10 @@ export const FORGOT_PASSWORD_SUCCESS = 'FORGOT_PASSWORD_SUCCESS';
 export const FORGOT_PASSWORD_FAILED = 'FORGOT_PASSWORD_FAILED';
 
 export const REFRESH_FORGOTING_PASSWORD = 'REFRESH_FORGOTING_PASSWORD';
+
+export const RESET_PASSWORD_REQUEST = 'RESET_PASSWORD_REQUEST';
+export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS';
+export const RESET_PASSWORD_FAILED = 'RESET_PASSWORD_FAILED';
 
 export const GET_USER_REQUEST = 'GET_USER_REQUEST';
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
@@ -98,12 +103,10 @@ export function login(formData) {
 
 export function logout(refreshToken) {
     return function (dispatch) {
-        debugger;
         dispatch({ type: LOGOUT_USER_REQUEST });
         logoutRequest(refreshToken)
             .then(res => {
-                if (res && res.success) {
-                    debugger;
+                if (res && res.success) {                    
                     dispatch({
                         type: LOGOUT_USER_SUCCESS
                         , user: null
@@ -140,6 +143,26 @@ export function forgotPassword(formData) {
             .catch(e => dispatch({ type: FORGOT_PASSWORD_FAILED, message: e.message }));
     };
 }
+
+export function resetPassword(formData){
+    return function (dispatch) {
+        dispatch({ type: RESET_PASSWORD_REQUEST });
+        resetPasswordRequest(formData)
+            .then(res => {                
+                if (res && res.success) {
+                    dispatch({
+                        type: RESET_PASSWORD_SUCCESS,
+                        email: res.message
+                    });
+                    return;
+                }
+                dispatch({ type: RESET_PASSWORD_FAILED });
+            })
+            .catch(e => dispatch({ type: RESET_PASSWORD_FAILED, message: e.message }));
+    }
+}
+
+
 
 export const refreshForgotingPassword = () => (
     { type: REFRESH_FORGOTING_PASSWORD, forgotPasswordRequest: false, forgotPasswordFailed: false, email: null, message: null }
