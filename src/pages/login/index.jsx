@@ -22,7 +22,7 @@ export const LoginPage = () => {
 
     const { signIn, request, failed, message, actionType } = useProvideAuth();
     const [formData, setFormData] = useState({
-        password: 'snakbag12345!'
+        password: '1234_1234'
         , email: 'snakbag@mail.ru'
     });
 

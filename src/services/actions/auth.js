@@ -148,7 +148,8 @@ export function resetPassword(formData){
     return function (dispatch) {
         dispatch({ type: RESET_PASSWORD_REQUEST });
         resetPasswordRequest(formData)
-            .then(res => {                
+            .then(res => {
+                debugger;
                 if (res && res.success) {
                     dispatch({
                         type: RESET_PASSWORD_SUCCESS,
@@ -158,7 +159,10 @@ export function resetPassword(formData){
                 }
                 dispatch({ type: RESET_PASSWORD_FAILED });
             })
-            .catch(e => dispatch({ type: RESET_PASSWORD_FAILED, message: e.message }));
+            .catch(e => {
+                debugger;
+                dispatch({ type: RESET_PASSWORD_FAILED, message: e.message });
+            });
     }
 }
 

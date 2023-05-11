@@ -92,7 +92,7 @@ export const forgotPasswordRequest = async (formData) =>
     }).then(checkResponse);
 
 export const resetPasswordRequest = async (formData) =>
-    await fetch(`${NORMA_API}/password-reset/reset1`, {
+    await fetch(`${NORMA_API}/password-reset/reset`, {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',

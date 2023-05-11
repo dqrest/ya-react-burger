@@ -21,9 +21,10 @@ export default function ProtectedRouteElement({ user, element }) {
             return element;
 
         if (pathname.includes('/reset-password')
-            && resetPasswordAction?.actionType === FORGOT_PASSWORD_SUCCESS
+            //&& resetPasswordAction?.actionType === FORGOT_PASSWORD_SUCCESS
             && resetPasswordAction?.email
-            && resetPasswordAction?.email.length > 0) {                         
+            && resetPasswordAction?.email.length > 0) {
+            debugger;
             return element;
         }
 
