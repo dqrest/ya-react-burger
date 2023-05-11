@@ -9,14 +9,16 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // shared
-import { useAuth } from '../../services/auth';
+import { useAuth, useProvideAuth } from '../../services/auth';
 
 // styles
 import styles from '../pages.module.css';
 
 export const ProfileUserPage = () => {
 
-    const { user, request, failed, message, getUserProfile, patchUserProfile, updateAccessToken } = useAuth();
+    debugger;
+
+    const { user, request, failed, message, getUserProfile, patchUserProfile, updateAccessToken } = useProvideAuth();
     const [formData, setFormData] = useState({
         name: ''
         , email: ''

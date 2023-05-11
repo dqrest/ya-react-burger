@@ -9,6 +9,10 @@ import {
     , LOGIN_USER_REQUEST
     , REFRESH_LOGINING
 
+    , LOGOUT_USER_FAILED
+    , LOGOUT_USER_SUCCESS
+    , LOGOUT_USER_REQUEST
+
     , FORGOT_PASSWORD_FAILED
     , FORGOT_PASSWORD_SUCCESS
     , FORGOT_PASSWORD_REQUEST
@@ -16,13 +20,15 @@ import {
 
     , GET_USER_FAILED
     , GET_USER_SUCCESS
-    , GET_USER_REQUEST,
-    REFRESH_TOKEN_REQUEST,
-    REFRESH_TOKEN_SUCCESS,
-    REFRESH_TOKEN_FAILED,
-    PATCH_USER_REQUEST,
-    PATCH_USER_SUCCESS,
-    PATCH_USER_FAILED
+    , GET_USER_REQUEST
+
+    , REFRESH_TOKEN_REQUEST
+    , REFRESH_TOKEN_SUCCESS 
+    , REFRESH_TOKEN_FAILED
+
+    , PATCH_USER_REQUEST
+    , PATCH_USER_SUCCESS
+    , PATCH_USER_FAILED    
 } from '../actions/auth';
 
 
@@ -39,6 +45,7 @@ const authInitialState = {
 export const authReducer = (state = authInitialState, action) => {
     state = {...state, actionType: action.type};
     switch (action.type) {
+
         case LOGIN_USER_REQUEST: {
             return { ...state, request: true };
         }
@@ -62,6 +69,27 @@ export const authReducer = (state = authInitialState, action) => {
 
             };
         }
+        case LOGOUT_USER_REQUEST:{
+            return { ...state, request: true };
+        }
+        case LOGOUT_USER_SUCCESS: {
+            return {
+                ...state
+                , request: false
+                , failed: false
+                , user: action.user
+                , accessToken: action.accessToken
+                , refreshToken: action.refreshToken                
+            };
+        }
+        case LOGOUT_USER_FAILED: {
+            return {
+                ...state
+                , request: false
+                , failed: true
+                , message: action.message                
+            };
+        }        
         case GET_USER_REQUEST:
         case PATCH_USER_REQUEST: {
             return { ...state, request: true };

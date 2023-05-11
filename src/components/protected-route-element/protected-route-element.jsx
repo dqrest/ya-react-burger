@@ -1,58 +1,47 @@
-import { useEffect, useState } from 'react';
+
 
 import { Navigate } from 'react-router-dom';
 
-// shared
-import { useAuth } from '../../services/auth';
-import { getCookie } from '../../shared/utils/cookie';
+export default function ProtectedRouteElement({ user, element }) {
 
-export default function ProtectedRouteElement({ element }) {
-    // debugger;
-    const { user, getUserProfile, request } = useAuth();
-    const [userLoaded, setUserLoaded] = useState(false);
-
-    useEffect(() => {
-        if (getCookie('token'))
-            getUserProfile();
-        else
-            setUserLoaded(true);
-    }, []);
-
-    useEffect(() => {
-        if (!request && user)
-            setUserLoaded(true);
-    }, [request, user]);
-
-    if (!userLoaded) return null;
+    debugger;
 
     const pathname = document.location.pathname || '';
 
-    // authorized case
-    // if (user) {
-    //     switch (pathname) {
-    //         case '/login':
-    //         case '/register':
-    //         case '/forgot-password':
-    //         case '/reset-password':
-    //             return <Navigate to={`/`} replace />;
-    //         default:
-    //             return element;
-    //     }
+    // nonauthorized user
+    if (!user) {
+
+        const fallback = pathname === '/login'
+            ? '/'
+            : pathname;
+
+        const fallbackParam = fallback
+            ? `?fallback=${fallback}`
+            : null;        
+
+        if (pathname.includes('/login'))
+            return element;        
+
+        return <Navigate to={`/login${fallbackParam}`} />;
+    }
+
+    // switch(pathname){
+    //     case '/login':
+    //         return <Navigate to={``} />;       
+
     // }
 
-    // // nonautorized case
+
+    // authorized user
     // switch (pathname) {
     //     case '/login':
+    //     case '/register':
+    //     case '/forgot-password':
+    //     case '/reset-password':
+    //         // redirect to HomePage
+    //         return <Navigate to={``} />;
+    //     default:
     //         return element;
     // }
-
-    const fallback = pathname !== '/login'
-        ? pathname
-        : '/';
-
-    const fallbackParam = fallback
-        ? `?fallback=${fallback}`
-        : null;
-
-    return user ? element : <Navigate to={`/login${fallbackParam}`} replace />;
+    return element;
 }

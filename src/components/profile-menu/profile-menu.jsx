@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 // shared
-import { useAuth } from '../../services/auth';
+import { useAuth, useProvideAuth } from '../../services/auth';
 import { LOGOUT_USER_SUCCESS } from '../../services/actions/auth';
 
 // styles
@@ -29,7 +29,7 @@ const menuIems = [{
 export const ProfileMenu = () => {
 
     const [selectedItem, setSelectedItem] = useState();
-    const { signOut, actionType } = useAuth();
+    const { signOut, actionType } = useProvideAuth();
     const navigate = useNavigate();
 
     useEffect(() => {

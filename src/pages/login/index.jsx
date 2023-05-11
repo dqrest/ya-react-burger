@@ -8,7 +8,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // shared
-import { useAuth } from '../../services/auth';
+import { useAuth, useProvideAuth } from '../../services/auth';
 import { LOGIN_USER_SUCCESS } from '../../services/actions/auth';
 
 // styles
@@ -20,17 +20,21 @@ export const LoginPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const fallback = searchParams?.get('fallback');
 
-    const { signIn, request, failed, message, actionType } = useAuth();
+    const { signIn, request, failed, message, actionType } = useProvideAuth();
     const [formData, setFormData] = useState({
         password: 'snakbag12345!'
         , email: 'snakbag@mail.ru'
     });
 
-    useEffect(() => {
+    useEffect(() => { 
+        console.log('actionType: ' + actionType);
         switch (actionType) {
             case LOGIN_USER_SUCCESS:
-                // login success ---> redirect to fallback
+                debugger;
+                // has fallback ---> redirect to fallback
                 fallback && navigate(fallback, { replace: true });
+                // no fallback ---> redirect to home
+                !fallback && navigate('/', { replace: true });
                 break;
         }
 

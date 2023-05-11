@@ -6,18 +6,13 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { deleteCookie, setCookie, getCookie } from '../shared/utils/cookie';
 import { loginRequest, getUserRequest, logoutRequest } from '../utils/auth-api';
 import { login, logout, getUser, patchUser, refreshAccessToken } from '../services/actions/auth';
+import { AuthContext } from '../shared/contexts/auth-context';
 import {
     LOGIN_USER_SUCCESS
     , LOGOUT_USER_SUCCESS
     , GET_USER_FAILED
 } from './actions/auth';
 
-const AuthContext = createContext(undefined);
-
-export function ProvideAuth({ children }) {
-    const auth = useProvideAuth();
-    return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
-}
 
 export function useAuth() {
     return useContext(AuthContext);
@@ -44,6 +39,7 @@ export function useProvideAuth() {
     useEffect(() => {
         switch (actionType) {
             case LOGIN_USER_SUCCESS: {
+                debugger;
                 setCookie('token', accessToken, { expires: 100200, path: '/' });
                 setCookie('refreshToken', refreshToken, { expires: 400200, path: '/' });
                 break;
@@ -54,7 +50,7 @@ export function useProvideAuth() {
                 break;
             }
             case GET_USER_FAILED: {
-                debugger;
+                //debugger;
                 if (message === "jwt expired")
                     updateAccessToken();
                 break;

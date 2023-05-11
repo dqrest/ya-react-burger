@@ -12,11 +12,15 @@ import {
     , ProfileIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
+// shared
+import { useProvideAuth } from '../../services/auth';
+
 export default function AppHeader() {
 
+    const { user } = useProvideAuth();
     const [selectedItem, setSelectedItem] = useState('home');
 
-    useEffect(() => {        
+    useEffect(() => {
         switch (document.location.pathname) {
             case '/':
                 setSelectedItem('home');
@@ -24,11 +28,12 @@ export default function AppHeader() {
             case '/history-order':
                 setSelectedItem('history-order');
                 break;
+            case '/login':
             case '/profile':
             case '/profile/user':
             case '/profile/orders':
                 setSelectedItem('profile');
-                break;           
+                break;
         }
     }, []);
 
@@ -60,12 +65,12 @@ export default function AppHeader() {
             </a>
 
             <Link className={`${headerStyle.item} ${headerStyle.link} ${selectedItem === 'profile' && headerStyle.selected}`}
-                to='/profile/user'
-                title="Личный кабинет"
+                to={user ? '/profile/user' : '/login?fallback=/profile/user'}
+                title={user?.name || 'Личный кабинет'}
                 onClick={() => setSelectedItem('profile')}>
                 <ProfileIcon type={`${selectedItem === 'profile' ? 'primary' : 'secondary'}`} />
                 <span className={`${headerStyle.itemTitle} text text_type_main-small ml-2`}>
-                    Личный кабинет
+                    {user?.name || 'Личный кабинет'}
                 </span>
             </Link>
 
