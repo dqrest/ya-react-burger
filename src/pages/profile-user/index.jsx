@@ -16,9 +16,7 @@ import styles from '../pages.module.css';
 
 export const ProfileUserPage = () => {
 
-    debugger;
-
-    const { user, request, failed, message, getUserProfile, patchUserProfile, updateAccessToken } = useProvideAuth();
+    const { user, request, failed, message, getUserProfile, patchUserProfile } = useProvideAuth();
     const [formData, setFormData] = useState({
         name: ''
         , email: ''

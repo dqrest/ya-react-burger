@@ -31,13 +31,12 @@ export const LoginPage = () => {
         switch (actionType) {
             case LOGIN_USER_SUCCESS:
                 debugger;
-                // has fallback ---> redirect to fallback
-                fallback && navigate(fallback, { replace: true });
-                // no fallback ---> redirect to home
-                !fallback && navigate('/', { replace: true });
+                // // has fallback ---> redirect to fallback
+                // fallback && navigate(fallback);
+                // // no fallback ---> redirect to home
+                // !fallback && navigate('/');
                 break;
         }
-
     }, [actionType]);
 
     function loginClick(e) {

@@ -29,22 +29,24 @@ import {
 
 
 function AuthApp({ user }) {
+
+    const location = useLocation();
+    const background = location?.state?.background;
+
     return (
         <>
-            <>
-                <Routes>
-                    <Route path="/" element={<HomePage />}>
-                        <Route path="" element={<BurgerContructorPage />} />
-                        <Route path="login" element={<ProtectedRouteElement user={user} element={<ProfilePage />} />} />
-                        <Route path="profile" element={<ProtectedRouteElement user={user} element={<ProfilePage />} />}>
-                            <Route path="user" element={<ProtectedRouteElement user={user} element={<ProfileUserPage />} />} />
-                            <Route path="orders" element={<ProtectedRouteElement user={user} element={<ProfileOrdersPage />} />} />
-                        </Route>
-                        <Route path="ingredients/:id" element={<IngredientDetails />} />
+            <Routes location={background || location}>
+                <Route path="/" element={<HomePage />}>
+                    <Route path="" element={<BurgerContructorPage />} />
+                    <Route path="login" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
+                    <Route path="profile" element={<ProtectedRouteElement user={user} element={<ProfilePage />} />}>
+                        <Route path="user" element={<ProtectedRouteElement user={user} element={<ProfileUserPage />} />} />
+                        <Route path="orders" element={<ProtectedRouteElement user={user} element={<ProfileOrdersPage />} />} />
                     </Route>
-                    <Route path="*" element={<NotFound404Page />} />
-                </Routes>
-            </>
+                    {!background && <Route path="ingredients/:id" element={<IngredientDetails />} />}
+                </Route>
+                <Route path="*" element={<NotFound404Page />} />
+            </Routes>
         </>
     );
 }
@@ -53,27 +55,24 @@ function UnAuthApp({ user }) {
 
     const location = useLocation();
     const background = location?.state?.background;
-    
+
     return (
         <>
             <Routes location={background || location}>
                 <Route path="/" element={<HomePage />}>
-                    <Route path="" element={<BurgerContructorPage />}>
-                    </Route>
+                    <Route path="" element={<BurgerContructorPage />} />
                     <Route path="login" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
                     <Route path="register" element={<ProtectedRouteElement user={user} element={<RegisterPage />} />} />
                     <Route path="forgot-password" element={<ProtectedRouteElement user={user} element={<ForgotPasswordPage />} />} />
                     <Route path="reset-password" element={<ProtectedRouteElement user={user} element={<ResetPasswordPage />} />} />
-                    <Route path="profile" element={<ProtectedRouteElement user={user} element={<LoginPage />} />}>
+                    {/* <Route path="profile" element={<ProtectedRouteElement user={user} element={<LoginPage />} />}>
                         <Route path="user" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
                         <Route path="orders" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
-                    </Route>
-                    {!background &&
-                            <Route path="ingredients/:id" element={<IngredientDetails />} />
-                        }
+                    </Route> */}
+                    {!background && <Route path="ingredients/:id" element={<IngredientDetails />} />}
                 </Route>
                 <Route path="*" element={<NotFound404Page />} />
-            </Routes>           
+            </Routes>
         </>
     );
 }
