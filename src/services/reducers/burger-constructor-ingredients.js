@@ -43,11 +43,13 @@ export const constructorIngredientsReducer = (state = initialState, action) => {
             return { ...state, items: [...items] };
         }
 
-        case SET_BUN_TO_CONSTRUCTOR:            
+        case SET_BUN_TO_CONSTRUCTOR:{                        
             return { ...state, bun: action?.bun }
+        }
 
-        case DELETE_ALL_CONSTRUCTOR_INGREDIENTS:
+        case DELETE_ALL_CONSTRUCTOR_INGREDIENTS:{            
             return {...state, items: []}
+        }
         default:
             return state;
     }

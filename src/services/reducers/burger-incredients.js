@@ -5,6 +5,7 @@ import {
     , INCREASE_INGREDIENT_COUNT
     , DECREASE_INGREDIENT_COUNT
     , RESET_INGREDIENTS_COUNT_BY_TYPE
+    , RESET_ALL_INGREDIENTS_COUNT
 } from '../actions/burger-incredients';
 
 
@@ -45,6 +46,11 @@ export const ingredientsReducer = (state = initialState, action) => {
                 .filter(ing => ing?.type === action?.typeIngredient)
                 .map(ing => ing.count = 0);
             return { ...state, items: [...(state?.items || [])] };
+        case RESET_ALL_INGREDIENTS_COUNT:{
+            (state?.items || [])                
+                .map(ing => ing.count = 0);
+            return { ...state, items: [...(state?.items || [])] };
+        }
         default:
             return state;
     }

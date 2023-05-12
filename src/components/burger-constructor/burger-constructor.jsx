@@ -24,6 +24,7 @@ import {
 import {
     increaseIngredientCount
     , resetIngredientsCountByType
+    , resetAllIngredientsCount
 } from '../../services/actions/burger-incredients';
 import { deleteOrderDetails } from '../../services/actions/order-details';
 
@@ -72,7 +73,8 @@ export default function BurgerConstructor() {
     const modal = (
         <Modal setVisible={e => {
             setModalVisible(e);
-            if (!order?.number) return;
+            if (!order?.number) return;            
+            dispatch(resetAllIngredientsCount());
             dispatch(setBunToConstructor(null));
             dispatch(deleteAllConstructorIngredients());
             dispatch(deleteOrderDetails());
