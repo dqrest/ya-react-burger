@@ -1,7 +1,10 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+
 
 
 export default function ProtectedRouteElement({ user, element, state }) {
+
+    const location = useLocation();
 
     // nonauthorized user
     if (!user) {
@@ -14,9 +17,9 @@ export default function ProtectedRouteElement({ user, element, state }) {
             return element;
 
         if (pathname.includes('/reset-password')
-            && window?.history?.state?.usr?.access
-            && window?.history?.state?.usr?.email
-            && window?.history?.state?.usr?.email?.length > 0) {               
+            && location?.state?.access
+            && location?.state?.email
+            && location?.state?.email?.length > 0) {              
             return element;
         }
 
