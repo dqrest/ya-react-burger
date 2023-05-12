@@ -37,7 +37,7 @@ export const RegisterPage = () => {
 
     useEffect(() => {
         if(!registerRequest && !registerFailed && registerClicked ){            
-            navigate('/');           
+            navigate('/profile/user');           
         }        
     }, [registerRequest, registerFailed, registerClick])
 

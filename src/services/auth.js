@@ -1,22 +1,15 @@
-import { useContext, useState, createContext, useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 // shared
 import { deleteCookie, setCookie, getCookie } from '../shared/utils/cookie';
-import { loginRequest, getUserRequest, logoutRequest } from '../utils/auth-api';
 import { login, logout, getUser, patchUser, refreshAccessToken } from '../services/actions/auth';
-import { AuthContext } from '../shared/contexts/auth-context';
+
 import {
     LOGIN_USER_SUCCESS
     , LOGOUT_USER_SUCCESS
     , GET_USER_FAILED
 } from './actions/auth';
-
-
-export function useAuth() {
-    return useContext(AuthContext);
-}
 
 export function getAuthUser(store) {
     return (
@@ -39,18 +32,16 @@ export function useProvideAuth() {
     useEffect(() => {
         switch (actionType) {
             case LOGIN_USER_SUCCESS: {                
-                setCookie('token', accessToken, { expires: 100200, path: '/' });
-                setCookie('refreshToken', refreshToken, { expires: 400200, path: '/' });
+                setCookie('token', accessToken, { expires: 1200, path: '/' });
+                setCookie('refreshToken', refreshToken, { expires: 2400, path: '/' });
                 break;
             }
             case LOGOUT_USER_SUCCESS: {                
                 deleteCookie('token', {path: '/'});
                 deleteCookie('refreshToken', {path: '/'});
-                debugger;
                 break;
             }
-            case GET_USER_FAILED: {
-                //debugger;
+            case GET_USER_FAILED: {                
                 if (message === "jwt expired")
                     updateAccessToken();
                 break;
@@ -67,9 +58,7 @@ export function useProvideAuth() {
         dispatch(logout(getCookie('refreshToken')));
     };
 
-    const getUserProfile = () => {
-        //debugger;
-        let qq = getCookie('token');
+    const getUserProfile = () => {        
         dispatch(getUser(getCookie('token')));
     };
 
@@ -77,8 +66,7 @@ export function useProvideAuth() {
         dispatch(patchUser(getCookie('token'), formData));
     };
 
-    const updateAccessToken = () => {
-        //debugger;
+    const updateAccessToken = () => {        
         dispatch(refreshAccessToken(getCookie('refreshToken')));
     };
 

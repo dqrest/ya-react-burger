@@ -69,7 +69,7 @@ export default function App() {
     }, []);
 
     useEffect(() => {
-        if (auth?.actionType === GET_USER_FAILED || auth?.actionType === GET_USER_SUCCESS)
+        if (auth?.actionType === GET_USER_FAILED || auth?.actionType === GET_USER_SUCCESS)        
             setUserLoaded(true);
     }, [auth.actionType]);
 
