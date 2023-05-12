@@ -30,8 +30,8 @@ export const ForgotPasswordPage = () => {
     const [resetClicked, setResetClicked] = useState(false);
 
     useEffect(() => {        
-        if (!forgotPasswordRequest && !forgotPasswordFailed && resetClicked){
-            navigate('/reset-password', {replace: false});
+        if (!forgotPasswordRequest && !forgotPasswordFailed && resetClicked){            
+            navigate('/reset-password', {state: {access: true, email: formData?.email }});
             setResetClicked(false);            
         }
     }, [resetClicked, forgotPasswordRequest, forgotPasswordFailed]);

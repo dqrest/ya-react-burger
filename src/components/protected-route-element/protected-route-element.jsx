@@ -1,14 +1,7 @@
 import { Navigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { getForgottenPassword } from '../../pages/forgot-password';
-import { refreshForgotingPassword, FORGOT_PASSWORD_SUCCESS } from '../../services/actions/auth';
 
 
-export default function ProtectedRouteElement({ user, element }) {
-
-    const resetPasswordAction = useSelector(getForgottenPassword);
-    const dispatch = useDispatch();
+export default function ProtectedRouteElement({ user, element, state }) {
 
     // nonauthorized user
     if (!user) {
@@ -21,10 +14,9 @@ export default function ProtectedRouteElement({ user, element }) {
             return element;
 
         if (pathname.includes('/reset-password')
-            //&& resetPasswordAction?.actionType === FORGOT_PASSWORD_SUCCESS
-            && resetPasswordAction?.email
-            && resetPasswordAction?.email.length > 0) {
-            debugger;
+            && window?.history?.state?.usr?.access
+            && window?.history?.state?.usr?.email
+            && window?.history?.state?.usr?.email?.length > 0) {               
             return element;
         }
 
