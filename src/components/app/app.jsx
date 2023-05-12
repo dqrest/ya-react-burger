@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 // shared
 import { useProvideAuth } from '../../services/auth';
@@ -9,6 +9,7 @@ import { AuthContext } from '../../shared/contexts/auth-context';
 
 // components
 import ProtectedRouteElement from '../protected-route-element/protected-route-element';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 // pages
 import {
@@ -27,10 +28,10 @@ import {
 } from '../../pages';
 
 
-function AuthApp({ user }) {    
+function AuthApp({ user }) {
     return (
         <>
-            <Router>
+            <>
                 <Routes>
                     <Route path="/" element={<HomePage />}>
                         <Route path="" element={<BurgerContructorPage />} />
@@ -39,51 +40,58 @@ function AuthApp({ user }) {
                             <Route path="user" element={<ProtectedRouteElement user={user} element={<ProfileUserPage />} />} />
                             <Route path="orders" element={<ProtectedRouteElement user={user} element={<ProfileOrdersPage />} />} />
                         </Route>
+                        <Route path="ingredients/:id" element={<IngredientDetails />} />
                     </Route>
                     <Route path="*" element={<NotFound404Page />} />
                 </Routes>
-            </Router>
+            </>
         </>
     );
 }
 
-function UnAuthApp({ user }) {    
+function UnAuthApp({ user }) {
+
+    const location = useLocation();
+    const background = location?.state?.background;
+    
     return (
         <>
-            <Router>
-                <Routes>
-                    <Route path="/" element={<HomePage />}>
-                        <Route path="" element={<BurgerContructorPage />} />
-                        <Route path="login" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
-                        <Route path="register" element={<ProtectedRouteElement user={user} element={<RegisterPage />} />} />
-                        <Route path="forgot-password" element={<ProtectedRouteElement user={user} element={<ForgotPasswordPage /> } />} />
-                        <Route path="reset-password" element={<ProtectedRouteElement user={user} element={<ResetPasswordPage />} />} />
-                        <Route path="profile" element={<ProtectedRouteElement user={user} element={<LoginPage />} />}>
-                            <Route path="user" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
-                            <Route path="orders" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
-                        </Route>
+            <Routes location={background || location}>
+                <Route path="/" element={<HomePage />}>
+                    <Route path="" element={<BurgerContructorPage />}>
                     </Route>
-                    <Route path="*" element={<NotFound404Page />} />
-                </Routes>
-            </Router>
+                    <Route path="login" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
+                    <Route path="register" element={<ProtectedRouteElement user={user} element={<RegisterPage />} />} />
+                    <Route path="forgot-password" element={<ProtectedRouteElement user={user} element={<ForgotPasswordPage />} />} />
+                    <Route path="reset-password" element={<ProtectedRouteElement user={user} element={<ResetPasswordPage />} />} />
+                    <Route path="profile" element={<ProtectedRouteElement user={user} element={<LoginPage />} />}>
+                        <Route path="user" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
+                        <Route path="orders" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
+                    </Route>
+                    {!background &&
+                            <Route path="ingredients/:id" element={<IngredientDetails />} />
+                        }
+                </Route>
+                <Route path="*" element={<NotFound404Page />} />
+            </Routes>           
         </>
     );
 }
 
-function LoadingApp() {    
+function LoadingApp() {
     return (
-        <Router>
+        <>
             <Routes>
                 <Route path="*" element={<LoadingPage />} />
             </Routes>
-        </Router>
+        </>
     );
 }
 
 export default function App() {
 
     const auth = useProvideAuth();
-    const [userLoaded, setUserLoaded] = useState(getCookie('token') ? false : true);    
+    const [userLoaded, setUserLoaded] = useState(getCookie('token') ? false : true);
 
     useEffect(() => {
         if (getCookie('token'))
@@ -93,15 +101,15 @@ export default function App() {
     useEffect(() => {
         if (auth?.actionType === GET_USER_FAILED || auth?.actionType === GET_USER_SUCCESS)
             setUserLoaded(true);
-    }, [auth.actionType]);   
+    }, [auth.actionType]);
 
     return (
-        <>
+        <Router>
             {userLoaded && auth?.user
                 ? <AuthApp user={auth?.user} />
                 : <UnAuthApp user={auth?.user} />
             }
             {!userLoaded && <LoadingApp />}
-        </>
+        </Router>
     );
 }

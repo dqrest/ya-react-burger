@@ -6,13 +6,15 @@ import ErrorBoundary from '../../components/error-boundary/error-boundary';
 
 // styles
 import { appStyle } from '../../components';
-import homeStyle  from './home.module.css';
+import homeStyle from './home.module.css';
 
-export const HomePage = () => (
-    <ErrorBoundary>       
-        <AppHeader></AppHeader>
-        <main className={`${appStyle.appBurgerPaddings} pb-5 pt-10 ${homeStyle.homeMain}`}>
-            <Outlet></Outlet>
-        </main>      
-    </ErrorBoundary>
-);
+export const HomePage = () => {    
+    return (
+        <ErrorBoundary>
+            <AppHeader></AppHeader>
+            <main className={`${appStyle.appBurgerPaddings} pb-5 pt-10 ${homeStyle.homeMain}`}>                
+                <Outlet></Outlet>
+            </main>
+        </ErrorBoundary>
+    )
+};

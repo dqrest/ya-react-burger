@@ -1,6 +1,7 @@
-import React from "react"
+import React, {useState} from "react"
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { useNavigate, useLocation, Outlet} from 'react-router-dom';
 
 // components
 import BurgerIngredientItem from '../burger-ingredient-item/burger-ingredient-item';
@@ -17,19 +18,22 @@ import biListStyle from './burger-ingredients-list.module.css';
 export function BurgerIngredientsListInner({ title, ingredients }, ref) {
 
     const dispatch = useDispatch();
-    const [modalVisible, setModalVisible] = React.useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();    
 
     const modal = (
         <Modal header="Детали инградиента"
-            setVisible={(e) => { setModalVisible(e); dispatch(setIngredientDetails(null)); }}>
+            setVisible={(e) => { setModalVisible(e); dispatch(setIngredientDetails(null)); navigate('/');  }}>                
             <IngredientDetails></IngredientDetails>
         </Modal>
     );
 
     const itemClick = (e) => {
-        if (!e?.ingredient) return;
-        setModalVisible(true);
-        dispatch(setIngredientDetails(e.ingredient));
+        if (!e?.ingredient) return;             
+        dispatch(setIngredientDetails(e.ingredient));        
+        navigate('/ingredients/' + e?.ingredient?._id, {state: {background:location}});        
+        setModalVisible(true);    
     }
 
     return (
@@ -46,7 +50,7 @@ export function BurgerIngredientsListInner({ title, ingredients }, ref) {
                     ingredient={ing}
                     count={ing.count || 0}
                     itemClick={itemClick} />
-            )}
+            )}          
         </>
     );
 }
