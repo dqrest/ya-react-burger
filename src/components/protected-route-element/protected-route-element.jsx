@@ -1,21 +1,22 @@
 import { Navigate, useLocation, useSearchParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-export default function ProtectedRouteElement({ user, element }) {
+// shared
+import { userDto } from '../../shared/dtos/user-dto';
 
-    debugger;
+export default function ProtectedRouteElement({ user, element }) {    
 
     const location = useLocation();
-    const [searchParams, setSearchParams] = useSearchParams();
-    //const pathname = document.location.pathname || '';
+    const [searchParams, ] = useSearchParams();    
     const pathname = location?.pathname || '';
-    const fb = searchParams.get('fallback');
-
+    let fb = searchParams.get('fallback');    
 
     // nonauthorized user
     if (!user) {
 
-
-        if (pathname.includes('/login'))
+        if (pathname.includes('/login') 
+            || pathname.includes('/forgot-password')
+            || pathname.includes('/register'))
             return element;
 
         if (pathname.includes('/reset-password')
@@ -27,13 +28,12 @@ export default function ProtectedRouteElement({ user, element }) {
 
         if (pathname.includes('/profile')
             || pathname.includes('/profile/user')
-            || pathname.includes('/profile/orders')
-            || pathname.includes('/forgot-password')) {
+            || pathname.includes('/profile/orders')) {
             fb = pathname;
         }
         const fbp = fb
             ? `?fallback=${fb}`
-            : null;
+            : '';
 
         return <Navigate to={`/login${fbp}`} replace />;
     }
@@ -44,4 +44,10 @@ export default function ProtectedRouteElement({ user, element }) {
     }
     
     return element;
+}
+
+
+ProtectedRouteElement.propTypes = {
+    user: userDto,
+    element: PropTypes.element.isRequired
 }

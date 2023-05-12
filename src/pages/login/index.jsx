@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
     PasswordInput
@@ -8,36 +8,18 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // shared
-import { useAuth, useProvideAuth } from '../../services/auth';
-import { LOGIN_USER_SUCCESS } from '../../services/actions/auth';
+import { useProvideAuth } from '../../services/auth';
 
 // styles
 import styles from '../pages.module.css';
 
-export const LoginPage = () => {
+export const LoginPage = () => {    
 
-    const navigate = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
-    const fallback = searchParams?.get('fallback');
-
-    const { signIn, request, failed, message, actionType } = useProvideAuth();
+    const { signIn, request, failed, message } = useProvideAuth();
     const [formData, setFormData] = useState({
-        password: '1234_1234'
-        , email: 'snakbag@mail.ru'
-    });
-
-    useEffect(() => { 
-        console.log('actionType: ' + actionType);
-        switch (actionType) {
-            case LOGIN_USER_SUCCESS:
-                debugger;
-                // // has fallback ---> redirect to fallback
-                // fallback && navigate(fallback);
-                // // no fallback ---> redirect to home
-                // !fallback && navigate('/');
-                break;
-        }
-    }, [actionType]);
+        password: ''
+        , email: ''
+    });    
 
     function loginClick(e) {
         e.preventDefault();

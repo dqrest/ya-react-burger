@@ -53,13 +53,13 @@ export const ProfileUserPage = () => {
                             value={formData.name}
                             placeholder={'Имя'}
                             required
-                            onChange={e => { setFormData({ ...formData, name: e.target.value }); console.log(JSON.stringify(formData)); }}
+                            onChange={e => { setFormData({ ...formData, name: e.target.value });  }}
                             extraClass="mb-4"
                         />
                         <EmailInput required
                             extraClass="mb-4"
                             value={formData.email}
-                            onChange={e => { setFormData({ ...formData, email: e.target.value }); console.log(JSON.stringify(formData)); }}
+                            onChange={e => { setFormData({ ...formData, email: e.target.value });  }}
                         />
                         <div style={{ alignSelf: "center" }}>
                             <Button htmlType="submit"
@@ -83,7 +83,3 @@ export const ProfileUserPage = () => {
         </div>
     );
 }
-
-{/*<Input placeholder='Имя' />*/ }
-{/*<EmailInput placeholder='Логин' />*/ }
-{/*<PasswordInput />*/ }

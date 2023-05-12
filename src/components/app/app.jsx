@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { useProvideAuth } from '../../services/auth';
 import { getCookie } from '../../shared/utils/cookie';
 import { GET_USER_FAILED, GET_USER_SUCCESS } from '../../services/actions/auth';
-import { AuthContext } from '../../shared/contexts/auth-context';
+import { userDto } from '../../shared/dtos/user-dto';
 
 // components
 import ProtectedRouteElement from '../protected-route-element/protected-route-element';
@@ -22,68 +22,39 @@ import {
     , ProfilePage
     , ProfileUserPage
     , ProfileOrdersPage
-    , IngredientPage
     , NotFound404Page
     , LoadingPage
 } from '../../pages';
 
-
-function AuthApp({ user }) {
-
-    const location = useLocation();
-    const background = location?.state?.background;
-
-    return (
-        <>
-            <Routes location={background || location}>
-                <Route path="/" element={<HomePage />}>
-                    <Route path="" element={<BurgerContructorPage />} />
-                    <Route path="login" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
-                    <Route path="profile" element={<ProtectedRouteElement user={user} element={<ProfilePage />} />}>
-                        <Route path="user" element={<ProtectedRouteElement user={user} element={<ProfileUserPage />} />} />
-                        <Route path="orders" element={<ProtectedRouteElement user={user} element={<ProfileOrdersPage />} />} />
-                    </Route>
-                    {!background && <Route path="ingredients/:id" element={<IngredientDetails />} />}
-                </Route>
-                <Route path="*" element={<NotFound404Page />} />
-            </Routes>
-        </>
-    );
-}
-
-function UnAuthApp({ user }) {
+function ProtectedApp({ user }) {
 
     const location = useLocation();
     const background = location?.state?.background;
 
     return (
-        <>
-            <Routes location={background || location}>
-                <Route path="/" element={<HomePage />}>
-                    <Route path="" element={<BurgerContructorPage />} />
-                    <Route path="login" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
-                    <Route path="register" element={<ProtectedRouteElement user={user} element={<RegisterPage />} />} />
-                    <Route path="forgot-password" element={<ProtectedRouteElement user={user} element={<ForgotPasswordPage />} />} />
-                    <Route path="reset-password" element={<ProtectedRouteElement user={user} element={<ResetPasswordPage />} />} />
-                    {/* <Route path="profile" element={<ProtectedRouteElement user={user} element={<LoginPage />} />}>
-                        <Route path="user" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
-                        <Route path="orders" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
-                    </Route> */}
-                    {!background && <Route path="ingredients/:id" element={<IngredientDetails />} />}
+        <Routes location={background || location}>
+            <Route path="/" element={<HomePage />}>
+                <Route path="" element={<BurgerContructorPage />} />
+                <Route path="login" element={<ProtectedRouteElement user={user} element={<LoginPage />} />} />
+                <Route path="register" element={<ProtectedRouteElement user={user} element={<RegisterPage />} />} />
+                <Route path="forgot-password" element={<ProtectedRouteElement user={user} element={<ForgotPasswordPage />} />} />
+                <Route path="reset-password" element={<ProtectedRouteElement user={user} element={<ResetPasswordPage />} />} />
+                <Route path="profile" element={<ProtectedRouteElement user={user} element={<ProfilePage />} />}>
+                    <Route path="user" element={<ProtectedRouteElement user={user} element={<ProfileUserPage />} />} />
+                    <Route path="orders" element={<ProtectedRouteElement user={user} element={<ProfileOrdersPage />} />} />
                 </Route>
-                <Route path="*" element={<NotFound404Page />} />
-            </Routes>
-        </>
+                {!background && <Route path="ingredients/:id" element={<IngredientDetails />} />}
+            </Route>
+            <Route path="*" element={<NotFound404Page />} />
+        </Routes>
     );
 }
 
 function LoadingApp() {
     return (
-        <>
-            <Routes>
-                <Route path="*" element={<LoadingPage />} />
-            </Routes>
-        </>
+        <Routes>
+            <Route path="*" element={<LoadingPage />} />
+        </Routes>
     );
 }
 
@@ -104,11 +75,11 @@ export default function App() {
 
     return (
         <Router>
-            {userLoaded && auth?.user
-                ? <AuthApp user={auth?.user} />
-                : <UnAuthApp user={auth?.user} />
-            }
-            {!userLoaded && <LoadingApp />}
+            {userLoaded ? <ProtectedApp user={auth?.user} /> : <LoadingApp />}
         </Router>
     );
+}
+
+ProtectedApp.propTypes = {
+    user: userDto
 }

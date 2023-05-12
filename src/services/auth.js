@@ -38,8 +38,7 @@ export function useProvideAuth() {
 
     useEffect(() => {
         switch (actionType) {
-            case LOGIN_USER_SUCCESS: {
-                debugger;
+            case LOGIN_USER_SUCCESS: {                
                 setCookie('token', accessToken, { expires: 100200, path: '/' });
                 setCookie('refreshToken', refreshToken, { expires: 400200, path: '/' });
                 break;
@@ -47,6 +46,7 @@ export function useProvideAuth() {
             case LOGOUT_USER_SUCCESS: {                
                 deleteCookie('token', {path: '/'});
                 deleteCookie('refreshToken', {path: '/'});
+                debugger;
                 break;
             }
             case GET_USER_FAILED: {

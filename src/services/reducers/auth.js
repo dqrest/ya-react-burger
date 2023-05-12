@@ -142,56 +142,6 @@ export const authReducer = (state = authInitialState, action) => {
     }
 }
 
-////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-const userProfileInitialState = {
-    name: null
-    , email: null
-    , password: null
-    , request: false
-    , failed: false
-    , message: null
-};
-
-export const userProfileReducer = (state = userProfileInitialState, action) => {
-    switch (action.type) {
-        case GET_USER_REQUEST: {
-            return { ...state, request: true };
-        }
-        case GET_USER_SUCCESS: {
-            return {
-                ...state
-                , request: false
-                , failed: false
-                , name: action.name
-                , email: action.email
-                , password: action.password
-            };
-        }
-        case GET_USER_FAILED: {
-            return {
-                ...state
-                , request: false
-                , failed: true
-                , message: action.message
-            };
-        }
-        default:
-            return state;
-    }
-};
 
 const registerInitialState = {
     email: null
@@ -214,33 +164,6 @@ export const registerReducer = (state = registerInitialState, action) => {
         }
         case REFRESH_REGISTERING: {
             return { ...state, registerRequest: action.registerRequest, registerFailed: action.registerFailed };
-        }
-        default:
-            return state;
-    }
-}
-
-const loginInitialState = {
-    email: null
-    , name: null
-    , message: null
-    , loginRequest: false
-    , loginFailed: false
-};
-
-export const loginReducer = (state = loginInitialState, action) => {
-    switch (action.type) {
-        case LOGIN_USER_REQUEST: {
-            return { ...state, loginRequest: true };
-        }
-        case LOGIN_USER_SUCCESS: {
-            return { ...state, loginRequest: false, loginFailed: false, email: action.email, name: action.name, };
-        }
-        case LOGIN_USER_FAILED: {
-            return { ...state, loginRequest: false, loginFailed: true, message: action.message };
-        }
-        case REFRESH_LOGINING: {
-            return { ...state, loginRequest: action.loginRequest, loginFailed: action.loginFailed };
         }
         default:
             return state;

@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // shared
-import { useAuth, useProvideAuth } from '../../services/auth';
+import { useProvideAuth } from '../../services/auth';
 import { LOGOUT_USER_SUCCESS } from '../../services/actions/auth';
 
 // styles
 import menuStyles from './profile-menu.module.css';
-import { deleteCookie } from '../../shared/utils/cookie';
 
 const menuIems = [{
     title: 'Профиль'
@@ -40,9 +39,7 @@ export const ProfileMenu = () => {
     }, []);
 
     useEffect(() => {
-        if(actionType === LOGOUT_USER_SUCCESS){
-            //deleteCookie('token');
-            //deleteCookie('refreshToken');
+        if(actionType === LOGOUT_USER_SUCCESS){            
             navigate('/login?fallback=/profile/user', {replace: true});
         }
     }, [actionType])

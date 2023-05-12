@@ -59,10 +59,7 @@ export function register(formData) {
                 if (res && res.success) {
                     dispatch({
                         type: REGISTER_USER_SUCCESS,
-                        user: {
-                            email: res.email
-                            , name: res.name
-                        }
+                        user: res.user
                     });
                     return;
                 }
@@ -180,10 +177,8 @@ export function getUser(cookie) {
             return;
         }
         getUserRequest(cookie)
-            .then(res => {
-                //debugger;
-                if (res && res.success) {
-                    //debugger;
+            .then(res => {                
+                if (res && res.success) {                    
                     dispatch({
                         type: GET_USER_SUCCESS
                         , user: res.user                        
@@ -200,10 +195,8 @@ export function patchUser(accessToken, formData) {
     return function (dispatch) {
         dispatch({ type: PATCH_USER_REQUEST });
         patchUserRequest(accessToken, formData)
-            .then(res => {
-                debugger;
-                if (res && res.success) {
-                    //debugger;
+            .then(res => {                
+                if (res && res.success) {                    
                     dispatch({
                         type: PATCH_USER_SUCCESS
                         , user: res.user
@@ -214,7 +207,7 @@ export function patchUser(accessToken, formData) {
                 }
                 dispatch({ type: PATCH_USER_FAILED });
             })
-            .catch(e => { debugger; dispatch({ type: PATCH_USER_FAILED, message: e.message }); });
+            .catch(e => { dispatch({ type: PATCH_USER_FAILED, message: e.message }); });
     };
 }
 
@@ -222,10 +215,8 @@ export function refreshAccessToken(refreshToken) {
     return function (dispatch) {        
         dispatch({ type: REFRESH_TOKEN_REQUEST });
         refreshTokenRequest(refreshToken)
-            .then(res => {
-                debugger;
-                if (res && res.success) {
-                    //debugger;
+            .then(res => {           
+                if (res && res.success) {                   
                     dispatch({
                         type: REFRESH_TOKEN_SUCCESS                       
                         , refreshToken: res.refreshToken
