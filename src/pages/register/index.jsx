@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import {
     Input
@@ -24,18 +24,26 @@ export const getUser = (store) => ({
 
 export const RegisterPage = () => {
 
-    const dispatch = useDispatch();
-    const formRef = useRef(null);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();    
     const { registerRequest, registerFailed, message } = useSelector(getUser);
+    const [registerClicked, setRegisterClicked] = useState(false);
 
     const [formData, setFormData] = useState({
-        name: 'snakbag'
-        , password: 'snakbag12345!'
-        , email: 'snakbag@mail.ru'
+        name: ''
+        , password: ''
+        , email: ''
     });
+
+    useEffect(() => {
+        if(!registerRequest && !registerFailed && registerClicked ){            
+            navigate('/');           
+        }        
+    }, [registerRequest, registerFailed, registerClick])
 
     function registerClick(e) {
         e.preventDefault();
+        setRegisterClicked(true);
         dispatch(register(formData));
         return false;
     }
