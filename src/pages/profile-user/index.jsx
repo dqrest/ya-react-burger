@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import {
     Input
@@ -9,7 +8,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // shared
-import { useAuth, useProvideAuth } from '../../services/auth';
+import { useProvideAuth } from '../../services/auth';
 
 // styles
 import styles from '../pages.module.css';
@@ -20,6 +19,7 @@ export const ProfileUserPage = () => {
     const [formData, setFormData] = useState({
         name: ''
         , email: ''
+        , password: ''
     });
 
     useEffect(() => {
@@ -27,8 +27,10 @@ export const ProfileUserPage = () => {
     }, []);
 
     useEffect(() => {
-        if (user && !request && !failed)
-            setFormData(user);
+        if (user && !request && !failed) {
+            const u = {...user, password: '' };
+            setFormData(u);
+        }
     }, [user, request, failed])
 
     const errorMessage = (
@@ -43,6 +45,12 @@ export const ProfileUserPage = () => {
         return false;
     }
 
+    function disabledButton() {
+        return !formData || !formData.email || formData.email.length === 0
+            || !formData.name || formData.name.length === 0
+            || !formData.password || formData.password.length === 0
+    }
+
     return (
         <div className={styles.wrapper}>
             {request && <div className='text text_type_main-medium'>Загрузка профиля. Ждите...</div>}
@@ -53,27 +61,36 @@ export const ProfileUserPage = () => {
                             value={formData.name}
                             placeholder={'Имя'}
                             required
-                            onChange={e => { setFormData({ ...formData, name: e.target.value });  }}
+                            onChange={e => { setFormData({ ...formData, name: e.target.value }); }}
                             extraClass="mb-4"
                         />
                         <EmailInput required
                             extraClass="mb-4"
                             value={formData.email}
-                            onChange={e => { setFormData({ ...formData, email: e.target.value });  }}
+                            placeholder={'Логин'}
+                            onChange={e => { setFormData({ ...formData, email: e.target.value }); }}
+                        />
+                        <PasswordInput required
+                            extraClass="mb-4"
+                            value={formData.password}
+                            placeholder={'Пароль'}
+                            onChange={e => { setFormData({ ...formData, password: e.target.value }); }}
                         />
                         <div style={{ alignSelf: "center" }}>
                             <Button htmlType="submit"
+                                disabled={disabledButton()}
                                 type="primary"
                                 size="medium">
-                                ОК
+                                Сохранить
                             </Button>
                             &nbsp;
                             <Button htmlType="button"
                                 type="primary"
+                                disabled={disabledButton()}
                                 size="medium"
                                 onClick={() => setFormData({ ...formData, email: user?.email, name: user?.name })}>
                                 Отмена
-                            </Button>                            
+                            </Button>
                         </div>
 
                     </form>

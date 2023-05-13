@@ -126,8 +126,7 @@ export function forgotPassword(formData) {
     return function (dispatch) {
         dispatch({ type: FORGOT_PASSWORD_REQUEST });
         forgotPasswordRequest(formData)
-            .then(res => {
-                debugger;
+            .then(res => {                
                 if (res && res.success) {
                     dispatch({
                         type: FORGOT_PASSWORD_SUCCESS,
@@ -145,8 +144,7 @@ export function resetPassword(formData){
     return function (dispatch) {
         dispatch({ type: RESET_PASSWORD_REQUEST });
         resetPasswordRequest(formData)
-            .then(res => {
-                debugger;
+            .then(res => {                
                 if (res && res.success) {
                     dispatch({
                         type: RESET_PASSWORD_SUCCESS,
@@ -156,8 +154,7 @@ export function resetPassword(formData){
                 }
                 dispatch({ type: RESET_PASSWORD_FAILED });
             })
-            .catch(e => {
-                debugger;
+            .catch(e => {                
                 dispatch({ type: RESET_PASSWORD_FAILED, message: e.message });
             });
     }
@@ -192,7 +189,7 @@ export function getUser(cookie) {
 }
 
 export function patchUser(accessToken, formData) {
-    return function (dispatch) {
+    return function (dispatch) {        
         dispatch({ type: PATCH_USER_REQUEST });
         patchUserRequest(accessToken, formData)
             .then(res => {                
