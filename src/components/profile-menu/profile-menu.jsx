@@ -50,7 +50,7 @@ export const ProfileMenu = () => {
                 {menuIems.map((item) => (
                     <li key={item.key}
                         className={`text text_type_main-default ${menuStyles.item} ${selectedItem?.key === item?.key && menuStyles.selected}`}
-                        onClick={() => { debugger; if (item?.key === 'logout') { debugger; signOut(); return; } setSelectedItem(item); navigate(item?.url, { replace: true }); }}
+                        onClick={() => { if (item?.key === 'logout') { signOut(); return; } setSelectedItem(item); navigate(item?.url, { replace: true }); }}
                     >
                         {item.title}
                     </li>

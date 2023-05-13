@@ -1,16 +1,14 @@
-import { checkResponse } from '../shared/utils/check-response';
+import { fetchWithRefresh } from './auth-api';
 
 const NORMA_API = "https://norma.nomoreparties.space/api";
 
-
-export function makeOrderRequest(idIngredients) {    
-    idIngredients = idIngredients || [];
-    return fetch(`${NORMA_API}/orders`, {
+export const makeOrderRequest = async (idIngredients, token, refreshToken) =>
+    fetchWithRefresh(`${NORMA_API}/orders`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: token
         },
-        body: JSON.stringify({ingredients: idIngredients})
-    }).then(checkResponse)
-}
+        body: JSON.stringify({ ingredients: idIngredients })
+    }, refreshToken);

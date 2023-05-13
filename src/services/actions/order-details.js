@@ -7,10 +7,10 @@ export const GET_ORDER_DETAILS_FAILED = 'GET_ORDER_DETAILS_FAILED';
 export const DELETE_ORDER_DETAILS = 'DELETE_ORDER_DETAILS';
 
 
-export function makeOrder(idIngredients){
+export function makeOrder(idIngredients, token, refreshToken){
     return function (dispatch) {
         dispatch({ type: GET_ORDER_DETAILS_REQUEST });
-        makeOrderRequest(idIngredients)
+        makeOrderRequest(idIngredients, token, refreshToken)
             .then(res => {
                 if (res && res.success) {
                     dispatch({

@@ -27,16 +27,9 @@ export const ResetPasswordPage = () => {
     const { request, failed, message } = useSelector(getResetPassword);
     const [resetClicked, setResetClicked] = useState(false);
     const [formData, setFormData] = useState({
-        password: '123456QQ_12340'
-        , token: '123456789'
-    });
-
-    useEffect(() => {
-        //dispatch(refreshForgotingPassword());
-        if (resetClicked && !failed && !request) {
-
-        }
-    }, [resetClicked, failed, request]);
+        password: ''
+        , token: ''
+    });    
 
     const errorMessage = (
         <span className='text text_type_main-default' style={{ color: 'red' }}>

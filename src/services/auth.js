@@ -9,6 +9,9 @@ import {
     LOGIN_USER_SUCCESS
     , LOGOUT_USER_SUCCESS
     , GET_USER_FAILED
+    , GET_USER_SUCCESS
+    , PATCH_USER_SUCCESS
+    , REFRESH_TOKEN_SUCCESS
 } from './actions/auth';
 
 export function getAuthUser(store) {
@@ -40,12 +43,7 @@ export function useProvideAuth() {
                 deleteCookie('token', {path: '/'});
                 deleteCookie('refreshToken', {path: '/'});
                 break;
-            }
-            case GET_USER_FAILED: {                
-                if (message === "jwt expired")
-                    updateAccessToken();
-                break;
-            }
+            }            
         }
     }, [actionType, accessToken, refreshToken, message])
 
@@ -59,14 +57,14 @@ export function useProvideAuth() {
     };
 
     const getUserProfile = () => {        
-        dispatch(getUser(getCookie('token')));
+        dispatch(getUser(getCookie('token'), getCookie('refreshToken')));
     };
 
     const patchUserProfile = (formData) => {
-        dispatch(patchUser(getCookie('token'), formData));
+        dispatch(patchUser(getCookie('token'), formData, getCookie('refreshToken')));
     };
 
-    const updateAccessToken = () => {        
+    const updateAccessToken = () => {       
         dispatch(refreshAccessToken(getCookie('refreshToken')));
     };
 

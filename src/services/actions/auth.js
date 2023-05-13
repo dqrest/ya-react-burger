@@ -82,8 +82,7 @@ export function login(formData) {
         dispatch({ type: LOGIN_USER_REQUEST });
         loginRequest(formData)
             .then(res => {
-                if (res && res.success) {
-                    //debugger;
+                if (res && res.success) {                    
                     dispatch({
                         type: LOGIN_USER_SUCCESS
                         , user: res.user
@@ -160,20 +159,18 @@ export function resetPassword(formData){
     }
 }
 
-
-
 export const refreshForgotingPassword = () => (
     { type: REFRESH_FORGOTING_PASSWORD, forgotPasswordRequest: false, forgotPasswordFailed: false, email: null, message: null }
 );
 
-export function getUser(cookie) {
+export function getUser(token, refreshToken) {
     return function (dispatch) {
         dispatch({ type: GET_USER_REQUEST });
-        if(!cookie){
+        if(!token){
             dispatch({ type: GET_USER_FAILED, message: 'Unable to get UserProfile. Empty access token.' });
             return;
         }
-        getUserRequest(cookie)
+        getUserRequest(token, refreshToken)
             .then(res => {                
                 if (res && res.success) {                    
                     dispatch({
@@ -188,10 +185,10 @@ export function getUser(cookie) {
     };
 }
 
-export function patchUser(accessToken, formData) {
+export function patchUser(accessToken, formData, refreshToken) {
     return function (dispatch) {        
         dispatch({ type: PATCH_USER_REQUEST });
-        patchUserRequest(accessToken, formData)
+        patchUserRequest(accessToken, formData, refreshToken)
             .then(res => {                
                 if (res && res.success) {                    
                     dispatch({
@@ -212,7 +209,7 @@ export function refreshAccessToken(refreshToken) {
     return function (dispatch) {        
         dispatch({ type: REFRESH_TOKEN_REQUEST });
         refreshTokenRequest(refreshToken)
-            .then(res => {           
+            .then(res => {                
                 if (res && res.success) {                   
                     dispatch({
                         type: REFRESH_TOKEN_SUCCESS                       
