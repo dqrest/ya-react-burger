@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -15,21 +15,21 @@ import { getIngredients } from '../../services/actions/burger-incredients';
 // styles
 import appStyle from '../app/app.module.css';
 
+export const useIngredients = (store) => ({
+    ingredients: store?.ingredients?.items || [],
+    ingredientsRequest: store?.ingredients?.itemsRequest || false,
+    ingredientsFailed: store?.ingredients?.itemsFailed || false
+});
+
 export default function BurgerIngredients() {
 
-    const [currentTab, setCurrentTab] = React.useState(IngredientType.Bun);
+    const [currentTab, setCurrentTab] = useState(IngredientType.Bun);
 
-    const bunTitleRef = React.useRef(null);
-    const sauceTitleRef = React.useRef(null);
-    const mainTitleRef = React.useRef(null);
+    const bunTitleRef = useRef(null);
+    const sauceTitleRef = useRef(null);
+    const mainTitleRef = useRef(null);
 
-    const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(store => {
-        return {
-            ingredients: store?.ingredients?.items || [],
-            ingredientsRequest: store?.ingredients?.itemsRequest || false,
-            ingredientsFailed: store?.ingredients?.itemsFailed || false,
-        }
-    });
+    const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(useIngredients);
 
     const buns = useMemo(() => ingredients?.filter(b => b.type === IngredientType.Bun) || [], [ingredients]);
     const sauces = useMemo(() => ingredients?.filter(b => b.type === IngredientType.Sauce) || [], [ingredients]);
@@ -45,7 +45,7 @@ export default function BurgerIngredients() {
         setCurrentTab(tab);
         tab === IngredientType.Bun && bunTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
         tab === IngredientType.Sauce && sauceTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
-        tab === IngredientType.Main && mainTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });        
+        tab === IngredientType.Main && mainTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
     }
 
     function handleScroll(e) {

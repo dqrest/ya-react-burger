@@ -11,6 +11,7 @@ import { makeOrder } from '../../services/actions/order-details';
 
 // components
 import { getConstructorIngredients } from '../burger-constructor/burger-constructor';
+import { getCookie } from '../../shared/utils/cookie';
 
 export const getOrderDetails = (store) => ({
     order: store?.orderDetails?.item
@@ -29,8 +30,8 @@ export default function OrderDetails() {
     // ids = [ingredints, upperBun, lowerBun]
     const ids = useMemo(() => [...ingredients.filter(ing => ing?._id).map(ing => ing._id) || [], bun?._id, bun?._id], [ingredients, bun]);
 
-    useEffect(() => {        
-        if (bun) dispatch(makeOrder(ids));               
+    useEffect(() => {
+        if (bun) dispatch(makeOrder(ids, getCookie('accessToken'), getCookie('refreshToken')));
     }, [dispatch, ids, bun]);
 
     useEffect(() => {

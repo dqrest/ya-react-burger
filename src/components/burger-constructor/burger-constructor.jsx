@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
+import { useNavigate } from 'react-router-dom';
 
 import {
     ConstructorElement
@@ -24,8 +25,10 @@ import {
 import {
     increaseIngredientCount
     , resetIngredientsCountByType
+    , resetAllIngredientsCount
 } from '../../services/actions/burger-incredients';
 import { deleteOrderDetails } from '../../services/actions/order-details';
+import { useProvideAuth } from '../../services/auth';
 
 // styles
 import bcStyle from './burger-constructor.module.css';
@@ -38,6 +41,8 @@ export const getConstructorIngredients = (store) => ({
 
 export default function BurgerConstructor() {
 
+    const { user } = useProvideAuth();
+    const navigate =  useNavigate();
     const dispatch = useDispatch();
     const [{ isOver }, dropTarget] = useDrop({
         accept: "ingredient"
@@ -72,7 +77,8 @@ export default function BurgerConstructor() {
     const modal = (
         <Modal setVisible={e => {
             setModalVisible(e);
-            if (!order?.number) return;
+            if (!order?.number) return;            
+            dispatch(resetAllIngredientsCount());
             dispatch(setBunToConstructor(null));
             dispatch(deleteAllConstructorIngredients());
             dispatch(deleteOrderDetails());
@@ -87,6 +93,14 @@ export default function BurgerConstructor() {
             }            
         </Modal>
     );
+
+    function makeOrder () {
+        if(!user) {
+            navigate('/login?fallback=/');
+            return;
+        }
+        setModalVisible(true);        
+    }
 
     return (
         <>
@@ -143,7 +157,7 @@ export default function BurgerConstructor() {
                 <Button htmlType="button"
                     type="primary"
                     size="medium"
-                    onClick={() => setModalVisible(true)}>
+                    onClick={makeOrder}>
                     Оформить заказ
                 </Button>
             </div>

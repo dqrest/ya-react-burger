@@ -7,6 +7,7 @@ export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 export const INCREASE_INGREDIENT_COUNT = 'INCREASE_INGREDIENT_COUNT';
 export const DECREASE_INGREDIENT_COUNT = 'DECREASE_INGREDIENT_COUNT';
 export const RESET_INGREDIENTS_COUNT_BY_TYPE = 'RESET_INGREDIENTS_COUNT_BY_TYPE';
+export const RESET_ALL_INGREDIENTS_COUNT = 'RESET_ALL_INGREDIENTS_COUNT';
 
 export function getIngredients() {    
     return function (dispatch) {
@@ -28,16 +29,18 @@ export function getIngredients() {
 
 export const increaseIngredientCount = (id) => (
     { type: INCREASE_INGREDIENT_COUNT, id: id }
-);
-  
+);  
 
 export const decreaseIngredientCount = (id) => (
     { type: DECREASE_INGREDIENT_COUNT, id: id }
-);
- 
+); 
 
 export const resetIngredientsCountByType = (typeIngredient) => (
     { type: RESET_INGREDIENTS_COUNT_BY_TYPE, typeIngredient: typeIngredient }
+);
+
+export const resetAllIngredientsCount = () => (
+    { type: RESET_ALL_INGREDIENTS_COUNT }
 );
     
 
