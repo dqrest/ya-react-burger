@@ -34,11 +34,10 @@ const Modal: FC<TModal> = ({ children, ...props }) => {
             event?.code === 'Escape' && props?.setVisible(false);
         document.addEventListener('keydown', handleEscapeKey)
         return () => document.removeEventListener('keydown', handleEscapeKey);
-    }, []);
+    }, [props]);
 
     const close: MouseEventHandler = (e) => {
-        // buttonclick не на modal ---> скрыть Modal
-        //const target = e?.target as BaseSyntheticEvent;
+        // buttonclick не на modal ---> скрыть Modal        
         const target = e?.target as HTMLElement;
         if (overlayRef?.current?.className === target?.className)
             props.setVisible(false);
