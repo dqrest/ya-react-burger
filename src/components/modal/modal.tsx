@@ -15,12 +15,12 @@ const modalRoot = document.getElementById("react-modals");
 
 type TModal = {
     setVisible: Function;
-    header: string;
+    header?: string;
     children: React.ReactNode;
 };
 
 type TModalHeader =  {
-    header: string;
+    header?: string;
     closeClick: MouseEventHandler;
 };
 

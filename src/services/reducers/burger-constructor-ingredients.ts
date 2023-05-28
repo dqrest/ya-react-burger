@@ -1,26 +1,44 @@
+import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 import {
     GET_CONSTRUCTOR_INGREDIENTS
-    , ADD_CONSTRUCTOR_INGREDIENT    
+    , ADD_CONSTRUCTOR_INGREDIENT
     , DELETE_CONSTRUCTOR_INGREDIENT
     , CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS
     , SET_BUN_TO_CONSTRUCTOR
     , DELETE_ALL_CONSTRUCTOR_INGREDIENTS
+    , ISetBunToConstructorAction
+    , IDeleteAllConstructorIngredientsAction
+    , IAddConstructorIngredientAction
+    , IDeleteConstructorIngredientAction
+    , IChangeOrderConstructorIngredientsAction
 } from '../actions/burger-constructor-ingredients';
 
-const initialState = {
+type TConstructorIngredientsState = {
+    items: TBurgerIngredientsItemDto[];
+    bun?: TBurgerIngredientsItemDto | null
+};
+
+const initialState: TConstructorIngredientsState = {
     items: []
     , bun: null
 };
 
-export const constructorIngredientsReducer = (state = initialState, action) => {
+type TConstructorIngredientsReducerAction =
+    ISetBunToConstructorAction
+    | IDeleteAllConstructorIngredientsAction
+    | IAddConstructorIngredientAction
+    | IDeleteConstructorIngredientAction
+    | IChangeOrderConstructorIngredientsAction;
+
+export const constructorIngredientsReducer = (state = initialState, action: TConstructorIngredientsReducerAction) => {
     switch (action.type) {
-        case GET_CONSTRUCTOR_INGREDIENTS:
-            return { ...state };
+        //case GET_CONSTRUCTOR_INGREDIENTS:
+        //    return { ...state };
 
         case ADD_CONSTRUCTOR_INGREDIENT:
             if (!action?.item) return state;
             const newItems = [...(state.items || []), action.item]
-            return { ...state, items: newItems };        
+            return { ...state, items: newItems };
 
         case DELETE_CONSTRUCTOR_INGREDIENT:
             if (state?.items && action?.deleteIndex >= 0 && action?.deleteIndex < state?.items?.length) {
@@ -43,12 +61,12 @@ export const constructorIngredientsReducer = (state = initialState, action) => {
             return { ...state, items: [...items] };
         }
 
-        case SET_BUN_TO_CONSTRUCTOR:{                        
+        case SET_BUN_TO_CONSTRUCTOR: {
             return { ...state, bun: action?.bun }
         }
 
-        case DELETE_ALL_CONSTRUCTOR_INGREDIENTS:{            
-            return {...state, items: []}
+        case DELETE_ALL_CONSTRUCTOR_INGREDIENTS: {
+            return { ...state, items: [] }
         }
         default:
             return state;

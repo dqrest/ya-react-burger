@@ -1,5 +1,6 @@
 import { checkResponse } from '../shared/utils/check-response';
 import { setCookie, getCookie } from '../shared/utils/cookie';
+import { CustomResponse } from './api';
 
 const NORMA_API = "https://norma.nomoreparties.space/api";
 

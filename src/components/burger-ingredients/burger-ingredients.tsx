@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState, useRef } from 'react';
+import { useMemo, useEffect, useState, useRef, UIEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -9,13 +9,20 @@ import {
 import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients-list';
 
 // shared
-import { IngredientType } from '../../shared/types/ingredient-type';
+import { TIngredient } from '../../shared/types/ingredient-type';
 import { getIngredients } from '../../services/actions/burger-incredients';
+import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
 // styles
 import appStyle from '../app/app.module.css';
 
-export const useIngredients = (store) => ({
+type TUseIngredients = {
+    ingredients: TBurgerIngredientsItemDto[];
+    ingredientsRequest: boolean;
+    ingredientsFailed: boolean;
+};
+
+export const useIngredients = (store: any): TUseIngredients => ({
     ingredients: store?.ingredients?.items || [],
     ingredientsRequest: store?.ingredients?.itemsRequest || false,
     ingredientsFailed: store?.ingredients?.itemsFailed || false
@@ -23,17 +30,17 @@ export const useIngredients = (store) => ({
 
 export default function BurgerIngredients() {
 
-    const [currentTab, setCurrentTab] = useState(IngredientType.Bun);
+    const [currentTab, setCurrentTab] = useState<TIngredient>(TIngredient.Bun);
 
-    const bunTitleRef = useRef(null);
-    const sauceTitleRef = useRef(null);
-    const mainTitleRef = useRef(null);
+    const bunTitleRef = useRef<HTMLSpanElement>(null);
+    const sauceTitleRef = useRef<HTMLSpanElement>(null);
+    const mainTitleRef = useRef<HTMLSpanElement>(null);
 
     const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(useIngredients);
 
-    const buns = useMemo(() => ingredients?.filter(b => b.type === IngredientType.Bun) || [], [ingredients]);
-    const sauces = useMemo(() => ingredients?.filter(b => b.type === IngredientType.Sauce) || [], [ingredients]);
-    const mains = useMemo(() => ingredients?.filter(b => b.type === IngredientType.Main) || [], [ingredients]);
+    const buns = useMemo(() => ingredients?.filter(b => b.type === TIngredient.Bun) || [], [ingredients]);
+    const sauces = useMemo(() => ingredients?.filter(b => b.type === TIngredient.Sauce) || [], [ingredients]);
+    const mains = useMemo(() => ingredients?.filter(b => b.type === TIngredient.Main) || [], [ingredients]);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -41,14 +48,15 @@ export default function BurgerIngredients() {
         dispatch(getIngredients());
     }, [dispatch]);
 
-    function tabClick(tab) {
-        setCurrentTab(tab);
-        tab === IngredientType.Bun && bunTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
-        tab === IngredientType.Sauce && sauceTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
-        tab === IngredientType.Main && mainTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
+    function tabClick(tab: string) {
+        const type = tab as TIngredient;
+        setCurrentTab(type);
+        tab === TIngredient.Bun && bunTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
+        tab === TIngredient.Sauce && sauceTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
+        tab === TIngredient.Main && mainTitleRef?.current?.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function handleScroll(e) {
+    function handleScroll(e: UIEvent<HTMLDivElement>) {
         const bunY = bunTitleRef?.current?.getBoundingClientRect()?.y || 0;
         const sauceY = sauceTitleRef?.current?.getBoundingClientRect()?.y || 0;
         const mainY = mainTitleRef?.current?.getBoundingClientRect()?.y || 0;
@@ -57,14 +65,14 @@ export default function BurgerIngredients() {
             d2 = Math.abs(y - sauceY),
             d3 = Math.abs(y - mainY);
         if (d1 <= d2 && d1 <= d3) {
-            currentTab !== IngredientType.Bun && setCurrentTab(IngredientType.Bun);
+            currentTab !== TIngredient.Bun && setCurrentTab(TIngredient.Bun);
             return;
         }
         if (d2 <= d3) {
-            currentTab !== IngredientType.Sauce && setCurrentTab(IngredientType.Sauce);
+            currentTab !== TIngredient.Sauce && setCurrentTab(TIngredient.Sauce);
             return;
         }
-        currentTab !== IngredientType.Main && setCurrentTab(IngredientType.Main);
+        currentTab !== TIngredient.Main && setCurrentTab(TIngredient.Main);
     }
 
     return (
@@ -74,13 +82,13 @@ export default function BurgerIngredients() {
             {!ingredientsRequest && !ingredientsFailed && (
                 <>
                     <div className={appStyle.appBurgerTabs}>
-                        <Tab value={IngredientType.Bun} active={currentTab === IngredientType.Bun} onClick={tabClick}>
+                        <Tab value={TIngredient.Bun} active={currentTab === TIngredient.Bun} onClick={tabClick}>
                             Булки
                         </Tab>
-                        <Tab value={IngredientType.Sauce} active={currentTab === IngredientType.Sauce} onClick={tabClick}>
+                        <Tab value={TIngredient.Sauce} active={currentTab === TIngredient.Sauce} onClick={tabClick}>
                             Соусы
                         </Tab>
-                        <Tab value={IngredientType.Main} active={currentTab === IngredientType.Main} onClick={tabClick}>
+                        <Tab value={TIngredient.Main} active={currentTab === TIngredient.Main} onClick={tabClick}>
                             Начинки
                         </Tab>
                     </div>

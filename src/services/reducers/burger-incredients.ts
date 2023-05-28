@@ -1,3 +1,13 @@
+import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+import {
+    IGetIngredientsAction
+    , IGetIngredientsFailedAction
+    , IGetIngredientsSuccessAction
+    , IResetAllIngredientsCountAction
+    , IResetIngredientsCountByTypeAction
+    , IIncreaseIngredientCountAction
+    , IDecreaseIngredientCountAction
+} from '../actions/burger-incredients';
 import {
     GET_INGREDIENTS_REQUEST
     , GET_INGREDIENTS_FAILED
@@ -8,15 +18,30 @@ import {
     , RESET_ALL_INGREDIENTS_COUNT
 } from '../actions/burger-incredients';
 
+type TIngredientsState = {
+    items: ReadonlyArray<TBurgerIngredientsItemDto>
+    , readonly itemsFailed: false
+    , readonly itemsRequest: false
+}
 
-const initialState = {
+const initialState: TIngredientsState = {
     items: []
     , itemsFailed: false
     , itemsRequest: false
 };
 
-export const ingredientsReducer = (state = initialState, action) => {    
+type TIngredientsReducerAction = IGetIngredientsAction
+    | IGetIngredientsFailedAction
+    | IGetIngredientsSuccessAction
+    | IResetAllIngredientsCountAction
+    | IResetIngredientsCountByTypeAction
+    | IIncreaseIngredientCountAction
+    | IDecreaseIngredientCountAction;
+
+export const ingredientsReducer = (state = initialState, action: TIngredientsReducerAction) => {
+
     switch (action.type) {
+
         case GET_INGREDIENTS_REQUEST:
             return { ...state, itemsRequest: true };
         case GET_INGREDIENTS_SUCCESS:

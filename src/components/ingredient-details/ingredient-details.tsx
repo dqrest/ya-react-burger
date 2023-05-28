@@ -1,24 +1,34 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSearchParams, useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 // shared
 import { useIngredients } from '../burger-ingredients/burger-ingredients';
 import { getIngredients } from '../../services/actions/burger-incredients';
+import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
 // styles
 import idStyles from './ingredient-details.module.css';
 
+
+type TUseSelectedIngredient = {
+    selectedIngredient: TBurgerIngredientsItemDto
+};
+
+export const useSelectedIngredient = (store: any): TUseSelectedIngredient => ({
+    selectedIngredient: store?.ingredientDetails?.item
+});
 export default function IngredientDetails() {
 
     const dispatch = useDispatch();
-    const params = useParams();
+    const params = useParams<string>();
     const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(useIngredients);
-    const selectedIngredient = useSelector(store => store?.ingredientDetails?.item);
+    const { selectedIngredient } = useSelector(useSelectedIngredient);
 
-    const ingredient = useMemo(() => params?.id
-        ? ingredients.find(ing => ing._id === params.id)
-        : selectedIngredient
+    const ingredient = useMemo<TBurgerIngredientsItemDto | undefined>(() =>
+        params && params?.id
+            ? ingredients.find(ing => ing._id === params.id)
+            : selectedIngredient
         , [ingredients, params?.id, selectedIngredient]);
 
     useEffect(() => {
@@ -56,7 +66,7 @@ export default function IngredientDetails() {
     );
 }
 
-const DetailItem = ({ title, value, extClass }) => (
+const DetailItem: FC<TDetailItemProps> = ({ title, value, extClass }) => (
     <div className={`${extClass} ${idStyles.detailsItem}`}>
         <span className='text text_type_main-small text_color_inactive'>
             {title}
@@ -66,3 +76,9 @@ const DetailItem = ({ title, value, extClass }) => (
         </span>
     </div>
 );
+
+type TDetailItemProps = {
+    title: string;
+    value: number;
+    extClass?: string;
+};

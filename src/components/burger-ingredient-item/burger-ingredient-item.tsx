@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { FC } from 'react';
 import { useDrag } from 'react-dnd'
 
 import {
@@ -7,12 +7,12 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // dtos
-import { burgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
 // styles
 import biStyle from './burger-ingredient-item.module.css';
 
-export default function BurgerIngredientItem({ count, ingredient, itemClick }) {
+const BurgerIngredientItem: FC<TBurgerIngredientItem> = ({ count, ingredient, itemClick }) => {
 
     const click = () => itemClick && itemClick({ ingredient: ingredient });
 
@@ -21,29 +21,39 @@ export default function BurgerIngredientItem({ count, ingredient, itemClick }) {
         , item: { ingredient }
     });
 
-
     return (
         <div ref={dragRef} className={`${biStyle.burgerItem} p-5`} onClick={click}>
 
             <span className={biStyle.counterIconWrapper}>
                 {count > 0 && (<Counter count={count || 0} size="default" extraClass={biStyle.counterIcon} />)}
             </span>
+
             <img className={biStyle.burgerImage} src={ingredient?.image} >
             </img>
+
             <div className={`${biStyle.currencyIcon} text text_type_digits-default`}>
-                {ingredient?.price} &nbsp; <CurrencyIcon />
+                {ingredient?.price} &nbsp; <CurrencyIcon type='primary' />
             </div>
+
             <div className='text text_type_main-small' style={{ textAlign: "center" }}>
                 {ingredient?.name}
             </div>
 
         </div>
     );
-
 }
 
-BurgerIngredientItem.propTypes = {
-    ingredient: burgerIngredientsItemDto.isRequired,
-    count: PropTypes.number.isRequired,
-    itemClick: PropTypes.func.isRequired
+export type TIngredientArg = {
+    ingredient: TBurgerIngredientsItemDto
 };
+
+export type TIngredientHandler = (e: TIngredientArg) => void;
+
+type TBurgerIngredientItem = {
+    ingredient: TBurgerIngredientsItemDto;
+    count: number;
+    itemClick: TIngredientHandler;
+};
+
+export default BurgerIngredientItem;
+
