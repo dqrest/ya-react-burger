@@ -18,7 +18,7 @@ import { useProvideAuth } from '../../services/auth';
 export default function AppHeader() {
 
     const { user } = useProvideAuth();
-    const [selectedItem, setSelectedItem] = useState('home');
+    const [selectedItem, setSelectedItem] = useState<string>('home');
 
     useEffect(() => {
         switch (document.location.pathname) {
