@@ -1,7 +1,6 @@
 import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 import {
-    GET_CONSTRUCTOR_INGREDIENTS
-    , ADD_CONSTRUCTOR_INGREDIENT
+     ADD_CONSTRUCTOR_INGREDIENT
     , DELETE_CONSTRUCTOR_INGREDIENT
     , CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS
     , SET_BUN_TO_CONSTRUCTOR
@@ -31,9 +30,7 @@ type TConstructorIngredientsReducerAction =
     | IChangeOrderConstructorIngredientsAction;
 
 export const constructorIngredientsReducer = (state = initialState, action: TConstructorIngredientsReducerAction) => {
-    switch (action.type) {
-        //case GET_CONSTRUCTOR_INGREDIENTS:
-        //    return { ...state };
+    switch (action.type) {      
 
         case ADD_CONSTRUCTOR_INGREDIENT:
             if (!action?.item) return state;

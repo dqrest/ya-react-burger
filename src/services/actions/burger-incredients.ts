@@ -1,5 +1,3 @@
-
-import { AnyAction } from 'redux';
 import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 import { TIngredient } from '../../shared/types/ingredient-type';
 

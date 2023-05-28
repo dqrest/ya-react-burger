@@ -6,7 +6,6 @@ import {
     , resetPasswordRequest
     , getUserRequest
     , patchUserRequest
-    , refreshTokenRequest
 } from '../../utils/auth-api';
 
 // shared

@@ -25,11 +25,7 @@ import {
 
     , GET_USER_FAILED
     , GET_USER_SUCCESS
-    , GET_USER_REQUEST
-
-    , REFRESH_TOKEN_REQUEST
-    , REFRESH_TOKEN_SUCCESS
-    , REFRESH_TOKEN_FAILED
+    , GET_USER_REQUEST    
 
     , PATCH_USER_REQUEST
     , PATCH_USER_SUCCESS
@@ -75,7 +71,7 @@ type TAuthReducerAction =
     | IPatchUserSuccessAction;
 
 export type TAuthState = {
-    user: any;
+    user?: TUserProfileFormData | null;
     message?: string | null;
     request: boolean;
     failed: boolean;
@@ -162,27 +158,7 @@ export const authReducer = (state = authInitialState, action: TAuthReducerAction
                 , failed: true
                 , message: action.message
             };
-        }
-        //        case REFRESH_TOKEN_REQUEST: {
-        //            return { ...state, request: true };
-        //        }
-        //        case REFRESH_TOKEN_SUCCESS: {
-        //            return {
-        //                ...state
-        //                , request: false
-        //                , failed: false
-        //                , refreshToken: action.refreshToken
-        //                , accessToken: action.accessToken
-        //            };
-        //        }
-        //        case REFRESH_TOKEN_FAILED: {
-        //            return {
-        //                ...state
-        //                , request: false
-        //                , failed: true
-        //                , message: action.message
-        //            };
-        //        }
+        }       
         default:
             return state;
     }
