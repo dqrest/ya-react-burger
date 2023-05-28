@@ -11,7 +11,7 @@ import {
 
 // components
 import Modal from '../modal/modal';
-import OrderDetails, { getOrderDetails } from '../order-details/order-details';
+import OrderDetails, { useOrderDetails } from '../order-details/order-details';
 import BurgerDraggableConstructorItem from '../burger-draggable-constructor-item/burger-draggable-constructor-item';
 
 // shared
@@ -28,7 +28,7 @@ import {
     , resetAllIngredientsCount
 } from '../../services/actions/burger-incredients';
 import { deleteOrderDetails } from '../../services/actions/order-details';
-//import { useProvideAuth } from '../../services/auth';
+import { useProvideAuth } from '../../services/auth';
 
 // styles
 import bcStyle from './burger-constructor.module.css';
@@ -49,7 +49,7 @@ export const getConstructorIngredients =
 
 export default function BurgerConstructor() {
 
-    //const { user } = useProvideAuth();
+    const { user } = useProvideAuth();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [{ isOver }, dropTarget] = useDrop<TIngredientDrag, unknown, TIngredientDropCollectedProps>({
@@ -77,16 +77,16 @@ export default function BurgerConstructor() {
     });
 
     const { ingredients, bun } = useSelector(getConstructorIngredients);
-    const { order } = useSelector(getOrderDetails);
+    const { item } = useSelector(useOrderDetails);
 
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const total = useMemo<number>(() => (2 * bun?.price || 0) + (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [ingredients, bun]);
 
     const modal = (
         <Modal
-            setVisible={(e: any) => {
+            setVisible={(e: any) => {             
                 setModalVisible(e);
-                if (!order?.number) return;
+                if (!item?.number) return;
                 dispatch(resetAllIngredientsCount());
                 dispatch(setBunToConstructor(null));
                 dispatch(deleteAllConstructorIngredients());
@@ -104,10 +104,10 @@ export default function BurgerConstructor() {
     );
 
     function makeOrder() {
-        //if(!user) {
-        //    navigate('/login?fallback=/');
-        //    return;
-        //}
+        if (!user) {
+            navigate('/login?fallback=/');
+            return;
+        }
         setModalVisible(true);
     }
 

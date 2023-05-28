@@ -9,22 +9,16 @@ import odStyles from './order-details.module.css';
 // shared
 import { makeOrder } from '../../services/actions/order-details';
 import { getCookie } from '../../shared/utils/cookie';
+import { TOrderState } from '../../services/reducers/order-details';
 
 // dtos
 import { TBurgerOrderItemDto } from '../../shared/dtos/burger-order-item-dto';
 import { getConstructorIngredients } from '../burger-constructor/burger-constructor';
 
-
-export type TGetOrderDetails = {
-    order: TBurgerOrderItemDto
-    , orderDetailsRequest: boolean
-    , orderDetailsFailed: boolean
-}
-
-export const getOrderDetails = (store: any): TGetOrderDetails  => ({
-    order: store?.orderDetails?.item
-    , orderDetailsRequest: store?.orderDetails?.itemRequest
-    , orderDetailsFailed: store?.orderDetails?.itemFailed
+export const useOrderDetails = (store: any): TOrderState => ({
+    item: store?.orderDetails?.item
+    , itemRequest: store?.orderDetails?.itemRequest
+    , itemFailed: store?.orderDetails?.itemFailed
 });
 
 export default function OrderDetails() {
@@ -33,14 +27,16 @@ export default function OrderDetails() {
     const refCheckIcon = useRef<HTMLDivElement>(null);
 
     const { ingredients, bun } = useSelector(getConstructorIngredients);
-    const { order, orderDetailsRequest, orderDetailsFailed } = useSelector(getOrderDetails);
+    const { item, itemRequest, itemFailed } = useSelector(useOrderDetails);
 
     // ids = [ingredints, upperBun, lowerBun]
     const ids = useMemo<string[]>(() => [...ingredients.filter(ing => ing?._id).map(ing => ing._id) || [], bun?._id, bun?._id], [ingredients, bun]);
 
-    //useEffect(() => {
-    //    if (bun) dispatch(makeOrder(ids, getCookie('accessToken'), getCookie('refreshToken')));
-    //}, [dispatch, ids, bun]);
+    useEffect(() => {        
+        const accessToken = getCookie('token');
+        const refreshToken = getCookie('refreshToken');
+        if (bun && accessToken && refreshToken) dispatch(makeOrder(ids, accessToken, refreshToken));
+    }, [dispatch, ids, bun]);
 
     useEffect(() => {
         let children = refCheckIcon?.current?.getElementsByTagName("svg");
@@ -48,35 +44,35 @@ export default function OrderDetails() {
             children[0].style.width = "100%";
             children[0].style.height = "120px";
         }
-    }, [orderDetailsRequest, orderDetailsFailed, ingredients]);
+    }, [itemRequest, itemFailed, ingredients]);
 
     return (
         <>
-            
+            {itemRequest && <div className='text text_type_main-medium'>Формируется заказ. Ждите...</div>}
+            {itemFailed && <div className='text text_type_main-medium'>Произошла ошибка при оформилении заказа.</div>}
+            {
+                item?.number && !itemRequest && !itemFailed &&
+                <div className={odStyles.orderDetailContent}>
+                    <div className={`text text_type_digits-large`} style={{ alignSelf: "center" }}>
+                        {item?.number}
+                    </div>
+                    <div className={`text text_type_main-medium mt-8`} style={{ alignSelf: "center" }}>
+                        идентификатор заказа
+                    </div>
+                    <div className={`text text_type_main-medium mt-15 mb-15`} ref={refCheckIcon}>
+                        <CheckMarkIcon type="primary" />
+                    </div>
+                    <div className={`text text_type_main-small mb-2`} style={{ alignSelf: "center" }}>
+                        Ваш заказ начали готовить
+                    </div>
+                    <div className={`text text_type_main-small text_color_inactive`} style={{ alignSelf: "center" }}>
+                        Дождитесь готовности на орбитальной станции
+                    </div>
+                </div>
+            }
+
         </>
     );
 }
 
 
-//{orderDetailsRequest && <div className='text text_type_main-medium'>Формируется заказ. Ждите...</div>}
-            //{orderDetailsFailed && <div className='text text_type_main-medium'>Произошла ошибка при оформилении заказа.</div>}
-            //{
-            //    order?.number && !orderDetailsRequest && !orderDetailsFailed &&
-            //    <div className={odStyles.orderDetailContent}>
-            //        <div className={`text text_type_digits-large`} style={{ alignSelf: "center" }}>
-            //            {order?.number}
-            //        </div>
-            //        <div className={`text text_type_main-medium mt-8`} style={{ alignSelf: "center" }}>
-            //            идентификатор заказа
-            //        </div>
-            //        <div className={`text text_type_main-medium mt-15 mb-15`} ref={refCheckIcon}>
-            //            <CheckMarkIcon type="primary" />
-            //        </div>
-            //        <div className={`text text_type_main-small mb-2`} style={{ alignSelf: "center" }}>
-            //            Ваш заказ начали готовить
-            //        </div>
-            //        <div className={`text text_type_main-small text_color_inactive`} style={{ alignSelf: "center" }}>
-            //            Дождитесь готовности на орбитальной станции
-            //        </div>
-            //    </div>
-            //}

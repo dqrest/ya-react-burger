@@ -7,7 +7,6 @@ export const GET_ORDER_DETAILS_FAILED = 'GET_ORDER_DETAILS_FAILED';
 
 export const DELETE_ORDER_DETAILS = 'DELETE_ORDER_DETAILS';
 
-
 export interface IGetOrderDetailsAction {
     readonly type: typeof GET_ORDER_DETAILS_REQUEST;
 }
@@ -19,16 +18,21 @@ export interface IGetOrderDetailsFailedAction {
     readonly type: typeof GET_ORDER_DETAILS_FAILED;
 }
 
-const getOrderDetailsAction = (): IGetOrderDetailsAction => ({
-    type: GET_ORDER_DETAILS_REQUEST
-});
-const getOrderDetailsSuccessAction = (order: TBurgerOrderItemDto): IGetOrderDetailsSuccessAction => ({
-    type: GET_ORDER_DETAILS_SUCCESS,
-    order: order
-});
-const getOrderDetailsFailedAction = (): IGetOrderDetailsFailedAction => ({
-    type: GET_ORDER_DETAILS_FAILED
-});
+const getOrderDetailsAction =
+    (): IGetOrderDetailsAction => ({
+        type: GET_ORDER_DETAILS_REQUEST
+    });
+
+const getOrderDetailsSuccessAction =
+    (order: TBurgerOrderItemDto): IGetOrderDetailsSuccessAction => ({
+        type: GET_ORDER_DETAILS_SUCCESS,
+        order: order
+    });
+
+const getOrderDetailsFailedAction =
+    (): IGetOrderDetailsFailedAction => ({
+        type: GET_ORDER_DETAILS_FAILED
+    });
 
 export interface IDeleteOrderDetailsAction {
     readonly type: typeof DELETE_ORDER_DETAILS;
@@ -36,7 +40,7 @@ export interface IDeleteOrderDetailsAction {
 
 export function makeOrder(idIngredients: Array<string>
     , token: string
-    , refreshToken: string) {
+    , refreshToken: string): any {
     return function (dispatch: any) {
         dispatch(getOrderDetailsAction());
         makeOrderRequest(idIngredients, token, refreshToken)
@@ -51,6 +55,6 @@ export function makeOrder(idIngredients: Array<string>
     };
 }
 
-export const deleteOrderDetails = () => (
+export const deleteOrderDetails = (): IDeleteOrderDetailsAction => (
     { type: DELETE_ORDER_DETAILS }
 );

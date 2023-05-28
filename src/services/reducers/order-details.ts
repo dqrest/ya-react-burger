@@ -3,15 +3,32 @@ import {
     , GET_ORDER_DETAILS_REQUEST
     , GET_ORDER_DETAILS_SUCCESS
     , DELETE_ORDER_DETAILS
+    , IDeleteOrderDetailsAction
+    , IGetOrderDetailsAction
+    , IGetOrderDetailsFailedAction
+    , IGetOrderDetailsSuccessAction
 } from '../actions/order-details';
+import { TBurgerOrderItemDto } from '../../shared/dtos/burger-order-item-dto';
 
-const initialState = {
+export type TOrderState = {
+    item?: TBurgerOrderItemDto | null;
+    itemRequest: boolean;
+    itemFailed: boolean;
+}
+
+const initialState: TOrderState = {
     item: null
     , itemRequest: false
     , itemFailed: false
 };
 
-export const orderDetailsReducer = (state = initialState, action) => {    
+type TOrderDetailsReducerAction =
+    IDeleteOrderDetailsAction
+    | IGetOrderDetailsAction
+    | IGetOrderDetailsFailedAction
+    | IGetOrderDetailsSuccessAction;
+
+export const orderDetailsReducer = (state = initialState, action: TOrderDetailsReducerAction) => {
     switch (action.type) {
         case GET_ORDER_DETAILS_REQUEST:
             return { ...state, itemRequest: true };
