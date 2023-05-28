@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FormEvent } from 'react';
 
 import {
     Input
@@ -9,6 +9,7 @@ import {
 
 // shared
 import { useProvideAuth } from '../../services/auth';
+import { TUserProfileFormData } from '../../shared/types/auth-types';
 
 // styles
 import styles from '../pages.module.css';
@@ -16,7 +17,7 @@ import styles from '../pages.module.css';
 export const ProfileUserPage = () => {
 
     const { user, request, failed, message, getUserProfile, patchUserProfile } = useProvideAuth();
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<TUserProfileFormData>({
         name: ''
         , email: ''
         , password: ''
@@ -28,7 +29,7 @@ export const ProfileUserPage = () => {
 
     useEffect(() => {
         if (user && !request && !failed) {
-            const u = {...user, password: '' };
+            const u = { ...user, password: '' };
             setFormData(u);
         }
     }, [user, request, failed])
@@ -39,7 +40,7 @@ export const ProfileUserPage = () => {
         </span>
     );
 
-    function formSubmit(e) {
+    function formSubmit(e: FormEvent<HTMLFormElement>): boolean {
         e.preventDefault();
         patchUserProfile(formData);
         return false;

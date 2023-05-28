@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useState, FormEvent } from 'react';
 
 // shared
-import { forgotPassword, refreshForgotingPassword, FORGOT_PASSWORD_SUCCESS, resetPassword } from '../../services/actions/auth';
+import { resetPassword } from '../../services/actions/auth';
+import { TResetPasswordState } from '../../services/reducers/auth';
+import { TResetPasswordFormData } from '../../shared/types/auth-types';
 
 import {
     PasswordInput
@@ -14,22 +16,21 @@ import {
 // styles
 import styles from '../pages.module.css';
 
-export const getResetPassword = (store) => ({
-    request: store?.resetPassword?.resetPasswordRequest
-    , failed: store?.resetPassword?.resetPasswordFailed
-    , message: store?.resetPassword?.message
-    , actionType: store?.resetPassword?.actionType
+export const useResetPassword = (store: any): TResetPasswordState => ({
+    resetPasswordRequest: store?.resetPassword?.resetPasswordRequest
+    , resetPasswordFailed: store?.resetPassword?.resetPasswordFailed
+    , message: store?.resetPassword?.message    
 });
 
 export const ResetPasswordPage = () => {
 
     const dispatch = useDispatch();
-    const { request, failed, message } = useSelector(getResetPassword);
-    const [resetClicked, setResetClicked] = useState(false);
-    const [formData, setFormData] = useState({
+    const { resetPasswordRequest, resetPasswordFailed, message } = useSelector(useResetPassword);
+    const [resetClicked, setResetClicked] = useState<boolean>(false);
+    const [formData, setFormData] = useState<TResetPasswordFormData>({
         password: ''
         , token: ''
-    });    
+    });
 
     const errorMessage = (
         <span className='text text_type_main-default' style={{ color: 'red' }}>
@@ -48,7 +49,7 @@ export const ResetPasswordPage = () => {
         </span>
     );
 
-    function resetSubmit(e) {
+    function resetSubmit(e: FormEvent<HTMLFormElement>): boolean {
         e.preventDefault();
         setResetClicked(true);
         dispatch(resetPassword(formData));
@@ -57,9 +58,9 @@ export const ResetPasswordPage = () => {
 
     return (
         <div className={styles.wrapper}>
-            {resetClicked && !request && !failed && moveToLogin}
-            {!resetClicked && request && <div className='text text_type_main-medium'>Восстановление пароля. Ждите...</div>}
-            {!resetClicked && !request &&
+            {resetClicked && !resetPasswordRequest && !resetPasswordFailed && moveToLogin}
+            {!resetClicked && resetPasswordRequest && <div className='text text_type_main-medium'>Восстановление пароля. Ждите...</div>}
+            {!resetClicked && !resetPasswordRequest &&
                 <>
                     <span className="text text_type_main-medium">
                         Восстановление пароля
@@ -96,7 +97,7 @@ export const ResetPasswordPage = () => {
                         </Link>
                     </span>
 
-                    {failed && errorMessage}
+                    {resetPasswordFailed && errorMessage}
                 </>
             }
         </div>

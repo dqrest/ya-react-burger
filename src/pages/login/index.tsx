@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
@@ -9,19 +9,21 @@ import {
 
 // shared
 import { useProvideAuth } from '../../services/auth';
+import { TLoginFormData } from '../../shared/types/auth-types';
 
 // styles
 import styles from '../pages.module.css';
 
-export const LoginPage = () => {    
+export const LoginPage = () => {
 
     const { signIn, request, failed, message } = useProvideAuth();
-    const [formData, setFormData] = useState({
+
+    const [formData, setFormData] = useState<TLoginFormData>({
         password: ''
         , email: ''
-    });    
+    });
 
-    function loginClick(e) {
+    function loginClick(e: FormEvent<HTMLFormElement>): boolean {
         e.preventDefault();
         signIn(formData);
         return false;
@@ -63,7 +65,6 @@ export const LoginPage = () => {
                     </form>
 
                     {failed && errorMessage}
-
                     <span className="text text_type_main-small mt-10">
                         Вы - новый пользователь?
                         <Link
@@ -72,7 +73,6 @@ export const LoginPage = () => {
                             Зарегистрироваться
                         </Link>
                     </span>
-
                     <span className="text text_type_main-small">
                         Забыли пароль?
                         <Link
@@ -83,7 +83,21 @@ export const LoginPage = () => {
                     </span>
                 </>
             }
-
         </div>
     );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//

@@ -8,7 +8,6 @@ import { ProfileUserPage } from './profile-user';
 import { ProfileOrdersPage } from './profile-orders';
 import { RegisterPage } from './register';
 import { ResetPasswordPage } from './reset-password';
-import { IngredientPage } from './ingredient';
 import { NotFound404Page } from './not-found';
 import { LoadingPage } from './loading';
 
@@ -24,7 +23,6 @@ export {
     , ProfileOrdersPage
     , RegisterPage
     , ResetPasswordPage
-    , IngredientPage
     , NotFound404Page
     , LoadingPage
 };

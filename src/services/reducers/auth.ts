@@ -1,3 +1,4 @@
+import { TUserProfileFormData } from '../../shared/types/auth-types';
 import {
     REGISTER_USER_FAILED
     , REGISTER_USER_REQUEST
@@ -27,16 +28,64 @@ import {
     , GET_USER_REQUEST
 
     , REFRESH_TOKEN_REQUEST
-    , REFRESH_TOKEN_SUCCESS 
+    , REFRESH_TOKEN_SUCCESS
     , REFRESH_TOKEN_FAILED
 
     , PATCH_USER_REQUEST
     , PATCH_USER_SUCCESS
-    , PATCH_USER_FAILED    
+    , PATCH_USER_FAILED
+
+    , ILoginUserAction
+    , ILoginUserFailedAction
+    , ILoginUserSuccessAction
+    , ILogoutUserAction
+    , ILogoutUserFailedAction
+    , ILogoutUserSuccessAction
+    , IGetUserAction
+    , IGetUserFailedAction
+    , IGetUserSuccessAction
+    , IPatchUserAction
+    , IPatchUserFailedAction
+    , IPatchUserSuccessAction
+    , IForgotPasswordAction
+    , IForgotPasswordFailedAction
+    , IForgotPasswordSuccessAction
+    , IRefreshForgotingPasswordAction
+    , IResetPasswordAction
+    , IResetPasswordFailedAction
+    , IResetPasswordSuccessAction
+    , IRegisterUserAction
+    , IRegisterUserFailedAction
+    , IRegisterUserSuccessAction
+    , IRefreshRegistering
 } from '../actions/auth';
 
+type TAuthReducerAction =
+    ILoginUserAction
+    | ILoginUserFailedAction
+    | ILoginUserSuccessAction
+    | ILogoutUserAction
+    | ILogoutUserFailedAction
+    | ILogoutUserSuccessAction
+    | IGetUserSuccessAction
+    | IGetUserAction
+    | IGetUserFailedAction
+    | IPatchUserAction
+    | IPatchUserFailedAction
+    | IPatchUserSuccessAction;
 
-const authInitialState = {
+export type TAuthState = {
+    user: any;
+    message?: string | null;
+    request: boolean;
+    failed: boolean;
+    accessToken?: string | null;
+    refreshToken?: string | null;
+    actionType?: string | null;
+};
+
+
+const authInitialState: TAuthState = {
     user: null
     , message: null
     , request: false
@@ -46,10 +95,9 @@ const authInitialState = {
     , actionType: null
 };
 
-export const authReducer = (state = authInitialState, action) => {
-    state = {...state, actionType: action.type};
+export const authReducer = (state = authInitialState, action: TAuthReducerAction) => {
+    state = { ...state, actionType: action.type };
     switch (action.type) {
-
         case LOGIN_USER_REQUEST: {
             return { ...state, request: true };
         }
@@ -60,7 +108,7 @@ export const authReducer = (state = authInitialState, action) => {
                 , failed: false
                 , user: action.user
                 , accessToken: action.accessToken
-                , refreshToken: action.refreshToken                
+                , refreshToken: action.refreshToken
             };
         }
         case LOGIN_USER_FAILED: {
@@ -70,20 +118,19 @@ export const authReducer = (state = authInitialState, action) => {
                 , failed: true
                 , message: action.message
                 , user: null
-
             };
         }
-        case LOGOUT_USER_REQUEST:{
+        case LOGOUT_USER_REQUEST: {
             return { ...state, request: true };
         }
-        case LOGOUT_USER_SUCCESS: {           
+        case LOGOUT_USER_SUCCESS: {
             return {
                 ...state
                 , request: false
                 , failed: false
                 , user: action.user
                 , accessToken: action.accessToken
-                , refreshToken: action.refreshToken                
+                , refreshToken: action.refreshToken
             };
         }
         case LOGOUT_USER_FAILED: {
@@ -91,9 +138,9 @@ export const authReducer = (state = authInitialState, action) => {
                 ...state
                 , request: false
                 , failed: true
-                , message: action.message                
+                , message: action.message
             };
-        }        
+        }
         case GET_USER_REQUEST:
         case PATCH_USER_REQUEST: {
             return { ...state, request: true };
@@ -105,7 +152,6 @@ export const authReducer = (state = authInitialState, action) => {
                 , request: false
                 , failed: false
                 , user: action.user
-                //, message: "jwt expired"
             };
         }
         case GET_USER_FAILED:
@@ -117,47 +163,57 @@ export const authReducer = (state = authInitialState, action) => {
                 , message: action.message
             };
         }
-        case REFRESH_TOKEN_REQUEST: {
-            return { ...state, request: true };
-        }
-        case REFRESH_TOKEN_SUCCESS: {
-            return {
-                ...state
-                , request: false
-                , failed: false
-                , refreshToken: action.refreshToken
-                , accessToken: action.accessToken
-            };
-        }
-        case REFRESH_TOKEN_FAILED: {
-            return {
-                ...state
-                , request: false
-                , failed: true
-                , message: action.message
-            };
-        }
+        //        case REFRESH_TOKEN_REQUEST: {
+        //            return { ...state, request: true };
+        //        }
+        //        case REFRESH_TOKEN_SUCCESS: {
+        //            return {
+        //                ...state
+        //                , request: false
+        //                , failed: false
+        //                , refreshToken: action.refreshToken
+        //                , accessToken: action.accessToken
+        //            };
+        //        }
+        //        case REFRESH_TOKEN_FAILED: {
+        //            return {
+        //                ...state
+        //                , request: false
+        //                , failed: true
+        //                , message: action.message
+        //            };
+        //        }
         default:
             return state;
     }
 }
 
+export type TRegisterState = {
+    user?: TUserProfileFormData | null;
+    message?: null | null;
+    registerRequest: boolean;
+    registerFailed: boolean;
+}
 
-const registerInitialState = {
-    email: null
-    , name: null
+const registerInitialState: TRegisterState = {
+    user: null
     , message: null
     , registerRequest: false
     , registerFailed: false
 };
+type TRegisterReducerAction =
+    IRegisterUserAction
+    | IRegisterUserFailedAction
+    | IRegisterUserSuccessAction
+    | IRefreshRegistering;
 
-export const registerReducer = (state = registerInitialState, action) => {
+export const registerReducer = (state = registerInitialState, action: TRegisterReducerAction) => {
     switch (action.type) {
         case REGISTER_USER_REQUEST: {
             return { ...state, registerRequest: true };
         }
         case REGISTER_USER_SUCCESS: {
-            return { ...state, registerRequest: false, registerFailed: false, email: action.email, name: action.name, };
+            return { ...state, registerRequest: false, registerFailed: false, user: action.user };
         }
         case REGISTER_USER_FAILED: {
             return { ...state, registerRequest: false, registerFailed: true, message: action.message };
@@ -170,15 +226,27 @@ export const registerReducer = (state = registerInitialState, action) => {
     }
 }
 
-const forgotPasswordInitialState = {
+export type TForgotPasswordState = {
+    email?: string | null;
+    message?: string | null;
+    forgotPasswordRequest: boolean;
+    forgotPasswordFailed: boolean;
+};
+
+const forgotPasswordInitialState: TForgotPasswordState = {
     email: null
     , message: null
     , forgotPasswordRequest: false
     , forgotPasswordFailed: false
 };
 
-export const forgotPasswordReducer = (state = forgotPasswordInitialState, action) => {
-    state = {...state, actionType: action.type};
+type TForgotPasswordReducerAction =
+    IForgotPasswordAction
+    | IForgotPasswordFailedAction
+    | IForgotPasswordSuccessAction
+    | IRefreshForgotingPasswordAction;
+
+export const forgotPasswordReducer = (state = forgotPasswordInitialState, action: TForgotPasswordReducerAction) => {
     switch (action.type) {
         case FORGOT_PASSWORD_REQUEST: {
             return { ...state, forgotPasswordRequest: true };
@@ -197,14 +265,25 @@ export const forgotPasswordReducer = (state = forgotPasswordInitialState, action
     }
 }
 
-const resetPasswordInitialState = {
+export type TResetPasswordState = {
+    message?: string | null;
+    resetPasswordRequest: boolean;
+    resetPasswordFailed: boolean;
+};
+
+const resetPasswordInitialState: TResetPasswordState = {
     message: null
     , resetPasswordRequest: false
     , resetPasswordFailed: false
 };
 
-export const resetPasswordReducer = (state = resetPasswordInitialState, action) => {
-    state = {...state, actionType: action.type};
+type TResetPasswordReducerAction =
+    IResetPasswordAction
+    | IResetPasswordFailedAction
+    | IResetPasswordSuccessAction;
+
+export const resetPasswordReducer = (state = resetPasswordInitialState, action: TResetPasswordReducerAction) => {
+    //    state = {...state, actionType: action.type};
     switch (action.type) {
         case RESET_PASSWORD_REQUEST: {
             return { ...state, resetPasswordRequest: true };
@@ -214,7 +293,7 @@ export const resetPasswordReducer = (state = resetPasswordInitialState, action) 
         }
         case RESET_PASSWORD_FAILED: {
             return { ...state, resetPasswordRequest: false, resetPasswordFailed: true, message: action.message };
-        }        
+        }
         default:
             return state;
     }

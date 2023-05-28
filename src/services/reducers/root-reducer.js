@@ -4,10 +4,10 @@ import { ingredientDetailsReducer } from './ingredient-details';
 import { constructorIngredientsReducer } from './burger-constructor-ingredients';
 import { orderDetailsReducer } from './order-details';
 import {
-    registerReducer    
-    , forgotPasswordReducer
+    //registerReducer    
+    forgotPasswordReducer
     , authReducer
-    , resetPasswordReducer    
+    //, resetPasswordReducer    
 } from './auth';
 
 export const rootReducer = combineReducers({
@@ -15,8 +15,8 @@ export const rootReducer = combineReducers({
     , ingredientDetails: ingredientDetailsReducer
     , constructorIngredients: constructorIngredientsReducer
     , orderDetails: orderDetailsReducer
-    , register: registerReducer    
+    //, register: registerReducer    
     , forgotPassword: forgotPasswordReducer
-    , resetPassword: resetPasswordReducer
-    , auth: authReducer    
+    //, resetPassword: resetPasswordReducer
+    , auth: authReducer
 });

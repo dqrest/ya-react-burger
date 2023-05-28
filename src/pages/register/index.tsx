@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -11,11 +11,13 @@ import {
 
 // shared
 import { register, refreshRegistering } from '../../services/actions/auth';
+import { TUserProfileFormData } from '../../shared/types/auth-types';
+import { TRegisterState } from '../../services/reducers/auth';
 
 // styles
 import styles from '../pages.module.css';
 
-export const getUser = (store) => ({
+export const useUser = (store: any): TRegisterState => ({
     user: store?.register?.item
     , registerRequest: store?.register?.registerRequest
     , registerFailed: store?.register?.registerFailed
@@ -25,23 +27,23 @@ export const getUser = (store) => ({
 export const RegisterPage = () => {
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();    
-    const { registerRequest, registerFailed, message } = useSelector(getUser);
-    const [registerClicked, setRegisterClicked] = useState(false);
+    const dispatch = useDispatch();
+    const { registerRequest, registerFailed, message } = useSelector(useUser);
+    const [registerClicked, setRegisterClicked] = useState<boolean>(false);
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<TUserProfileFormData>({
         name: ''
         , password: ''
         , email: ''
     });
 
     useEffect(() => {
-        if(!registerRequest && !registerFailed && registerClicked ){            
-            navigate('/profile/user');           
-        }        
-    }, [registerRequest, registerFailed, registerClick])
+        if (!registerRequest && !registerFailed && registerClicked) {
+            navigate('/profile/user');
+        }
+    }, [registerRequest, registerFailed, registerClicked])
 
-    function registerClick(e) {
+    function registerClick(e: FormEvent<HTMLFormElement>): boolean {
         e.preventDefault();
         setRegisterClicked(true);
         dispatch(register(formData));
@@ -66,7 +68,7 @@ export const RegisterPage = () => {
         </div>
     );
 
-    return (
+    return (        
         <div className={styles.wrapper}>
             {registerRequest && <div className='text text_type_main-medium'>Происходит регистрация. Ждите...</div>}
             {registerFailed && errorMessage}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -8,17 +8,22 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // shared
-import { forgotPassword, refreshForgotingPassword, FORGOT_PASSWORD_SUCCESS } from '../../services/actions/auth';
+import {
+    forgotPassword
+    , refreshForgotingPassword
+} from '../../services/actions/auth';
+import { TForgotPasswordState } from '../../services/reducers/auth';
+import { TForgotPasswordFormData } from '../../shared/types/auth-types';
+
 
 // styles
 import styles from '../pages.module.css';
 
-export const getForgottenPassword = (store) => ({
+export const getForgottenPassword = (store: any): TForgotPasswordState => ({
     email: store?.forgotPassword?.email
     , forgotPasswordRequest: store?.forgotPassword?.forgotPasswordRequest
     , forgotPasswordFailed: store?.forgotPassword?.forgotPasswordFailed
-    , message: store?.forgotPassword?.message
-    , actionType: store?.forgotPassword?.actionType    
+    , message: store?.forgotPassword?.message       
 });
 
 export const ForgotPasswordPage = () => {
@@ -27,20 +32,20 @@ export const ForgotPasswordPage = () => {
     const navigate = useNavigate();
 
     const { forgotPasswordRequest, forgotPasswordFailed, message } = useSelector(getForgottenPassword);
-    const [resetClicked, setResetClicked] = useState(false);
+    const [resetClicked, setResetClicked] = useState<boolean>(false);
 
-    useEffect(() => {        
-        if (!forgotPasswordRequest && !forgotPasswordFailed && resetClicked){            
-            navigate('/reset-password', {state: {access: true, email: formData?.email }});
-            setResetClicked(false);            
+    useEffect(() => {
+        if (!forgotPasswordRequest && !forgotPasswordFailed && resetClicked) {
+            navigate('/reset-password', { state: { access: true, email: formData?.email } });
+            setResetClicked(false);
         }
     }, [resetClicked, forgotPasswordRequest, forgotPasswordFailed]);
 
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<TForgotPasswordFormData>({
         email: 'snakbag@mail.ru'
     });
 
-    function forgotPasswordSubmit(e) {
+    function forgotPasswordSubmit(e: FormEvent<HTMLFormElement>): boolean {
         e.preventDefault();
         setResetClicked(true);
         dispatch(forgotPassword(formData));
@@ -102,3 +107,4 @@ export const ForgotPasswordPage = () => {
         </div>
     );
 }
+

@@ -19,4 +19,6 @@ export type TResponseBody<TDataKey extends string = '', TDataType = {}> = {
     success: boolean;
     message?: string;
     headers?: Headers;
+    accessToken?: string;
+    refreshToken?: string;
 };
