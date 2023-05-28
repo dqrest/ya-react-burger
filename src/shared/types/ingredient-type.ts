@@ -1,5 +1,5 @@
-export const IngredientType =  {
-    Bun: "bun",
-    Sauce: "sauce",
-    Main: "main"
+export enum TIngredient {
+    Bun = "bun",
+    Sauce = "sauce",
+    Main = "main"
 };
