@@ -53,6 +53,6 @@ const ProtectedRouteElement: FC<TProtectedRouteElement> = ({ user, element }): R
 export default ProtectedRouteElement;
 
 type TProtectedRouteElement = {
-    user: TUserProfileFormData;
+    user?: TUserProfileFormData | null;
     element: ReactElement;
 };

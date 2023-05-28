@@ -27,7 +27,7 @@ import {
 } from '../../pages';
 
 type TProtectedAppProps = {
-    user: TUserProfileFormData
+    user?: TUserProfileFormData | null
 }
 
 const ProtectedApp: FC<TProtectedAppProps> = ({ user }): ReactElement => {
@@ -77,10 +77,12 @@ export default function App() {
             setUserLoaded(true);
     }, [auth.actionType]);
 
+
+    
     return (
         <Router>
-            {userLoaded && auth.user
-                ? <ProtectedApp user={auth.user} />
+            {userLoaded
+                ? <ProtectedApp user={auth?.user} />
                 : <LoadingApp />
             }
         </Router>
