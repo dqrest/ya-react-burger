@@ -89,7 +89,7 @@ export const ProfileUserPage = () => {
                                 type="primary"
                                 disabled={disabledButton()}
                                 size="medium"
-                                onClick={() => setFormData({ ...formData, email: user?.email, name: user?.name })}>
+                                onClick={() => user && setFormData({ ...formData, email: user.email, name: user.name })}>
                                 Отмена
                             </Button>
                         </div>
