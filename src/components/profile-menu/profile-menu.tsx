@@ -8,7 +8,14 @@ import { LOGOUT_USER_SUCCESS } from '../../services/actions/auth';
 // styles
 import menuStyles from './profile-menu.module.css';
 
-const menuIems = [{
+type TMenuItem = {
+    title: string;
+    url: string;
+    key: string;
+    tooltip: string;
+};
+
+const menuIems: TMenuItem[] = [{
     title: 'Профиль'
     , url: '/profile/user'
     , key: 'profile-user'
@@ -27,7 +34,7 @@ const menuIems = [{
 
 export const ProfileMenu = () => {
 
-    const [selectedItem, setSelectedItem] = useState();
+    const [selectedItem, setSelectedItem] = useState<TMenuItem>();
     const { signOut, actionType } = useProvideAuth();
     const navigate = useNavigate();
 
