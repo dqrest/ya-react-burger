@@ -1,10 +1,11 @@
+import { FC, ReactElement } from 'react';
 import { Navigate, useLocation, useSearchParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 // shared
-import { userDto } from '../../shared/dtos/user-dto';
+import { TUserProfileFormData } from '../../shared/types/auth-types';
 
-export default function ProtectedRouteElement({ user, element }) {
+
+const ProtectedRouteElement: FC<TProtectedRouteElement> = ({ user, element }): ReactElement => {
 
     const location = useLocation();
     const [searchParams,] = useSearchParams();
@@ -46,13 +47,12 @@ export default function ProtectedRouteElement({ user, element }) {
         return <Navigate to={fb || '/'} replace />;
     }
 
-
-
     return element;
 }
 
+export default ProtectedRouteElement;
 
-ProtectedRouteElement.propTypes = {
-    user: userDto,
-    element: PropTypes.element.isRequired
-}
+type TProtectedRouteElement = {
+    user: TUserProfileFormData;
+    element: ReactElement;
+};
