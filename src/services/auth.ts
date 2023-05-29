@@ -8,18 +8,13 @@ import {
     login
     , logout
     , getUser
-    , patchUser
-    //, refreshAccessToken
+    , patchUser    
 } from '../services/actions/auth';
 import { TAuthState } from '../services/reducers/auth';
 
 import {
     LOGIN_USER_SUCCESS
-    , LOGOUT_USER_SUCCESS
-    , GET_USER_FAILED
-    , GET_USER_SUCCESS
-    , PATCH_USER_SUCCESS
-    , REFRESH_TOKEN_SUCCESS
+    , LOGOUT_USER_SUCCESS 
 } from './actions/auth';
 
 export const useAuthUser =
@@ -73,11 +68,7 @@ export function useProvideAuth() {
         const accessToken = getCookie('token');
         const refreshToken = getCookie('refreshToken');
         accessToken && refreshToken && dispatch(patchUser(accessToken, formData, refreshToken));
-    };
-
-    //const updateAccessToken = () => {       
-    //    dispatch(refreshAccessToken(getCookie('refreshToken')));
-    //};
+    };    
 
     return {
         user
@@ -88,8 +79,7 @@ export function useProvideAuth() {
         , message
         , signIn
         , actionType
-        , signOut
-        //, updateAccessToken
+        , signOut      
         , getUserProfile
         , patchUserProfile
     };

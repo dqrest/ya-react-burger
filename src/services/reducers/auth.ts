@@ -8,7 +8,6 @@ import {
     , LOGIN_USER_FAILED
     , LOGIN_USER_SUCCESS
     , LOGIN_USER_REQUEST
-    , REFRESH_LOGINING
 
     , LOGOUT_USER_FAILED
     , LOGOUT_USER_SUCCESS
@@ -258,8 +257,7 @@ type TResetPasswordReducerAction =
     | IResetPasswordFailedAction
     | IResetPasswordSuccessAction;
 
-export const resetPasswordReducer = (state = resetPasswordInitialState, action: TResetPasswordReducerAction) => {
-    //    state = {...state, actionType: action.type};
+export const resetPasswordReducer = (state = resetPasswordInitialState, action: TResetPasswordReducerAction) => {    
     switch (action.type) {
         case RESET_PASSWORD_REQUEST: {
             return { ...state, resetPasswordRequest: true };

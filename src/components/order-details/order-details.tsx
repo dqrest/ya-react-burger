@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -12,7 +12,6 @@ import { getCookie } from '../../shared/utils/cookie';
 import { TOrderState } from '../../services/reducers/order-details';
 
 // dtos
-import { TBurgerOrderItemDto } from '../../shared/dtos/burger-order-item-dto';
 import { getConstructorIngredients } from '../burger-constructor/burger-constructor';
 
 export const useOrderDetails = (store: any): TOrderState => ({
