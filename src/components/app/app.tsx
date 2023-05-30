@@ -13,6 +13,8 @@ import { getIngredients } from '../../services/actions/burger-incredients';
 import ProtectedRouteElement from '../protected-route-element/protected-route-element';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { ModalIngredientDetails } from '../ingredient-details/ingredient-details';
+import AppHeader from '../app-header/app-header';
+import ErrorBoundary from '../error-boundary/error-boundary';
 
 // pages
 import {
@@ -36,10 +38,11 @@ type TProtectedAppProps = {
 const ProtectedApp: FC<TProtectedAppProps> = ({ user }): ReactElement => {
 
     const location = useLocation();
-    const background = location?.state?.background;  
+    const background = location?.state?.background;
 
     return (
-        <>
+        <ErrorBoundary>
+            <AppHeader></AppHeader>
             <Routes location={background || location}>
                 <Route path="/" element={<HomePage />}>
                     <Route path="" element={<BurgerContructorPage />} />
@@ -60,7 +63,7 @@ const ProtectedApp: FC<TProtectedAppProps> = ({ user }): ReactElement => {
                     <Route path="/ingredients/:id" element={<ModalIngredientDetails />} />
                 </Routes>
             )}
-        </>
+        </ErrorBoundary>
     );
 }
 
@@ -88,9 +91,7 @@ export default function App() {
         if (auth?.actionType === GET_USER_FAILED || auth?.actionType === GET_USER_SUCCESS)
             setUserLoaded(true);
     }, [auth.actionType]);
-
-
-
+    
     return (
         <Router>
             {userLoaded
