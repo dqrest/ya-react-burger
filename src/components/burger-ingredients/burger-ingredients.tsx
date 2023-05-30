@@ -1,5 +1,5 @@
-import { useMemo, useEffect, useState, useRef, UIEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useMemo, useState, useRef, UIEvent } from 'react';
+import { useSelector } from 'react-redux';
 
 import {
     Tab
@@ -10,7 +10,6 @@ import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients
 
 // shared
 import { TIngredient } from '../../shared/types/ingredient-type';
-import { getIngredients } from '../../services/actions/burger-incredients';
 import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
 // styles
@@ -41,12 +40,6 @@ export default function BurgerIngredients() {
     const buns = useMemo(() => ingredients?.filter(b => b.type === TIngredient.Bun) || [], [ingredients]);
     const sauces = useMemo(() => ingredients?.filter(b => b.type === TIngredient.Sauce) || [], [ingredients]);
     const mains = useMemo(() => ingredients?.filter(b => b.type === TIngredient.Main) || [], [ingredients]);
-
-    const dispatch = useDispatch();
-    useEffect(() => {
-        // load all burder ingredients
-        dispatch(getIngredients());
-    }, [dispatch]);
 
     function tabClick(tab: string) {
         const type = tab as TIngredient;

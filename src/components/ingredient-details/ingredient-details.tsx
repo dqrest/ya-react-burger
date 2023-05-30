@@ -1,41 +1,27 @@
-import { useEffect, useMemo, FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useMemo, FC } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
+
+// components
+import Modal from '../modal/modal';
 
 // shared
 import { useIngredients } from '../burger-ingredients/burger-ingredients';
-import { getIngredients } from '../../services/actions/burger-incredients';
 import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
 // styles
 import idStyles from './ingredient-details.module.css';
 
-
-type TUseSelectedIngredient = {
-    selectedIngredient: TBurgerIngredientsItemDto
-};
-
-export const useSelectedIngredient = (store: any): TUseSelectedIngredient => ({
-    selectedIngredient: store?.ingredientDetails?.item
-});
 export default function IngredientDetails() {
 
-    const dispatch = useDispatch();
     const params = useParams<string>();
     const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(useIngredients);
-    const { selectedIngredient } = useSelector(useSelectedIngredient);
 
     const ingredient = useMemo<TBurgerIngredientsItemDto | undefined>(() =>
         params && params?.id
             ? ingredients.find(ing => ing._id === params.id)
-            : selectedIngredient
-        , [ingredients, params?.id, selectedIngredient]);
-
-    useEffect(() => {
-        // load all burder ingredients
-        if (params?.id)
-            dispatch(getIngredients());
-    }, [dispatch]);
+            : undefined
+        , [ingredients, params?.id]);  
 
     return (
         <>
@@ -77,8 +63,19 @@ const DetailItem: FC<TDetailItemProps> = ({ title, value, extClass }) => (
     </div>
 );
 
+export const ModalIngredientDetails = () => {
+    const navigate = useNavigate();
+    return (
+        <Modal header="Детали инградиента"
+            setVisible={() => { navigate('/'); }}>
+            <IngredientDetails></IngredientDetails>
+        </Modal>
+    );
+}
+
 type TDetailItemProps = {
     title: string;
     value: number;
     extClass?: string;
 };
+
