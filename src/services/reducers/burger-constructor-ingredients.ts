@@ -1,4 +1,4 @@
-import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+import { TBurgerIngredientsItemDto, TConstructorIngredientItem } from '../../shared/dtos/burger-ingredients-item-dto';
 import {
      ADD_CONSTRUCTOR_INGREDIENT
     , DELETE_CONSTRUCTOR_INGREDIENT
@@ -13,8 +13,8 @@ import {
 } from '../actions/burger-constructor-ingredients';
 
 type TConstructorIngredientsState = {
-    items: TBurgerIngredientsItemDto[];
-    bun?: TBurgerIngredientsItemDto | null
+    items: TConstructorIngredientItem[];
+    bun?: TConstructorIngredientItem | null;
 };
 
 const initialState: TConstructorIngredientsState = {

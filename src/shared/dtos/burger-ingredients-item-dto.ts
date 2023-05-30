@@ -14,3 +14,7 @@ export type TBurgerIngredientsItemDto = {
     __v: number;
     count: number;   
 }
+
+export type TConstructorIngredientItem = TBurgerIngredientsItemDto & {
+    uuid: string;
+}

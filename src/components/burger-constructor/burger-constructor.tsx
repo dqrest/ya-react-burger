@@ -15,7 +15,7 @@ import OrderDetails, { useOrderDetails } from '../order-details/order-details';
 import BurgerDraggableConstructorItem from '../burger-draggable-constructor-item/burger-draggable-constructor-item';
 
 // shared
-import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+import { TBurgerIngredientsItemDto, TConstructorIngredientItem } from '../../shared/dtos/burger-ingredients-item-dto';
 import { TIngredient } from '../../shared/types/ingredient-type';
 import {
     addConstructorIngredient
@@ -35,8 +35,8 @@ import bcStyle from './burger-constructor.module.css';
 import appStyle from '../app/app.module.css';
 
 export type TConstructorIngredientsSelector = {
-    ingredients: Array<TBurgerIngredientsItemDto>,
-    bun: TBurgerIngredientsItemDto
+    ingredients: Array<TConstructorIngredientItem>,
+    bun: TConstructorIngredientItem
 };
 
 export const getConstructorIngredients =
@@ -137,7 +137,7 @@ export default function BurgerConstructor() {
                         return (
                             ing.type !== TIngredient.Bun &&
                             <BurgerDraggableConstructorItem
-                                key={`${ind}_${ing._id}_wrapper`}
+                                key={ing.uuid}
                                 ingredient={ing}
                                 index={ind}
                                 isLast={ind < ingredients.length}

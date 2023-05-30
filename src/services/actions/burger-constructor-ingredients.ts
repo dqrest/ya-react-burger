@@ -1,4 +1,6 @@
 import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+import { v4 as uuid } from 'uuid';
+import { TConstructorIngredientItem } from '../../shared/dtos/burger-ingredients-item-dto';
 
 export const GET_CONSTRUCTOR_INGREDIENTS = 'GET_CONSTRUCTOR_INGREDIENTS';
 
@@ -41,9 +43,13 @@ export const getConstructorIngredients = () => (
 );
 
 export const addConstructorIngredient =
-    (ingredient: TBurgerIngredientsItemDto): IAddConstructorIngredientAction => (
-        { type: ADD_CONSTRUCTOR_INGREDIENT, item: ingredient }
-    );
+    (ingredient: TBurgerIngredientsItemDto): IAddConstructorIngredientAction => {
+        const ing: TConstructorIngredientItem = { ...ingredient, uuid: uuid() };
+        return {
+            type: ADD_CONSTRUCTOR_INGREDIENT
+            , item: ing
+        };
+    };
 
 export const deleteConstructorIngredient =
     (deleteIndex: number): IDeleteConstructorIngredientAction => (
@@ -63,7 +69,14 @@ export const changeOrderConstructorIngredients =
     });
 
 export const setBunToConstructor =
-    (bun?: TBurgerIngredientsItemDto | null): ISetBunToConstructorAction => ({
-        type: SET_BUN_TO_CONSTRUCTOR
-        , bun: bun
-    });
+    (bun?: TBurgerIngredientsItemDto | null): ISetBunToConstructorAction => {
+
+        const ing: TConstructorIngredientItem | undefined = bun
+            ? { ...bun, uuid: uuid() }
+            : undefined;
+            
+        return {
+            type: SET_BUN_TO_CONSTRUCTOR
+            , bun: ing
+        }
+    };
