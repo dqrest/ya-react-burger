@@ -1,7 +1,6 @@
 import { checkResponse } from '../shared/utils/check-response';
 import { setCookie, getCookie } from '../shared/utils/cookie';
-import { CustomResponse } from './api';
-import { TResponseBody } from './api';
+import { TResponseBody, NORMA_API } from './api';
 
 // shared
 import {
@@ -12,7 +11,7 @@ import {
     , TResetPasswordFormData
 } from '../shared/types/auth-types';
 
-const NORMA_API = "https://norma.nomoreparties.space/api";
+
 
 export const registerRequest =
     async (formData: TUserProfileFormData): Promise<TResponseBody<"user", TUserProfileFormData>>  => {

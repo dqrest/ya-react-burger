@@ -1,8 +1,6 @@
 import { fetchWithRefresh } from './auth-api';
-import { TResponseBody } from './api';
+import { TResponseBody, NORMA_API } from './api';
 import { TBurgerOrderItemDto } from '../shared/dtos/burger-order-item-dto';
-
-const NORMA_API = "https://norma.nomoreparties.space/api";
 
 export const makeOrderRequest =
     async (idIngredients: Array<string>
