@@ -33,7 +33,7 @@ export const ResetPasswordPage = () => {
     });
 
     const errorMessage = (
-        <span className='text text_type_main-default' style={{ color: 'red' }}>
+        <span className={`text text_type_main-default ${styles.errorText}`}>
             Возникла ошибка: {message}
         </span>
     );

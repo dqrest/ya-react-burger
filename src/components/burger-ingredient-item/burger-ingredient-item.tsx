@@ -35,7 +35,7 @@ const BurgerIngredientItem: FC<TBurgerIngredientItem> = ({ count, ingredient, it
                 {ingredient?.price} &nbsp; <CurrencyIcon type='primary' />
             </div>
 
-            <div className='text text_type_main-small' style={{ textAlign: "center" }}>
+            <div className={`text text_type_main-small ${biStyle.textCenter}`}>
                 {ingredient?.name}
             </div>
 

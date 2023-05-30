@@ -30,7 +30,7 @@ export const LoginPage = () => {
     }
 
     const errorMessage = (
-        <span className='text text_type_main-default' style={{ color: 'red' }}>
+        <span className={`text text_type_main-default ${styles.errorText}`}>
             Возникла ошибка: {message}
         </span>
     );
@@ -48,12 +48,12 @@ export const LoginPage = () => {
                         <EmailInput required
                             extraClass="mb-4"
                             value={formData.email}
-                            onChange={e => { setFormData({ ...formData, email: e.target.value }); console.log(JSON.stringify(formData)); }}
+                            onChange={e => { setFormData({ ...formData, email: e.target.value }); }}
                         />
                         <PasswordInput required
                             extraClass="mb-4"
                             value={formData.password}
-                            onChange={e => { setFormData({ ...formData, password: e.target.value }); console.log(JSON.stringify(formData)); }}
+                            onChange={e => { setFormData({ ...formData, password: e.target.value }); }}
                         />
                         <div className={styles.buttonsWrapper}>
                             <Button htmlType="submit"

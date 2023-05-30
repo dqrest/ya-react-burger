@@ -57,7 +57,7 @@ const DetailItem: FC<TDetailItemProps> = ({ title, value, extClass }) => (
         <span className='text text_type_main-small text_color_inactive'>
             {title}
         </span>
-        <span className='text text_type_digits-default text_color_inactive' style={{ alignSelf: "center" }} >
+        <span className={`text text_type_digits-default text_color_inactive ${idStyles.titleCenter}`} >
             {value}
         </span>
     </div>

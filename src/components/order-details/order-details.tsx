@@ -52,19 +52,19 @@ export default function OrderDetails() {
             {
                 item?.number && !itemRequest && !itemFailed &&
                 <div className={odStyles.orderDetailContent}>
-                    <div className={`text text_type_digits-large`} style={{ alignSelf: "center" }}>
+                    <div className={`text text_type_digits-large ${odStyles.titleCenter}`} >
                         {item?.number}
                     </div>
-                    <div className={`text text_type_main-medium mt-8`} style={{ alignSelf: "center" }}>
+                    <div className={`text text_type_main-medium mt-8 ${odStyles.titleCenter}`}>
                         идентификатор заказа
                     </div>
                     <div className={`text text_type_main-medium mt-15 mb-15`} ref={refCheckIcon}>
                         <CheckMarkIcon type="primary" />
                     </div>
-                    <div className={`text text_type_main-small mb-2`} style={{ alignSelf: "center" }}>
+                    <div className={`text text_type_main-small mb-2 ${odStyles.titleCenter}`}>
                         Ваш заказ начали готовить
                     </div>
-                    <div className={`text text_type_main-small text_color_inactive`} style={{ alignSelf: "center" }}>
+                    <div className={`text text_type_main-small text_color_inactive ${odStyles.titleCenter}`}>
                         Дождитесь готовности на орбитальной станции
                     </div>
                 </div>

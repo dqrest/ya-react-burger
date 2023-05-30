@@ -46,4 +46,11 @@
     color: var(--text-primary-color);
 }
 
+.logoWrapper{
+    flex-grow: 1;
+    justify-content: center;
+    display: flex;
+    flex-shrink: 0;
+}
+
 

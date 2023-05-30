@@ -62,12 +62,12 @@ const Modal: FC<TModal> = ({ children, ...props }) => {
 
 
 const ModalHeader: FC<TModalHeader> = ({ header, closeClick }) => (
-    <div style={{ display: "flex", width: "100%" }}>
-        <div className="text text_type_main-medium" style={{ display: 'flex', flexGrow: 1 }} >
+    <div className={mStyles.modalHeaderWrapper}>
+        <div className={`text text_type_main-medium ${mStyles.modalHeaderTitle}`}>
             {header}
         </div>
-        <div style={{ alignSelf: "flex-end", display: 'flex', justifyContent: "flex-end", flexGrow: 1 }}>
-            <span onClick={closeClick} style={{ cursor: "pointer" }}>
+        <div className={mStyles.modalHeaderCloseIconWrapper}>
+            <span onClick={closeClick} className={mStyles.modalHeaderCloseIcon} >
                 <CloseIcon type={'primary'} />
             </span>
         </div>

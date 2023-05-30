@@ -60,7 +60,7 @@ export default function AppHeader() {
                 </span>
             </Link>
 
-            <a href='#' style={{ flexGrow: 1, justifyContent: 'center', display: 'flex', flexShrink: 0 }}>
+            <a href='#' className={headerStyle.logoWrapper}>
                 <Logo></Logo>
             </a>
 
