@@ -42,7 +42,7 @@ export const ForgotPasswordPage = () => {
     }, [resetClicked, forgotPasswordRequest, forgotPasswordFailed]);
 
     const [formData, setFormData] = useState<TForgotPasswordFormData>({
-        email: 'snakbag@mail.ru'
+        email: ''
     });
 
     function forgotPasswordSubmit(e: FormEvent<HTMLFormElement>): boolean {
@@ -79,13 +79,13 @@ export const ForgotPasswordPage = () => {
                         Восстановление пароля
                     </span>
 
-                    <form style={{ display: 'flex', flexDirection: "column" }} onSubmit={forgotPasswordSubmit}>
+                    <form className={styles.formColumn} onSubmit={forgotPasswordSubmit}>
                         <EmailInput required
                             extraClass="mb-4"
                             value={formData.email}
                             onChange={e => setFormData({ ...formData, email: e.target.value })}
                         />
-                        <div style={{ alignSelf: "center" }}>
+                        <div className={styles.buttonsWrapper}>
                             <Button htmlType="submit"
                                 type="primary"
                                 size="medium">

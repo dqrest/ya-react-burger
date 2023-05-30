@@ -12,3 +12,12 @@
     color: var(--colors-interface-accent);
     text-decoration:none;
 }
+
+.formColumn{
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonsWrapper{
+    align-self: center;
+}

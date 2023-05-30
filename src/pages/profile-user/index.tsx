@@ -57,7 +57,7 @@ export const ProfileUserPage = () => {
             {request && <div className='text text_type_main-medium'>Загрузка профиля. Ждите...</div>}
             {!request &&
                 <>
-                    <form style={{ display: 'flex', flexDirection: "column" }} onSubmit={formSubmit}>
+                    <form className={styles.formColumn} onSubmit={formSubmit}>
                         <Input type={'text'}
                             value={formData.name}
                             placeholder={'Имя'}
@@ -77,7 +77,7 @@ export const ProfileUserPage = () => {
                             placeholder={'Пароль'}
                             onChange={e => { setFormData({ ...formData, password: e.target.value }); }}
                         />
-                        <div style={{ alignSelf: "center" }}>
+                        <div className={styles.buttonsWrapper}>
                             <Button htmlType="submit"
                                 disabled={disabledButton()}
                                 type="primary"

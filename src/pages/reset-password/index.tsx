@@ -66,7 +66,7 @@ export const ResetPasswordPage = () => {
                         Восстановление пароля
                     </span>
 
-                    <form style={{ display: 'flex', flexDirection: "column" }} onSubmit={resetSubmit}>
+                    <form className={styles.formColumn} onSubmit={resetSubmit}>
                         <PasswordInput required
                             extraClass="mb-4"
                             value={formData.password}
@@ -79,7 +79,7 @@ export const ResetPasswordPage = () => {
                             value={formData.token}
                             onChange={e => { setFormData({ ...formData, token: e.target.value }); console.log(JSON.stringify(formData)); }}
                         />
-                        <div style={{ alignSelf: "center" }}>
+                        <div className={styles.buttonsWrapper}>
                             <Button
                                 htmlType="submit"
                                 type="primary"

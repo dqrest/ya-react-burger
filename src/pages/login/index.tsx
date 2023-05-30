@@ -44,7 +44,7 @@ export const LoginPage = () => {
                         Вход
                     </span>
 
-                    <form style={{ display: 'flex', flexDirection: "column" }} onSubmit={loginClick}>
+                    <form className={styles.formColumn} onSubmit={loginClick}>
                         <EmailInput required
                             extraClass="mb-4"
                             value={formData.email}
@@ -55,7 +55,7 @@ export const LoginPage = () => {
                             value={formData.password}
                             onChange={e => { setFormData({ ...formData, password: e.target.value }); console.log(JSON.stringify(formData)); }}
                         />
-                        <div style={{ alignSelf: "center" }}>
+                        <div className={styles.buttonsWrapper}>
                             <Button htmlType="submit"
                                 type="primary"
                                 size="medium">

@@ -77,7 +77,7 @@ export const RegisterPage = () => {
                     <span className="text text_type_main-medium">
                         Регистрация
                     </span>
-                    <form style={{ display: 'flex', flexDirection: "column" }} onSubmit={registerClick}>
+                    <form className={styles.formColumn} onSubmit={registerClick}>
                         <Input type={'text'}
                             value={formData.name}
                             placeholder={'Имя'}
@@ -95,7 +95,7 @@ export const RegisterPage = () => {
                             value={formData.password}
                             onChange={e => { setFormData({ ...formData, password: e.target.value }); console.log(JSON.stringify(formData)); }}
                         />
-                        <div style={{ alignSelf: "center" }}>
+                        <div className={styles.buttonsWrapper}>
                             <Button htmlType="submit"
                                 type="primary"
                                 size="medium"
