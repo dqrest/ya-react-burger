@@ -37,3 +37,7 @@
 .textCenter{
     text-align: center;
 }
+
+.hiddenContent{
+    overflow: hidden;
+}

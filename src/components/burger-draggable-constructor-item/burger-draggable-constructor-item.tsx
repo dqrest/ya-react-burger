@@ -17,6 +17,7 @@ import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-
 
 // styles
 import bcStyle from '../burger-constructor/burger-constructor.module.css';
+import bDragStyle from './burger-draggable-constructor-item.module.css';
 
 const BurgerDraggableConstructorItem: FC<TBurgerDraggableConstructorItem> = ({ ...props }) => {
 
@@ -54,7 +55,7 @@ const BurgerDraggableConstructorItem: FC<TBurgerDraggableConstructorItem> = ({ .
                     <div className={`${isOverBefore && bcStyle.dropLinePainted}`}></div>
                 </div>
                 <div className={`${bcStyle.dragBurgerItem}`} ref={dragRef}>
-                    <div style={{ cursor: 'pointer' }}>
+                    <div className={bDragStyle.dragIconWrapper}>
                         <DragIcon type="primary" />
                     </div>
                     <ConstructorElement

@@ -113,7 +113,7 @@ export default function BurgerConstructor() {
 
     return (
         <>
-            <div style={{ overflow: 'hidden' }}>
+            <div className={bcStyle.hiddenContent}>
                 {modalVisible && modal}
             </div>
             {bun && (
