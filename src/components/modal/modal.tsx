@@ -43,7 +43,7 @@ const Modal: FC<TModal> = ({ children, ...props }) => {
             props.setVisible(false);
     }     
 
-    const closeIconClick: MouseEventHandler = (e) => {        
+    const closePopup: MouseEventHandler = (e) => {        
         props.setVisible(false);
     }  
 
@@ -52,7 +52,7 @@ const Modal: FC<TModal> = ({ children, ...props }) => {
             <>
                 <ModalOverlay click={close} ref={overlayRef} />
                 <div className={`${mStyles.modalContent} pt-10 pr-10 pl-10 pb-15`}>
-                    <ModalHeader header={props.header} closeClick={closeIconClick} />
+                    <ModalHeader header={props.header} closeClick={closePopup} />
                     {children}
                 </div>
             </>
