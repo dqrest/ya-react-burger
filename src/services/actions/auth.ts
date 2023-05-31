@@ -313,13 +313,7 @@ export function login(formData: TLoginFormData): any {
     return function (dispatch: any) {
         dispatch(loginUserAction());
         loginRequest(formData)
-            .then(res => {
-                if (res && res.success) {
-                    dispatch(loginUserSuccessAction(res.user, res.accessToken, res.refreshToken));
-                    return;
-                }
-                dispatch(loginUserFailedAction());
-            })
+            .then(res => dispatch(loginUserSuccessAction(res.user, res.accessToken, res.refreshToken)))
             .catch(e => dispatch({ type: LOGIN_USER_FAILED, message: e.message }));
     };
 }
@@ -328,32 +322,16 @@ export function logout(refreshToken: string): any {
     return function (dispatch: any) {
         dispatch(logoutUserAction());
         logoutRequest(refreshToken)
-            .then(res => {
-                if (res && res.success) {
-                    dispatch(logoutUserSuccessAction(res.accessToken, res.refreshToken));
-                    return;
-                }
-                dispatch(logoutUserFailedAction());
-            })
+            .then(res => dispatch(logoutUserSuccessAction(res.accessToken, res.refreshToken)))
             .catch(e => dispatch(logoutUserFailedAction(e.message)));
     };
 }
-
-//export const refreshLogining = () => (
-//    { type: REFRESH_LOGINING, loginRequest: false, loginFailed: false }
-//);
 
 export function forgotPassword(formData: TForgotPasswordFormData): any {
     return function (dispatch: any) {
         dispatch(forgotPasswordAction());
         forgotPasswordRequest(formData)
-            .then(res => {
-                if (res && res.success) {
-                    dispatch(forgotPasswordSuccessAction(formData.email));
-                    return;
-                }
-                dispatch(forgotPasswordFailedAction());
-            })
+            .then(() => dispatch(forgotPasswordSuccessAction(formData.email)))
             .catch(e => dispatch(forgotPasswordFailedAction(e.message)));
     };
 }
@@ -363,13 +341,7 @@ export function resetPassword(formData: TResetPasswordFormData): any {
     return function (dispatch: any) {
         dispatch(resetPasswordAction());
         resetPasswordRequest(formData)
-            .then(res => {
-                if (res && res.success) {
-                    dispatch(resetPasswordSuccessAction(res.message));
-                    return;
-                }
-                dispatch(resetPasswordFailedAction());
-            })
+            .then(res => dispatch(resetPasswordSuccessAction(res.message)))
             .catch(e => dispatch(resetPasswordFailedAction(e.message)));
     }
 }
@@ -391,13 +363,7 @@ export function getUser(token: string, refreshToken: string): any {
             return;
         }
         getUserRequest(token, refreshToken)
-            .then(res => {
-                if (res && res.success) {
-                    dispatch(getUserSuccessAction(res.user));
-                    return;
-                }
-                dispatch(getUserFailedAction());
-            })
+            .then(res => dispatch(getUserSuccessAction(res.user)))
             .catch(e => dispatch(getUserFailedAction(e.message)));
     };
 }
@@ -406,33 +372,7 @@ export function patchUser(accessToken: string, formData: TUserProfileFormData, r
     return function (dispatch: any) {
         dispatch(patchUserAction());
         patchUserRequest(accessToken, formData, refreshToken)
-            .then(res => {
-                if (res && res.success) {
-                    dispatch(patchUserSuccessAction(res.user, res.accessToken, res.refreshToken));
-                    return;
-                }
-                dispatch(patchUserFailedAction());
-            })
+            .then(res => dispatch(patchUserSuccessAction(res.user, res.accessToken, res.refreshToken)))
             .catch(e => dispatch(patchUserFailedAction(e.message)));
     };
 }
-
-//export function refreshAccessToken(refreshToken) {
-//    return function (dispatch) {        
-//        dispatch({ type: REFRESH_TOKEN_REQUEST });
-//        refreshTokenRequest(refreshToken)
-//            .then(res => {                
-//                if (res && res.success) {                   
-//                    dispatch({
-//                        type: REFRESH_TOKEN_SUCCESS                       
-//                        , refreshToken: res.refreshToken
-//                        , accessToken: res.accessToken
-//                        , message: null
-//                    });
-//                    return;
-//                }
-//                dispatch({ type: REFRESH_TOKEN_FAILED });
-//            })
-//            .catch(e => dispatch({ type: REFRESH_TOKEN_FAILED, message: e.message }));
-//    };
-//}

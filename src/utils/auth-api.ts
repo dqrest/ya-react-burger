@@ -1,6 +1,6 @@
-import { checkResponse } from '../shared/utils/check-response';
+import { request } from '../shared/utils/check-response';
 import { setCookie, getCookie } from '../shared/utils/cookie';
-import { TResponseBody, NORMA_API } from './api';
+import { TResponseBody } from './api';
 
 // shared
 import {
@@ -12,26 +12,9 @@ import {
 } from '../shared/types/auth-types';
 
 
-
 export const registerRequest =
-    async (formData: TUserProfileFormData): Promise<TResponseBody<"user", TUserProfileFormData>>  => {
-    return await fetch(`${NORMA_API}/auth/register`, {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify(formData)
-    }).then(checkResponse);
-}
-
-export const loginRequest =
-    async (formData: TLoginFormData): Promise<TResponseBody<"user", TLoginFormDataResponse>> => {
-        return await fetch(`${NORMA_API}/auth/login`, {
+    async (formData: TUserProfileFormData): Promise<TResponseBody<"user", TUserProfileFormData>> =>
+        await request("/auth/register", {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -42,12 +25,26 @@ export const loginRequest =
             redirect: 'follow',
             referrerPolicy: 'no-referrer',
             body: JSON.stringify(formData)
-        }).then(checkResponse);
-    }
+        });
+
+export const loginRequest =
+    async (formData: TLoginFormData): Promise<TResponseBody<"user", TLoginFormDataResponse>> =>
+        await request('/auth/login', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify(formData)
+        });
 
 export const logoutRequest =
-    async (refreshToken: string): Promise<TResponseBody<"logout", undefined>> => {
-        return await fetch(`${NORMA_API}/auth/logout`, {
+    async (refreshToken: string): Promise<TResponseBody<"logout", undefined>> =>
+        await request('/auth/logout', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -58,12 +55,11 @@ export const logoutRequest =
             redirect: 'follow',
             referrerPolicy: 'no-referrer',
             body: JSON.stringify({ token: refreshToken })
-        }).then(checkResponse);
-    }
+        });
 
 export const getUserRequest =
     async (token: string, refreshToken: string): Promise<TResponseBody<"user", TUserProfileFormData>> =>
-        await fetchWithRefresh(`${NORMA_API}/auth/user`, {
+        await fetchWithRefresh('/auth/user', {
             method: 'GET',
             mode: 'cors',
             cache: 'no-cache',
@@ -78,7 +74,7 @@ export const getUserRequest =
 
 export const patchUserRequest =
     async (token: string, formData: TUserProfileFormData, refreshToken: string): Promise<TResponseBody<"user", TUserProfileFormData>> =>
-        await fetchWithRefresh(`${NORMA_API}/auth/user`, {
+        await fetchWithRefresh('/auth/user', {
             method: 'PATCH',
             mode: 'cors',
             cache: 'no-cache',
@@ -94,7 +90,7 @@ export const patchUserRequest =
 
 export const forgotPasswordRequest =
     async (formData: TForgotPasswordFormData): Promise<TResponseBody<"forgotPassword", TForgotPasswordFormData>> =>
-        await fetch(`${NORMA_API}/password-reset`, {
+        await request('/password-reset', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -105,25 +101,25 @@ export const forgotPasswordRequest =
             redirect: 'follow',
             referrerPolicy: 'no-referrer',
             body: JSON.stringify(formData)
-        }).then(checkResponse);
+        });
 
 export const resetPasswordRequest =
     async (formData: TResetPasswordFormData): Promise<TResponseBody<"resetPassword", undefined>> =>
-    await fetch(`${NORMA_API}/password-reset/reset`, {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        redirect: 'follow',
-        referrerPolicy: 'no-referrer',
-        body: JSON.stringify(formData)
-    }).then(checkResponse);
+        await request('/password-reset/reset', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify(formData)
+        });
 
-export const refreshTokenRequest = async (refreshToken: string) =>
-    await fetch(`${NORMA_API}/auth/token`, {
+export const refreshTokenRequest = async (refreshToken: string): Promise<TResponseBody<"refreshToken", undefined>> =>
+    await request('auth/token', {
         method: 'POST',
         mode: 'cors',
         cache: 'no-cache',
@@ -134,24 +130,22 @@ export const refreshTokenRequest = async (refreshToken: string) =>
         redirect: 'follow',
         referrerPolicy: 'no-referrer',
         body: JSON.stringify({ token: refreshToken })
-    }).then(checkResponse);
+    });
 
-export const fetchWithRefresh = async (url: string, options: any, refreshToken: string) => {
+export const fetchWithRefresh = async <TK extends string = '', TD = {}>(url: string, options: any, refreshToken: string) => {
     try {
-        const res = await fetch(url, options);
-        return await checkResponse(res);
+        return await request<TK, TD>(url, options);
     }
     catch (err: any) {
         if (err.message === 'jwt expired') {
             const refreshData = await refreshTokenRequest(refreshToken || getCookie('refreshToken') || '');
-            if (!refreshData.success) {
-                Promise.reject(refreshData);
-            }
+            if (!refreshData?.accessToken || !refreshData?.refreshToken)
+                return Promise.reject(refreshData);
+
             setCookie('token', refreshData.accessToken, { expires: 1200, path: '/' });
             setCookie('refreshToken', refreshData.refreshToken, { expires: 2400, path: '/' });
             options.headers.Authorization = refreshData.accessToken;
-            const res = await fetch(url, options);
-            return await checkResponse(res);
+            return await request<TK, TD>(url, options);
         } else {
             return Promise.reject(err);
         }

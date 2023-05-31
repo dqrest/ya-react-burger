@@ -1,5 +1,3 @@
-export const NORMA_API = "https://norma.nomoreparties.space/api";
-
 export interface CustomBody<T extends any> extends Body {
     json(): Promise<T>;
 }
