@@ -15,7 +15,7 @@ import { TAuthState } from '../services/reducers/auth';
 import {
     LOGIN_USER_SUCCESS
     , LOGOUT_USER_SUCCESS 
-} from './actions/auth';
+} from './action-types/auth';
 
 export const useAuthUser =
     (store: any): TAuthState => ({

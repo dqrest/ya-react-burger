@@ -1,11 +1,15 @@
 import { TBurgerIngredientsItemDto, TConstructorIngredientItem } from '../../shared/dtos/burger-ingredients-item-dto';
-import {
-     ADD_CONSTRUCTOR_INGREDIENT
+
+import {  
+    ADD_CONSTRUCTOR_INGREDIENT
     , DELETE_CONSTRUCTOR_INGREDIENT
     , CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS
     , SET_BUN_TO_CONSTRUCTOR
     , DELETE_ALL_CONSTRUCTOR_INGREDIENTS
-    , ISetBunToConstructorAction
+} from '../action-types/burger-constructor-ingredients';
+
+import {    
+    ISetBunToConstructorAction
     , IDeleteAllConstructorIngredientsAction
     , IAddConstructorIngredientAction
     , IDeleteConstructorIngredientAction

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 // shared
 import { useProvideAuth } from '../../services/auth';
-import { LOGOUT_USER_SUCCESS } from '../../services/actions/auth';
+import { LOGOUT_USER_SUCCESS } from '../../services/action-types/auth';
 
 // styles
 import menuStyles from './profile-menu.module.css';

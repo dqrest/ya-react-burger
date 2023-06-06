@@ -1,9 +1,12 @@
-import {
+import { 
     GET_ORDER_DETAILS_FAILED
     , GET_ORDER_DETAILS_REQUEST
     , GET_ORDER_DETAILS_SUCCESS
     , DELETE_ORDER_DETAILS
-    , IDeleteOrderDetailsAction
+} from '../action-types/order-details';
+
+import {    
+    IDeleteOrderDetailsAction
     , IGetOrderDetailsAction
     , IGetOrderDetailsFailedAction
     , IGetOrderDetailsSuccessAction

@@ -1,4 +1,4 @@
-import { SET_INGREDIENT_DETAILS, DELETE_INGREDIENT_DETAILS} from '../actions/ingredient-details';
+import { SET_INGREDIENT_DETAILS, DELETE_INGREDIENT_DETAILS} from '../action-types/ingredient-details';
 
 const initialState = {
     item: null

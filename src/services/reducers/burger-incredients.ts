@@ -1,4 +1,6 @@
 import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+
+
 import {
     IGetIngredientsAction
     , IGetIngredientsFailedAction
@@ -16,7 +18,7 @@ import {
     , DECREASE_INGREDIENT_COUNT
     , RESET_INGREDIENTS_COUNT_BY_TYPE
     , RESET_ALL_INGREDIENTS_COUNT
-} from '../actions/burger-incredients';
+} from '../action-types/burger-incredients';
 
 type TIngredientsState = {
     items: ReadonlyArray<TBurgerIngredientsItemDto>

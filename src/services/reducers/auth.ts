@@ -29,8 +29,11 @@ import {
     , PATCH_USER_REQUEST
     , PATCH_USER_SUCCESS
     , PATCH_USER_FAILED
+} from '../action-types/auth';
 
-    , ILoginUserAction
+import {   
+
+    ILoginUserAction
     , ILoginUserFailedAction
     , ILoginUserSuccessAction
     , ILogoutUserAction
@@ -48,12 +51,15 @@ import {
     , IRefreshForgotingPasswordAction
     , IResetPasswordAction
     , IResetPasswordFailedAction
-    , IResetPasswordSuccessAction
-    , IRegisterUserAction
-    , IRegisterUserFailedAction
-    , IRegisterUserSuccessAction
+    , IResetPasswordSuccessAction    
     , IRefreshRegistering
 } from '../actions/auth';
+
+import { IRegisterUserAction
+    , IRegisterUserFailedAction
+    , IRegisterUserSuccessAction
+} from '../types/actions';
+
 
 type TAuthReducerAction =
     ILoginUserAction

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 // shared
 import { useProvideAuth } from '../../services/auth';
 import { getCookie } from '../../shared/utils/cookie';
-import { GET_USER_FAILED, GET_USER_SUCCESS } from '../../services/actions/auth';
+import { GET_USER_FAILED, GET_USER_SUCCESS } from '../../services/action-types/auth';
 import { TUserProfileFormData } from '../../shared/types/auth-types';
 import { getIngredients } from '../../services/actions/burger-incredients';
 
