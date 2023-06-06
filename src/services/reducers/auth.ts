@@ -32,7 +32,6 @@ import {
 } from '../action-types/auth';
 
 import {   
-
     ILoginUserAction
     , ILoginUserFailedAction
     , ILoginUserSuccessAction
@@ -52,14 +51,13 @@ import {
     , IResetPasswordAction
     , IResetPasswordFailedAction
     , IResetPasswordSuccessAction    
-    , IRefreshRegistering
 } from '../actions/auth';
 
 import { IRegisterUserAction
     , IRegisterUserFailedAction
     , IRegisterUserSuccessAction
+    , TRegisterReducerAction
 } from '../types/actions';
-
 
 type TAuthReducerAction =
     ILoginUserAction
@@ -182,11 +180,6 @@ const registerInitialState: TRegisterState = {
     , registerRequest: false
     , registerFailed: false
 };
-type TRegisterReducerAction =
-    IRegisterUserAction
-    | IRegisterUserFailedAction
-    | IRegisterUserSuccessAction
-    | IRefreshRegistering;
 
 export const registerReducer = (state = registerInitialState, action: TRegisterReducerAction) => {
     switch (action.type) {

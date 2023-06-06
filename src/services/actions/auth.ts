@@ -33,7 +33,7 @@ import {
 
     , GET_USER_FAILED
     , GET_USER_SUCCESS
-    , GET_USER_REQUEST    
+    , GET_USER_REQUEST
 
     , PATCH_USER_REQUEST
     , PATCH_USER_SUCCESS
@@ -50,15 +50,13 @@ import {
 } from '../../shared/types/auth-types';
 
 // action types
-import { 
+import {
     IRegisterUserAction
     , IRegisterUserSuccessAction
     , IRegisterUserFailedAction
+    , IRefreshRegistering
 } from '../types/actions';
-
-
-
-
+import type { AppDispatch, AppThunkAction } from '../types';
 
 
 const registerUserAction =
@@ -78,25 +76,19 @@ const registerUserFailedAction =
         message: message
     });
 
-export interface IRefreshRegistering {
-    readonly type: typeof REFRESH_REGISTERING;
-    readonly registerRequest: boolean;
-    readonly registerFailed: boolean;
-}
 
-export function register(formData: TUserProfileFormData): any {
-    return function (dispatch: any) {
-        dispatch(registerUserAction());
-        registerRequest(formData)
-            .then(res => {
-                if (res && res.success) {
-                    dispatch(registerUserSuccessAction(res.user));
-                    return;
-                }
-                dispatch(registerUserFailedAction());
-            })
-            .catch(e => dispatch(registerUserFailedAction(e.message)));
-    };
+
+export const register = (formData: TUserProfileFormData): any => (dispatch: AppDispatch) => {    
+    dispatch(registerUserAction());
+    registerRequest(formData)
+        .then(res => {
+            if (res && res.success) {
+                dispatch(registerUserSuccessAction(res.user));
+                return;
+            }
+            dispatch(registerUserFailedAction());
+        })
+        .catch(e => dispatch(registerUserFailedAction(e.message)));
 }
 
 export const refreshRegistering = (): IRefreshRegistering => (
