@@ -24,3 +24,25 @@
     height: 600px;
     top: calc(50% - 300px);
 }
+
+.modalHeaderWrapper{
+    display: flex;
+    width: 100%;
+}
+
+.modalHeaderTitle {
+    display: flex;
+    flex-grow: 1;
+}
+
+.modalHeaderCloseIconWrapper{
+    align-self: flex-end;
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+    
+}
+
+.modalHeaderCloseIcon{
+    cursor: pointer;
+}

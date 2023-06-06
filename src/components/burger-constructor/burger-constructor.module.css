@@ -33,3 +33,11 @@
     height: 100%;
     background-color: var(--colors-interface-accent)
 }
+
+.textCenter{
+    text-align: center;
+}
+
+.hiddenContent{
+    overflow: hidden;
+}
