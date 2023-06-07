@@ -31,47 +31,13 @@ import {
     , PATCH_USER_FAILED
 } from '../action-types/auth';
 
-import {   
-    ILoginUserAction
-    , ILoginUserFailedAction
-    , ILoginUserSuccessAction
-    , ILogoutUserAction
-    , ILogoutUserFailedAction
-    , ILogoutUserSuccessAction
-    , IGetUserAction
-    , IGetUserFailedAction
-    , IGetUserSuccessAction
-    , IPatchUserAction
-    , IPatchUserFailedAction
-    , IPatchUserSuccessAction
-    , IForgotPasswordAction
-    , IForgotPasswordFailedAction
-    , IForgotPasswordSuccessAction
-    , IRefreshForgotingPasswordAction
-    , IResetPasswordAction
-    , IResetPasswordFailedAction
-    , IResetPasswordSuccessAction    
-} from '../actions/auth';
+import {    
+    TRegisterReducerAction
+    , TAuthReducerAction
+    , TForgotPasswordReducerAction
+    , TResetPasswordReducerAction
+} from '../types/auth';
 
-import { IRegisterUserAction
-    , IRegisterUserFailedAction
-    , IRegisterUserSuccessAction
-    , TRegisterReducerAction
-} from '../types/actions';
-
-type TAuthReducerAction =
-    ILoginUserAction
-    | ILoginUserFailedAction
-    | ILoginUserSuccessAction
-    | ILogoutUserAction
-    | ILogoutUserFailedAction
-    | ILogoutUserSuccessAction
-    | IGetUserSuccessAction
-    | IGetUserAction
-    | IGetUserFailedAction
-    | IPatchUserAction
-    | IPatchUserFailedAction
-    | IPatchUserSuccessAction;
 
 export type TAuthState = {
     user?: TUserProfileFormData | null;
@@ -214,12 +180,6 @@ const forgotPasswordInitialState: TForgotPasswordState = {
     , forgotPasswordFailed: false
 };
 
-type TForgotPasswordReducerAction =
-    IForgotPasswordAction
-    | IForgotPasswordFailedAction
-    | IForgotPasswordSuccessAction
-    | IRefreshForgotingPasswordAction;
-
 export const forgotPasswordReducer = (state = forgotPasswordInitialState, action: TForgotPasswordReducerAction) => {
     switch (action.type) {
         case FORGOT_PASSWORD_REQUEST: {
@@ -250,11 +210,6 @@ const resetPasswordInitialState: TResetPasswordState = {
     , resetPasswordRequest: false
     , resetPasswordFailed: false
 };
-
-type TResetPasswordReducerAction =
-    IResetPasswordAction
-    | IResetPasswordFailedAction
-    | IResetPasswordSuccessAction;
 
 export const resetPasswordReducer = (state = resetPasswordInitialState, action: TResetPasswordReducerAction) => {    
     switch (action.type) {

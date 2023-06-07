@@ -1,15 +1,6 @@
 import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+import { TIngredientsReducerAction } from '../types/burger-incredients';
 
-
-import {
-    IGetIngredientsAction
-    , IGetIngredientsFailedAction
-    , IGetIngredientsSuccessAction
-    , IResetAllIngredientsCountAction
-    , IResetIngredientsCountByTypeAction
-    , IIncreaseIngredientCountAction
-    , IDecreaseIngredientCountAction
-} from '../actions/burger-incredients';
 import {
     GET_INGREDIENTS_REQUEST
     , GET_INGREDIENTS_FAILED
@@ -32,14 +23,6 @@ const initialState: TIngredientsState = {
     , itemsRequest: false
 };
 
-type TIngredientsReducerAction = IGetIngredientsAction
-    | IGetIngredientsFailedAction
-    | IGetIngredientsSuccessAction
-    | IResetAllIngredientsCountAction
-    | IResetIngredientsCountByTypeAction
-    | IIncreaseIngredientCountAction
-    | IDecreaseIngredientCountAction;
-
 export const ingredientsReducer = (state = initialState, action: TIngredientsReducerAction) => {
 
     switch (action.type) {
@@ -59,7 +42,7 @@ export const ingredientsReducer = (state = initialState, action: TIngredientsRed
                 : 1;
             return { ...state, items: [...state.items] };
         }
-        case DECREASE_INGREDIENT_COUNT: {            
+        case DECREASE_INGREDIENT_COUNT: {
             const ind = (state?.items || []).findIndex(ing => ing?._id === action?.id);
             if (ind < 0) return state;
             const ingredient = state.items[ind];
@@ -73,8 +56,8 @@ export const ingredientsReducer = (state = initialState, action: TIngredientsRed
                 .filter(ing => ing?.type === action?.typeIngredient)
                 .map(ing => ing.count = 0);
             return { ...state, items: [...(state?.items || [])] };
-        case RESET_ALL_INGREDIENTS_COUNT:{
-            (state?.items || [])                
+        case RESET_ALL_INGREDIENTS_COUNT: {
+            (state?.items || [])
                 .map(ing => ing.count = 0);
             return { ...state, items: [...(state?.items || [])] };
         }

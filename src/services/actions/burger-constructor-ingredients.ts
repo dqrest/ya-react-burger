@@ -11,31 +11,14 @@ import {
     , DELETE_ALL_CONSTRUCTOR_INGREDIENTS
 } from '../action-types/burger-constructor-ingredients';
 
+import {    
+    ISetBunToConstructorAction
+    , IDeleteAllConstructorIngredientsAction
+    , IAddConstructorIngredientAction
+    , IDeleteConstructorIngredientAction
+    , IChangeOrderConstructorIngredientsAction
+} from '../types/burger-constructor-ingredients';
 
-export interface ISetBunToConstructorAction {
-    readonly type: typeof SET_BUN_TO_CONSTRUCTOR;
-    readonly bun?: TBurgerIngredientsItemDto | null;
-}
-
-export interface IDeleteAllConstructorIngredientsAction {
-    readonly type: typeof DELETE_ALL_CONSTRUCTOR_INGREDIENTS;
-}
-
-export interface IAddConstructorIngredientAction {
-    readonly type: typeof ADD_CONSTRUCTOR_INGREDIENT;
-    readonly item: TBurgerIngredientsItemDto;
-}
-
-export interface IDeleteConstructorIngredientAction {
-    readonly type: typeof DELETE_CONSTRUCTOR_INGREDIENT;
-    readonly deleteIndex: number;
-}
-
-export interface IChangeOrderConstructorIngredientsAction {
-    readonly type: typeof CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS;
-    readonly sourceIndex: number;
-    readonly targetIndex: number;
-}
 
 export const getConstructorIngredients = () => (
     { type: GET_CONSTRUCTOR_INGREDIENTS }

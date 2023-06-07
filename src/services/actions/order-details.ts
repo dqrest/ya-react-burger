@@ -8,16 +8,11 @@ import {
     , DELETE_ORDER_DETAILS
 } from '../action-types/order-details';
 
-export interface IGetOrderDetailsAction {
-    readonly type: typeof GET_ORDER_DETAILS_REQUEST;
-}
-export interface IGetOrderDetailsSuccessAction {
-    readonly type: typeof GET_ORDER_DETAILS_SUCCESS;
-    readonly order: TBurgerOrderItemDto;
-}
-export interface IGetOrderDetailsFailedAction {
-    readonly type: typeof GET_ORDER_DETAILS_FAILED;
-}
+import { IGetOrderDetailsAction
+    , IGetOrderDetailsSuccessAction
+    , IGetOrderDetailsFailedAction
+    , IDeleteOrderDetailsAction
+} from '../types/order-details';
 
 const getOrderDetailsAction =
     (): IGetOrderDetailsAction => ({
@@ -35,9 +30,7 @@ const getOrderDetailsFailedAction =
         type: GET_ORDER_DETAILS_FAILED
     });
 
-export interface IDeleteOrderDetailsAction {
-    readonly type: typeof DELETE_ORDER_DETAILS;
-}
+
 
 export function makeOrder(idIngredients: Array<string>
     , token: string

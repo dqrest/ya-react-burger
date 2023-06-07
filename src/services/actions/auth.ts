@@ -46,16 +46,37 @@ import {
     , TUserProfileFormData
     , TLoginFormDataResponse
     , TForgotPasswordFormData
-    , TResetPasswordFormData
+    , TResetPasswordFormData    
 } from '../../shared/types/auth-types';
 
 // action types
 import {
-    IRegisterUserAction
+    IGetUserAction
+    , IGetUserFailedAction
+    , IGetUserSuccessAction
+    , ILogoutUserAction
+    , ILogoutUserFailedAction
+    , ILogoutUserSuccessAction
+    , ILoginUserAction
+    , ILoginUserFailedAction
+    , ILoginUserSuccessAction
+    , IRegisterUserAction
     , IRegisterUserSuccessAction
     , IRegisterUserFailedAction
     , IRefreshRegistering
-} from '../types/actions';
+    , IPatchUserAction
+    , IPatchUserFailedAction
+    , IPatchUserSuccessAction
+    , IForgotPasswordAction
+    , IForgotPasswordFailedAction
+    , IForgotPasswordSuccessAction
+    , IRefreshForgotingPasswordAction
+    , IResetPasswordAction
+    , IResetPasswordFailedAction
+    , IResetPasswordSuccessAction  
+} from '../types/auth';
+
+
 import type { AppDispatch, AppThunkAction } from '../types';
 
 
@@ -76,8 +97,6 @@ const registerUserFailedAction =
         message: message
     });
 
-
-
 export const register = (formData: TUserProfileFormData): any => (dispatch: AppDispatch) => {    
     dispatch(registerUserAction());
     registerRequest(formData)
@@ -95,30 +114,11 @@ export const refreshRegistering = (): IRefreshRegistering => (
     { type: REFRESH_REGISTERING, registerRequest: false, registerFailed: false }
 );
 
-//export const setUser = (user) => (
-//    { type: SET_USER, user: user }
-//);
-
-export interface ILoginUserAction {
-    readonly type: typeof LOGIN_USER_REQUEST;
-}
-
-export interface ILoginUserSuccessAction {
-    readonly type: typeof LOGIN_USER_SUCCESS;
-    readonly user: TLoginFormDataResponse;
-    readonly refreshToken?: string;
-    readonly accessToken?: string;
-}
-
-export interface ILoginUserFailedAction {
-    readonly type: typeof LOGIN_USER_FAILED;
-    readonly message?: string;
-}
-
 const loginUserAction =
     (): ILoginUserAction => ({
         type: LOGIN_USER_REQUEST
     });
+
 const loginUserSuccessAction =
     (user: TLoginFormDataResponse, accessToken?: string, refreshToken?: string,): ILoginUserSuccessAction => ({
         type: LOGIN_USER_SUCCESS,
@@ -132,19 +132,7 @@ const loginUserFailedAction = (message?: string): ILoginUserFailedAction => ({
     message: message
 });
 
-export interface ILogoutUserAction {
-    readonly type: typeof LOGOUT_USER_REQUEST;
-}
-export interface ILogoutUserSuccessAction {
-    readonly type: typeof LOGOUT_USER_SUCCESS;
-    readonly accessToken?: string;
-    readonly refreshToken?: string;
-    readonly user?: unknown
-}
-export interface ILogoutUserFailedAction {
-    readonly type: typeof LOGOUT_USER_FAILED;
-    readonly message?: string;
-}
+
 const logoutUserAction =
     (): ILogoutUserAction => ({
         type: LOGOUT_USER_REQUEST
@@ -164,18 +152,6 @@ const logoutUserFailedAction =
         message: message
     });
 
-export interface IGetUserAction {
-    readonly type: typeof GET_USER_REQUEST;
-};
-export interface IGetUserSuccessAction {
-    readonly type: typeof GET_USER_SUCCESS;
-    readonly user: TUserProfileFormData;
-};
-export interface IGetUserFailedAction {
-    readonly type: typeof GET_USER_FAILED;
-    readonly message?: string;
-};
-
 const getUserAction =
     (): IGetUserAction => ({
         type: GET_USER_REQUEST
@@ -192,20 +168,6 @@ const getUserFailedAction =
         type: GET_USER_FAILED,
         message: message
     });
-
-export interface IPatchUserAction {
-    readonly type: typeof PATCH_USER_REQUEST;
-};
-export interface IPatchUserSuccessAction {
-    readonly type: typeof PATCH_USER_SUCCESS;
-    readonly user: TUserProfileFormData;
-    readonly refreshToken?: string;
-    readonly accessToken?: string;
-};
-export interface IPatchUserFailedAction {
-    readonly type: typeof PATCH_USER_FAILED;
-    readonly message?: string;
-};
 
 const patchUserAction =
     (): IPatchUserAction => ({
@@ -226,18 +188,6 @@ const patchUserFailedAction =
         message: message
     });
 
-export interface IForgotPasswordAction {
-    readonly type: typeof FORGOT_PASSWORD_REQUEST;
-};
-export interface IForgotPasswordSuccessAction {
-    readonly type: typeof FORGOT_PASSWORD_SUCCESS;
-    readonly email: string;
-};
-export interface IForgotPasswordFailedAction {
-    readonly type: typeof FORGOT_PASSWORD_FAILED;
-    readonly message?: string;
-};
-
 const forgotPasswordAction =
     (): IForgotPasswordAction => ({
         type: FORGOT_PASSWORD_REQUEST
@@ -254,26 +204,6 @@ const forgotPasswordFailedAction =
         type: FORGOT_PASSWORD_FAILED,
         message: message
     });
-
-export interface IRefreshForgotingPasswordAction {
-    readonly type: typeof REFRESH_FORGOTING_PASSWORD;
-    readonly forgotPasswordRequest: boolean;
-    readonly forgotPasswordFailed: boolean;
-    readonly email?: unknown;
-    readonly message?: unknown;
-}
-
-export interface IResetPasswordAction {
-    readonly type: typeof RESET_PASSWORD_REQUEST;
-};
-export interface IResetPasswordSuccessAction {
-    readonly type: typeof RESET_PASSWORD_SUCCESS;
-    readonly message?: string;
-};
-export interface IResetPasswordFailedAction {
-    readonly type: typeof RESET_PASSWORD_FAILED;
-    readonly message?: string;
-};
 
 const resetPasswordAction =
     (): IResetPasswordAction => ({

@@ -1,7 +1,7 @@
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 import { store } from '../store';
-import { TRegisterReducerAction } from './actions';
+import { TRegisterReducerAction } from './auth';
 
 
 export type AppActions = TRegisterReducerAction;

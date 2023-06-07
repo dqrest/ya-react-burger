@@ -13,16 +13,15 @@ import {
     , RESET_ALL_INGREDIENTS_COUNT
 } from '../action-types/burger-incredients';
 
-export interface IGetIngredientsAction {
-    readonly type: typeof GET_INGREDIENTS_REQUEST;
-}
-export interface IGetIngredientsFailedAction {
-    readonly type: typeof GET_INGREDIENTS_FAILED;
-}
-export interface IGetIngredientsSuccessAction {
-    readonly type: typeof GET_INGREDIENTS_SUCCESS;
-    readonly items: Array<TBurgerIngredientsItemDto>;
-}
+import {
+    IGetIngredientsAction
+    , IGetIngredientsFailedAction
+    , IGetIngredientsSuccessAction
+    , IResetAllIngredientsCountAction
+    , IResetIngredientsCountByTypeAction
+    , IIncreaseIngredientCountAction
+    , IDecreaseIngredientCountAction
+} from '../types/burger-incredients';
 
 const getIngredientsAction = (): IGetIngredientsAction => ({
     type: GET_INGREDIENTS_REQUEST
@@ -34,25 +33,6 @@ const getIngredientsSuccessAction = (items: Array<TBurgerIngredientsItemDto>): I
 const getIngredientsFailedAction = (): IGetIngredientsFailedAction => ({
     type: GET_INGREDIENTS_FAILED
 });
-
-export interface IResetAllIngredientsCountAction {
-    readonly type: typeof RESET_ALL_INGREDIENTS_COUNT;
-}
-
-export interface IResetIngredientsCountByTypeAction {
-    readonly type: typeof RESET_INGREDIENTS_COUNT_BY_TYPE;
-    readonly typeIngredient: TIngredient;
-}
-
-export interface IIncreaseIngredientCountAction {
-    readonly type: typeof INCREASE_INGREDIENT_COUNT;
-    readonly id: string;
-}
-
-export interface IDecreaseIngredientCountAction {
-    readonly type: typeof DECREASE_INGREDIENT_COUNT;
-    readonly id: string;
-}
 
 export function getIngredients(): any {
     return function (dispatch: any) {
