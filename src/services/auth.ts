@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 // shared
 import { deleteCookie, setCookie, getCookie } from '../shared/utils/cookie';
@@ -10,29 +9,18 @@ import {
     , getUser
     , patchUser    
 } from '../services/actions/auth';
-import { TAuthState } from '../services/reducers/auth';
-import { useDispatch } from './hooks';
+import { useDispatch, useSelector } from './hooks';
+import { getAuthUser  } from './selectors/auth';
 
 import {
     LOGIN_USER_SUCCESS
     , LOGOUT_USER_SUCCESS 
 } from './action-types/auth';
 
-export const useAuthUser =
-    (store: any): TAuthState => ({
-        user: store?.auth?.user
-        , request: store?.auth?.request
-        , failed: store?.auth?.failed
-        , message: store?.auth?.message
-        , accessToken: store?.auth?.accessToken
-        , refreshToken: store?.auth?.refreshToken
-        , actionType: store?.auth?.actionType
-    });
-
 export function useProvideAuth() {
 
     const dispatch = useDispatch();
-    const { user, request, failed, accessToken, refreshToken, message, actionType } = useSelector(useAuthUser);
+    const { user, request, failed, accessToken, refreshToken, message, actionType } = useSelector(getAuthUser);
 
     useEffect(() => {
         switch (actionType) {

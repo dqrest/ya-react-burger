@@ -1,5 +1,4 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import {
@@ -12,19 +11,13 @@ import {
     forgotPassword
     , refreshForgotingPassword
 } from '../../services/actions/auth';
-import { TForgotPasswordState } from '../../services/reducers/auth';
 import { TForgotPasswordFormData } from '../../shared/types/auth-types';
 import { useDispatch } from '../../services/hooks';
+import { getForgottenPassword } from '../../services/selectors/auth';
+import { useSelector } from '../../services/hooks';
 
 // styles
 import styles from '../pages.module.css';
-
-export const getForgottenPassword = (store: any): TForgotPasswordState => ({
-    email: store?.forgotPassword?.email
-    , forgotPasswordRequest: store?.forgotPassword?.forgotPasswordRequest
-    , forgotPasswordFailed: store?.forgotPassword?.forgotPasswordFailed
-    , message: store?.forgotPassword?.message       
-});
 
 export const ForgotPasswordPage = () => {
 

@@ -1,5 +1,4 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import {
@@ -14,6 +13,8 @@ import { useDispatch } from '../../services/hooks';
 import { register, refreshRegistering } from '../../services/actions/auth';
 import { TUserProfileFormData } from '../../shared/types/auth-types';
 import { TRegisterState } from '../../services/reducers/auth';
+import { getRegisteredUser } from '../../services/selectors/auth';
+import { useSelector } from '../../services/hooks';
 
 // styles
 import styles from '../pages.module.css';
@@ -29,7 +30,7 @@ export const RegisterPage = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { registerRequest, registerFailed, message } = useSelector(useUser);
+    const { registerRequest, registerFailed, message } = useSelector(getRegisteredUser);
     const [registerClicked, setRegisterClicked] = useState<boolean>(false);
 
     const [formData, setFormData] = useState<TUserProfileFormData>({

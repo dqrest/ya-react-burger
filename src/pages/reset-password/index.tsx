@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useState, FormEvent } from 'react';
 
 // shared
@@ -7,6 +6,8 @@ import { resetPassword } from '../../services/actions/auth';
 import { TResetPasswordState } from '../../services/reducers/auth';
 import { TResetPasswordFormData } from '../../shared/types/auth-types';
 import { useDispatch } from '../../services/hooks';
+import { getResetPassword } from '../../services/selectors/auth';
+import { useSelector } from '../../services/hooks';
 
 import {
     PasswordInput
@@ -26,7 +27,7 @@ export const useResetPassword = (store: any): TResetPasswordState => ({
 export const ResetPasswordPage = () => {
 
     const dispatch = useDispatch();
-    const { resetPasswordRequest, resetPasswordFailed, message } = useSelector(useResetPassword);
+    const { resetPasswordRequest, resetPasswordFailed, message } = useSelector(getResetPassword);
     const [resetClicked, setResetClicked] = useState<boolean>(false);
     const [formData, setFormData] = useState<TResetPasswordFormData>({
         password: ''

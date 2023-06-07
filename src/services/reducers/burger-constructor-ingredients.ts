@@ -10,7 +10,7 @@ import {
 
 import { TConstructorIngredientsReducerAction } from '../types/burger-constructor-ingredients';
 
-type TConstructorIngredientsState = {
+export type TConstructorIngredientsState = {
     items: TConstructorIngredientItem[];
     bun?: TConstructorIngredientItem | null;
 };

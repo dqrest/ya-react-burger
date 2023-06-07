@@ -1,12 +1,12 @@
 import { useMemo, FC } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 
 // components
 import Modal from '../modal/modal';
 
 // shared
-import { useIngredients } from '../burger-ingredients/burger-ingredients';
+import { useSelector } from '../../services/hooks';
+import { useIngredients } from '../../services/selectors/burger-incredients';
 import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
 
 // styles
@@ -15,7 +15,10 @@ import idStyles from './ingredient-details.module.css';
 export default function IngredientDetails() {
 
     const params = useParams<string>();
-    const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(useIngredients);
+    const { items: ingredients
+        , itemsRequest: ingredientsRequest
+        , itemsFailed: ingredientsFailed 
+    } = useSelector(useIngredients);
 
     const ingredient = useMemo<TBurgerIngredientsItemDto | undefined>(() =>
         params && params?.id

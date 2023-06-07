@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { useSelector } from 'react-redux';
+
 
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -7,33 +7,30 @@ import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-component
 import odStyles from './order-details.module.css';
 
 // shared
+import { useSelector } from '../../services/hooks';
 import { makeOrder } from '../../services/actions/order-details';
 import { getCookie } from '../../shared/utils/cookie';
-import { TOrderState } from '../../services/reducers/order-details';
 import { useDispatch } from '../../services/hooks';
-
-
-// dtos
-import { getConstructorIngredients } from '../burger-constructor/burger-constructor';
-
-export const useOrderDetails = (store: any): TOrderState => ({
-    item: store?.orderDetails?.item
-    , itemRequest: store?.orderDetails?.itemRequest
-    , itemFailed: store?.orderDetails?.itemFailed
-});
+import { getConstructorIngredients } from '../../services/selectors/burger-constructor-ingredients';
+import { useOrderDetails } from '../../services/selectors/order-details';
 
 export default function OrderDetails() {
 
     const dispatch = useDispatch();
     const refCheckIcon = useRef<HTMLDivElement>(null);
 
-    const { ingredients, bun } = useSelector(getConstructorIngredients);
+    const { items: ingredients, bun: bun } = useSelector(getConstructorIngredients);
     const { item, itemRequest, itemFailed } = useSelector(useOrderDetails);
 
-    // ids = [ingredints, upperBun, lowerBun]
-    const ids = useMemo<string[]>(() => [...ingredients.filter(ing => ing?._id).map(ing => ing._id) || [], bun?._id, bun?._id], [ingredients, bun]);
+    // ids = [ingredints, upperBun, lowerBun]    
+    const ids = useMemo<string[]>(() => bun
+        ?  ingredients
+            ? [...ingredients?.filter(ing => ing?._id).map(ing => ing._id) || [], bun?._id, bun?._id]
+            : [bun._id, bun._id]
+            : [], 
+        [ingredients, bun]);
 
-    useEffect(() => {        
+    useEffect(() => {
         const accessToken = getCookie('token');
         const refreshToken = getCookie('refreshToken');
         if (bun && accessToken && refreshToken) dispatch(makeOrder(ids, accessToken, refreshToken));

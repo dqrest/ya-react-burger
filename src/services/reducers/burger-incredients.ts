@@ -11,7 +11,7 @@ import {
     , RESET_ALL_INGREDIENTS_COUNT
 } from '../action-types/burger-incredients';
 
-type TIngredientsState = {
+export type TIngredientsState = {
     items: ReadonlyArray<TBurgerIngredientsItemDto>
     , readonly itemsFailed: false
     , readonly itemsRequest: false
