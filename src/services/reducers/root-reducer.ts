@@ -9,6 +9,7 @@ import {
     , authReducer
     , resetPasswordReducer    
 } from './auth';
+import { wsReducer } from './wsocket';
 
 export const rootReducer = combineReducers({
     ingredients: ingredientsReducer
@@ -19,4 +20,5 @@ export const rootReducer = combineReducers({
     , forgotPassword: forgotPasswordReducer
     , resetPassword: resetPasswordReducer
     , auth: authReducer
+    , orders: wsReducer
 });
