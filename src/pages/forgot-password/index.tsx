@@ -1,5 +1,5 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import {
@@ -14,7 +14,7 @@ import {
 } from '../../services/actions/auth';
 import { TForgotPasswordState } from '../../services/reducers/auth';
 import { TForgotPasswordFormData } from '../../shared/types/auth-types';
-
+import { useDispatch } from '../../services/hooks';
 
 // styles
 import styles from '../pages.module.css';

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 // shared
 import { deleteCookie, setCookie, getCookie } from '../shared/utils/cookie';
@@ -11,6 +11,7 @@ import {
     , patchUser    
 } from '../services/actions/auth';
 import { TAuthState } from '../services/reducers/auth';
+import { useDispatch } from './hooks';
 
 import {
     LOGIN_USER_SUCCESS

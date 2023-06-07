@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useState, FormEvent } from 'react';
 
 // shared
 import { resetPassword } from '../../services/actions/auth';
 import { TResetPasswordState } from '../../services/reducers/auth';
 import { TResetPasswordFormData } from '../../shared/types/auth-types';
+import { useDispatch } from '../../services/hooks';
 
 import {
     PasswordInput

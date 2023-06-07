@@ -23,6 +23,8 @@ import {
     , IDecreaseIngredientCountAction
 } from '../types/burger-incredients';
 
+import type { AppDispatch, AppThunkAction } from '../types';
+
 const getIngredientsAction = (): IGetIngredientsAction => ({
     type: GET_INGREDIENTS_REQUEST
 });
@@ -34,8 +36,7 @@ const getIngredientsFailedAction = (): IGetIngredientsFailedAction => ({
     type: GET_INGREDIENTS_FAILED
 });
 
-export function getIngredients(): any {
-    return function (dispatch: any) {
+export const getIngredients = (): AppThunkAction  => (dispatch: AppDispatch) => {    
         dispatch(getIngredientsAction());
         getIngredientsRequest()
             .then(res => {
@@ -45,8 +46,7 @@ export function getIngredients(): any {
                 }
                 dispatch(getIngredientsFailedAction());
             })
-            .catch(() => dispatch(getIngredientsFailedAction()));
-    };
+            .catch(() => dispatch(getIngredientsFailedAction()));    
 }
 
 export const increaseIngredientCount =

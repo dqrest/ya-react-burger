@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -10,6 +10,8 @@ import odStyles from './order-details.module.css';
 import { makeOrder } from '../../services/actions/order-details';
 import { getCookie } from '../../shared/utils/cookie';
 import { TOrderState } from '../../services/reducers/order-details';
+import { useDispatch } from '../../services/hooks';
+
 
 // dtos
 import { getConstructorIngredients } from '../burger-constructor/burger-constructor';

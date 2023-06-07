@@ -1,5 +1,5 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import {
@@ -10,6 +10,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // shared
+import { useDispatch } from '../../services/hooks';
 import { register, refreshRegistering } from '../../services/actions/auth';
 import { TUserProfileFormData } from '../../shared/types/auth-types';
 import { TRegisterState } from '../../services/reducers/auth';

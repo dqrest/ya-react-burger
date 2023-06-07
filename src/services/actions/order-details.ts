@@ -13,6 +13,7 @@ import { IGetOrderDetailsAction
     , IGetOrderDetailsFailedAction
     , IDeleteOrderDetailsAction
 } from '../types/order-details';
+import type { AppDispatch, AppThunkAction } from '../types';
 
 const getOrderDetailsAction =
     (): IGetOrderDetailsAction => ({
@@ -34,8 +35,8 @@ const getOrderDetailsFailedAction =
 
 export function makeOrder(idIngredients: Array<string>
     , token: string
-    , refreshToken: string): any {
-    return function (dispatch: any) {
+    , refreshToken: string): AppThunkAction  {
+    return function (dispatch: AppDispatch) {
         dispatch(getOrderDetailsAction());
         makeOrderRequest(idIngredients, token, refreshToken)
             .then(res => {

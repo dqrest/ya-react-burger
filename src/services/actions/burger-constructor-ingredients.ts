@@ -19,7 +19,6 @@ import {
     , IChangeOrderConstructorIngredientsAction
 } from '../types/burger-constructor-ingredients';
 
-
 export const getConstructorIngredients = () => (
     { type: GET_CONSTRUCTOR_INGREDIENTS }
 );

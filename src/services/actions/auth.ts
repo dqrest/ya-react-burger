@@ -46,7 +46,7 @@ import {
     , TUserProfileFormData
     , TLoginFormDataResponse
     , TForgotPasswordFormData
-    , TResetPasswordFormData    
+    , TResetPasswordFormData
 } from '../../shared/types/auth-types';
 
 // action types
@@ -73,10 +73,8 @@ import {
     , IRefreshForgotingPasswordAction
     , IResetPasswordAction
     , IResetPasswordFailedAction
-    , IResetPasswordSuccessAction  
+    , IResetPasswordSuccessAction
 } from '../types/auth';
-
-
 import type { AppDispatch, AppThunkAction } from '../types';
 
 
@@ -97,7 +95,7 @@ const registerUserFailedAction =
         message: message
     });
 
-export const register = (formData: TUserProfileFormData): any => (dispatch: AppDispatch) => {    
+export const register = (formData: TUserProfileFormData): AppThunkAction => (dispatch: AppDispatch) => {
     dispatch(registerUserAction());
     registerRequest(formData)
         .then(res => {
@@ -223,41 +221,33 @@ const resetPasswordFailedAction =
     });
 
 
-export function login(formData: TLoginFormData): any {
-    return function (dispatch: any) {
-        dispatch(loginUserAction());
-        loginRequest(formData)
-            .then(res => dispatch(loginUserSuccessAction(res.user, res.accessToken, res.refreshToken)))
-            .catch(e => dispatch({ type: LOGIN_USER_FAILED, message: e.message }));
-    };
+export const login = (formData: TLoginFormData): AppThunkAction => (dispatch: AppDispatch) => {
+    dispatch(loginUserAction());
+    loginRequest(formData)
+        .then(res => dispatch(loginUserSuccessAction(res.user, res.accessToken, res.refreshToken)))
+        .catch(e => dispatch({ type: LOGIN_USER_FAILED, message: e.message }));
 }
 
-export function logout(refreshToken: string): any {
-    return function (dispatch: any) {
-        dispatch(logoutUserAction());
-        logoutRequest(refreshToken)
-            .then(res => dispatch(logoutUserSuccessAction(res.accessToken, res.refreshToken)))
-            .catch(e => dispatch(logoutUserFailedAction(e.message)));
-    };
+export const logout = (refreshToken: string): AppThunkAction => (dispatch: AppDispatch) => {
+    dispatch(logoutUserAction());
+    logoutRequest(refreshToken)
+        .then(res => dispatch(logoutUserSuccessAction(res.accessToken, res.refreshToken)))
+        .catch(e => dispatch(logoutUserFailedAction(e.message)));
 }
 
-export function forgotPassword(formData: TForgotPasswordFormData): any {
-    return function (dispatch: any) {
-        dispatch(forgotPasswordAction());
-        forgotPasswordRequest(formData)
-            .then(() => dispatch(forgotPasswordSuccessAction(formData.email)))
-            .catch(e => dispatch(forgotPasswordFailedAction(e.message)));
-    };
+export const forgotPassword = (formData: TForgotPasswordFormData): AppThunkAction => (dispatch: AppDispatch) => {
+    dispatch(forgotPasswordAction());
+    forgotPasswordRequest(formData)
+        .then(() => dispatch(forgotPasswordSuccessAction(formData.email)))
+        .catch(e => dispatch(forgotPasswordFailedAction(e.message)));
 }
 
 
-export function resetPassword(formData: TResetPasswordFormData): any {
-    return function (dispatch: any) {
-        dispatch(resetPasswordAction());
-        resetPasswordRequest(formData)
-            .then(res => dispatch(resetPasswordSuccessAction(res.message)))
-            .catch(e => dispatch(resetPasswordFailedAction(e.message)));
-    }
+export const resetPassword = (formData: TResetPasswordFormData): AppThunkAction => (dispatch: AppDispatch) => {
+    dispatch(resetPasswordAction());
+    resetPasswordRequest(formData)
+        .then(res => dispatch(resetPasswordSuccessAction(res.message)))
+        .catch(e => dispatch(resetPasswordFailedAction(e.message)));
 }
 
 export const refreshForgotingPassword
@@ -269,24 +259,20 @@ export const refreshForgotingPassword
         , message: null
     });
 
-export function getUser(token: string, refreshToken: string): any {
-    return function (dispatch: any) {
-        dispatch(getUserAction());
-        if (!token) {
-            dispatch(getUserFailedAction('Unable to get UserProfile. Empty access token.'));
-            return;
-        }
-        getUserRequest(token, refreshToken)
-            .then(res => dispatch(getUserSuccessAction(res.user)))
-            .catch(e => dispatch(getUserFailedAction(e.message)));
-    };
+export const getUser = (token: string, refreshToken: string): AppThunkAction => (dispatch: AppDispatch) => {
+    dispatch(getUserAction());
+    if (!token) {
+        dispatch(getUserFailedAction('Unable to get UserProfile. Empty access token.'));
+        return;
+    }
+    getUserRequest(token, refreshToken)
+        .then(res => dispatch(getUserSuccessAction(res.user)))
+        .catch(e => dispatch(getUserFailedAction(e.message)));
 }
 
-export function patchUser(accessToken: string, formData: TUserProfileFormData, refreshToken: string): any {
-    return function (dispatch: any) {
-        dispatch(patchUserAction());
-        patchUserRequest(accessToken, formData, refreshToken)
-            .then(res => dispatch(patchUserSuccessAction(res.user, res.accessToken, res.refreshToken)))
-            .catch(e => dispatch(patchUserFailedAction(e.message)));
-    };
+export const patchUser = (accessToken: string, formData: TUserProfileFormData, refreshToken: string): AppThunkAction => (dispatch: AppDispatch) => {
+    dispatch(patchUserAction());
+    patchUserRequest(accessToken, formData, refreshToken)
+        .then(res => dispatch(patchUserSuccessAction(res.user, res.accessToken, res.refreshToken)))
+        .catch(e => dispatch(patchUserFailedAction(e.message)));
 }
