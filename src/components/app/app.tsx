@@ -29,6 +29,7 @@ import {
     , ProfileOrdersPage
     , NotFound404Page
     , LoadingPage
+    , FeedPage
 } from '../../pages';
 
 type TProtectedAppProps = {
@@ -55,8 +56,10 @@ const ProtectedApp: FC<TProtectedAppProps> = ({ user }): ReactElement => {
                         <Route path="orders" element={<ProtectedRouteElement user={user} element={<ProfileOrdersPage />} />} />
                     </Route>
                     <Route path="ingredients/:id" element={<IngredientDetails />} />
+                    <Route path="feed" element={<FeedPage />} />
                 </Route>
                 <Route path="*" element={<NotFound404Page />} />
+
             </Routes>
             {background && (
                 <Routes>

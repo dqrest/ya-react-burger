@@ -1,7 +1,8 @@
 import {
     WS_CONNECTION_CLOSED
     , WS_CONNECTION_ERROR
-    , WS_CONNECTION_START
+    , WS_CONNECTION_START_TO_ALL_ORDERS
+    , WS_CONNECTION_START_TO_USER_ORDERS
     , WS_CONNECTION_SUCCESS
     , WS_GET_MESSAGE
     , WS_SEND_MESSAGE
@@ -9,8 +10,12 @@ import {
 
 import { IMessage} from './models-data';
 
-export interface IWSConnectionStart {
-    readonly type: typeof WS_CONNECTION_START;
+export interface IWSConnectionStartToAllOrders {
+    readonly type: typeof WS_CONNECTION_START_TO_ALL_ORDERS;
+}
+
+export interface IWSConnectionStartToUserOrders {
+    readonly type: typeof WS_CONNECTION_START_TO_USER_ORDERS;
 }
 
 export interface IWSConnectionSuccessAction {
@@ -37,7 +42,8 @@ export interface IWSSendMessageAction {
 }
 
 export type TWSActions =
-    | IWSConnectionStart
+    | IWSConnectionStartToAllOrders
+    | IWSConnectionStartToUserOrders
     | IWSConnectionSuccessAction
     | IWSConnectionErrorAction
     | IWSConnectionClosedAction

@@ -1,7 +1,8 @@
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
 
 import { 
-    WS_CONNECTION_START
+    WS_CONNECTION_START_TO_ALL_ORDERS
+    , WS_CONNECTION_START_TO_USER_ORDERS
     , WS_SEND_MESSAGE
     , WS_CONNECTION_SUCCESS
     , WS_CONNECTION_CLOSED
@@ -32,7 +33,8 @@ export type AppDispatch = ThunkDispatch<RootState, unknown, AppActions>;
 export type AppThunkAction<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AppActions>;
 
 export type TWSStoreActions = {
-    wsInit: typeof  WS_CONNECTION_START,
+    wsInitToAllOrders: typeof  WS_CONNECTION_START_TO_ALL_ORDERS,
+    wsInitToUserOrders: typeof WS_CONNECTION_START_TO_USER_ORDERS,
     wsSendMessage: typeof  WS_SEND_MESSAGE,
     onOpen: typeof  WS_CONNECTION_SUCCESS,
     onClose: typeof WS_CONNECTION_CLOSED,

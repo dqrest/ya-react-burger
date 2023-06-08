@@ -10,6 +10,7 @@ import { RegisterPage } from './register';
 import { ResetPasswordPage } from './reset-password';
 import { NotFound404Page } from './not-found';
 import { LoadingPage } from './loading';
+import { FeedPage } from './feed/feed';
 
 
 
@@ -25,4 +26,5 @@ export {
     , ResetPasswordPage
     , NotFound404Page
     , LoadingPage
+    , FeedPage
 };

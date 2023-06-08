@@ -1,20 +1,13 @@
-export interface IUserResponse {
-    id: string;
-    token: string;
-    username: string;
+import {  TOrderItemDto } from '../../shared/dtos/order-item-dto';
 
-    success?: boolean;
-}
 
 export interface IMessageResponse {
-    message: string;
+    orders: TOrderItemDto[];
     success: boolean;
-    username: string;
-
-    id?: string;
-    isBot?: boolean;
+    total: number;
+    totalToday: number;
 }
 
 export interface IMessage extends Omit<IMessageResponse, 'success'> {
-    timestamp: number;
+    timestamp: number;    
 }
