@@ -1,0 +1,82 @@
+.counterIcon {
+    position: relative !important;
+    width: 32px;
+    align-self: flex-end;
+}
+
+.counterIconWrapper{
+    height: 32px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.orderItemWrapper { 
+    width: 100%;
+    padding: 8px;
+}
+
+.orderItem {
+    width: 100%;
+    display: flex;
+    flex-direction: column; 
+    flex-shrink: 0;
+    justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-color: var(--background-element);    
+    border-radius: 15px;
+    margin-bottom: 8px;
+    margin-right: 4px;
+}
+
+.orderItem:hover{    
+    background-color: var(--background-element);
+}
+
+.header{
+    width: 100%;
+    display: flex; 
+    flex-direction: row;   
+    margin-bottom: 16px;
+}
+
+.orderNumber{
+    display: flex;
+    justify-content: flex-start;
+    width: 50%;
+}
+
+.orderDate {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.ingredients{
+    width: 100%;
+    display: flex; 
+    flex-direction: row; 
+}
+
+
+
+
+
+
+.burgerImage{
+    max-width: 213px;
+    max-height: 107px;
+    align-self: center;
+}
+
+.currencyIcon{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+}
+
+.textCenter{
+    text-align: center;
+}

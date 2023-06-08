@@ -51,8 +51,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWSStoreActions): Mid
                     dispatch({ type: onError, payload: event });
                 };
 
-                socket.onmessage = event => {     
-                    debugger;               
+                socket.onmessage = event => {                         
                     const { data } = event;
                     const parsedData: IMessageResponse = JSON.parse(data);
                     const { success, ...restParsedData } = parsedData;
