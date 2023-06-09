@@ -2,7 +2,7 @@ import React, { ChangeEventHandler, useCallback, useEffect, useRef, useState } f
 
 // components
 import OrdersList from '../../components/orders-list/orders-list';
-
+import OrdersDesk  from '../../components/orders-desk/orders-desk'; 
 // shared
 import { WS_CONNECTION_START_TO_ALL_ORDERS } from '../../services/action-types/wsocket';
 import { getOrders } from '../../services/selectors/wsocket';
@@ -39,7 +39,7 @@ export const FeedPage = () => {
                     </div>
                 </div>
                 <div className={appStyle.appBurgerSection}>
-                    qq
+                    <OrdersDesk></OrdersDesk>
                 </div>
             </div>
         </>
