@@ -1,16 +1,4 @@
-.counterIcon {
-    position: relative !important;
-    width: 32px;
-    align-self: flex-end;
-}
-
-.counterIconWrapper{
-    height: 32px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.orderItemWrapper { 
+.orderItemWrapper {
     width: 100%;
     padding: 8px;
 }
@@ -18,29 +6,34 @@
 .orderItem {
     width: 100%;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     flex-shrink: 0;
     justify-content: center;
     cursor: pointer;
     box-sizing: border-box;
-    background-color: var(--background-element);    
+    background-color: var(--background-element);
     border-radius: 15px;
     margin-bottom: 8px;
     margin-right: 4px;
 }
 
-.orderItem:hover{    
+.orderItem:hover {
     background-color: var(--background-element);
 }
 
-.header{
+.header {
     width: 100%;
-    display: flex; 
-    flex-direction: row;   
-    margin-bottom: 16px;
+    display: flex;
+    flex-direction: row;
 }
 
-.orderNumber{
+.body{
+    display: flex;
+    flex-direction: row;
+    height: 85px;
+}
+
+.orderNumber {
     display: flex;
     justify-content: flex-start;
     width: 50%;
@@ -52,31 +45,60 @@
     justify-content: flex-end;
 }
 
-.ingredients{
-    width: 100%;
-    display: flex; 
-    flex-direction: row; 
-}
-
-
-
-
-
-
-.burgerImage{
-    max-width: 213px;
-    max-height: 107px;
-    align-self: center;
-}
-
-.currencyIcon{
-    justify-content: center;
+.ingredients {
     display: flex;
-    align-items: center;
     flex-direction: row;
-    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-grow: 3;
 }
 
-.textCenter{
-    text-align: center;
+.roundImageWrapper {
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    width: 64px; 
+    height: 64px;    
+    /* overflow: hidden; */
+    border: 2px solid white;
+    background-color: var(--background-element);
 }
+
+.roundImage {
+    width: 100px;
+    height: 60px;
+    margin-left: -19px;
+}
+
+
+.counter {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    border-radius: 16px;
+    font-family: 'Iceland';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 24px;
+    text-align: center;
+    color: #F2F2F3;
+  }
+
+  .small {
+    font-size: 22px;
+    min-width: 16px;
+    height: 24px;
+    padding: 0 4px;
+  }
+  
+  .counter__num {
+    margin: auto;
+  }
+
+  .price{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-grow: 1;
+  }
