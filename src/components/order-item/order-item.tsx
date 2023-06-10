@@ -50,7 +50,7 @@ const OrderItem: FC<TOrderItem> = ({ order }) => {
 
 
             <div className={oStyle.body}>
-                <div className={oStyle.ingredients}>
+                <div className={`${oStyle.ingredients} custom-scroll`}>
                     {groups.map((g, ind) =>
                         <div key={`oi_${uuid()}`} className={oStyle.roundImageWrapper} style={{ zIndex: groups.length - ind, marginLeft: ind === 0 ? '0px' : '-20px' }}>
 
