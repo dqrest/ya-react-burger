@@ -7,7 +7,6 @@ import OrdersDesk  from '../../components/orders-desk/orders-desk';
 import { WS_CONNECTION_START_TO_ALL_ORDERS } from '../../services/action-types/wsocket';
 import { getOrders } from '../../services/selectors/wsocket';
 import { useDispatch, useSelector } from '../../services/hooks';
-import { TOrderItemDto } from '../../shared/dtos/order-item-dto';
 
 // styles
 import { appStyle } from '../../components';
@@ -16,9 +15,9 @@ export const FeedPage = () => {
 
     const dispatch = useDispatch();
     const { message } = useSelector(getOrders);
-    const { orders } = message
+    const { orders, total, totalToday } = message
         ? message
-        : { orders: [] };
+        : { orders: [], total: 0, totalToday: 0 };
 
     useEffect(
         () => {
@@ -39,7 +38,7 @@ export const FeedPage = () => {
                     </div>
                 </div>
                 <div className={appStyle.appBurgerSection}>
-                    <OrdersDesk></OrdersDesk>
+                    <OrdersDesk orders={orders} total={total} totalToday={totalToday}></OrdersDesk>
                 </div>
             </div>
         </>
