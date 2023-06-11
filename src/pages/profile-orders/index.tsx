@@ -23,10 +23,7 @@ export const ProfileOrdersPage = () => {
 
     useEffect(
         () => {
-            dispatch({ type: WS_CONNECTION_START_TO_USER_ORDERS });
-            return () => {
-                dispatch({ type: WS_CONNECTION_CLOSE_BY_APP });
-            };
+            dispatch({ type: WS_CONNECTION_START_TO_USER_ORDERS });            
         },
         []
     );
