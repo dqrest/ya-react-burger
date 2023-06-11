@@ -14,7 +14,6 @@ const OrdersList: FC<TOrdersList> = ({ orders, navigateItemUrl }) => {
     const navigate = useNavigate();
 
     const orderClick = (e: TOrderItemArg) => {
-        debugger;
         if (!e?.order?._id) return;
         navigate(navigateItemUrl + e?.order?._id, { state: { background: location } });
     }

@@ -46,7 +46,7 @@ const OrderContent: FC<TConnectionParam> = ({ connection }) => {
 
     useEffect(
         () => {
-            dispatch({ type: connection });
+            dispatch({ type: connection });            
         },
         []
     );

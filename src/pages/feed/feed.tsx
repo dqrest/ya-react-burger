@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useCallback, useEffect, useRef, useState } from 'react';
+import { useMemo, useEffect } from 'react';
 
 // components
 import OrdersList from '../../components/orders-list/orders-list';
@@ -19,6 +19,8 @@ export const FeedPage = () => {
         ? message
         : { orders: [], total: 0, totalToday: 0 };
 
+    const sortedOrders = useMemo(() => orders.sort((a, b) => a.createdAt >= b.createdAt ? -1 : 1), [orders]);
+
     useEffect(
         () => {
             dispatch({ type: WS_CONNECTION_START_TO_ALL_ORDERS });
@@ -38,7 +40,7 @@ export const FeedPage = () => {
                     </div>
                 </div>
                 <div className={appStyle.appBurgerSection}>
-                    <OrdersDesk orders={orders} total={total} totalToday={totalToday}></OrdersDesk>
+                    <OrdersDesk orders={sortedOrders} total={total} totalToday={totalToday}></OrdersDesk>
                 </div>
             </div>
         </>

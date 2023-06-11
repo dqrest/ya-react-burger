@@ -8,22 +8,19 @@ import type {
     RootState,
     //IMessageResponse,
 } from '../types';
-import { IMessage, IMessageResponse } from '../types/models-data';
+import { IMessageResponse } from '../types/models-data';
 import { getCurrentTimestamp } from '../../shared/utils/datetime';
-import { useProvideAuth } from '../auth';
 import { getCookie } from '../../shared/utils/cookie';
 
 export const socketMiddleware = (wsUrl: string, wsActions: TWSStoreActions): Middleware => {
 
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
 
-        // alert('yes1');
-        // debugger;
         let socket: WebSocket | null = null;
 
         return next => (action: AppActions) => {
             const { type } = action;
-            const { wsInitToAllOrders, wsInitToUserOrders, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
+            const { wsInitToAllOrders, wsInitToUserOrders, onOpen, onClose, onError, onMessage } = wsActions;
             const { dispatch, getState } = store;
             const { user } = getState()?.auth;
             const accessToken = getCookie('token');
@@ -41,7 +38,6 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWSStoreActions): Mid
             if (type === wsInitToUserOrders && user && token.length > 0)
                 socket = new WebSocket(`${wsUrl}?token=${token}`);
 
-
             if (socket) {
                 socket.onopen = event => {                    
                     dispatch({ type: onOpen, payload: event });
@@ -55,22 +51,13 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWSStoreActions): Mid
                     const { data } = event;
                     const parsedData: IMessageResponse = JSON.parse(data);
                     const { success, ...restParsedData } = parsedData;
-                    dispatch({ type: onMessage, payload: { ...restParsedData, timestamp: getCurrentTimestamp() } });
-                    //dispatch({ type: onMessage, payload: event });
+                    dispatch({ type: onMessage, payload: { ...restParsedData, timestamp: getCurrentTimestamp() } });                    
                 };
 
-                socket.onclose = event => {
-                    //debugger;
-                    //dispatch({ type: onClose, payload: event });
-                };
-
-                if (type === wsSendMessage) {
-                    //const payload = action.payload;
-                    //const message = { ...(payload as IMessage), token: token };
-                    //socket.send(JSON.stringify(message));
-                }
+                socket.onclose = event => {                    
+                    dispatch({ type: onClose, payload: event });
+                };                
             }
-
             next(action);
         };
     }) as Middleware;

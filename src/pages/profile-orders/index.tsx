@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 // components
 import OrdersList from '../../components/orders-list/orders-list';
@@ -19,6 +19,8 @@ export const ProfileOrdersPage = () => {
         ? message
         : { orders: [] };
 
+    const sortedOrders = useMemo(() => orders.sort((a, b) => a.createdAt >= b.createdAt ? -1 : 1), [orders]);
+
     useEffect(
         () => {
             dispatch({ type: WS_CONNECTION_START_TO_USER_ORDERS });
@@ -28,7 +30,7 @@ export const ProfileOrdersPage = () => {
 
     return (
         <div className={`${poStyle.ordersContent} custom-scroll`}>
-            <OrdersList orders={orders} navigateItemUrl={'/profile/orders/'}></OrdersList>
+            <OrdersList orders={sortedOrders} navigateItemUrl={'/profile/orders/'}></OrdersList>
         </div>
     );
 }
