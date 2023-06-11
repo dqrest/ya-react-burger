@@ -10,7 +10,6 @@ import odStyle from './orders-desk.module.css';
 
 
 const OrdersDesk: FC<TOrdersList> = ({ orders, total, totalToday }) => {
-    debugger;
     return <>
         <div className={odStyle.row}>
             <div className={odStyle.column}>

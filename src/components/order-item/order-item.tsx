@@ -12,14 +12,14 @@ import { useIngredients } from '../../services/selectors/burger-incredients';
 // styles
 import oStyle from './order-item.module.css';
 
-const OrderItem: FC<TOrderItem> = ({ order }) => {
+const OrderItem: FC<TOrderItem> = ({ order, onClick }) => {
 
     const { items: ingredients } = useSelector(useIngredients);
     const groups = useMemo(() => {
 
         const gs: TGroupedIngredients[] = [];
         ingredients.forEach((ing, id) => {
-            const items = order.ingredients.filter(id => id === ing._id);
+            const items = order?.ingredients.filter(id => id === ing._id) || [];
             if (items.length === 0) return;
             gs.push({
                 ingredient: ing,
@@ -32,7 +32,9 @@ const OrderItem: FC<TOrderItem> = ({ order }) => {
 
     const total = useMemo(() => groups.map(g => g.ingredient.price * g.count).reduce((sum, currValue) => sum + currValue, 0), [groups]);
 
-    return <div className={oStyle.orderItemWrapper}>
+    const click = () => onClick && onClick({ order: order });;
+
+    return <div className={oStyle.orderItemWrapper} onClick={click}>
         <div className={`${oStyle.orderItem} p-5`}>
 
             <div className={oStyle.header}>
@@ -73,17 +75,23 @@ const OrderItem: FC<TOrderItem> = ({ order }) => {
                 </div>
             </div>
         </div>
-
     </div>
 }
 
+export type TOrderItemArg = {
+    order: TOrderItemDto
+};
+
+export type TOrderItemHandler = (e: TOrderItemArg) => void;
+
 type TOrderItem = {
     order: TOrderItemDto;
-}
+    onClick: TOrderItemHandler;
+};
 
 type TGroupedIngredients = {
     ingredient: TBurgerIngredientsItemDto,
-    count: number;
+    count: number;   
 };
 
 export default OrderItem;

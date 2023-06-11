@@ -11,8 +11,7 @@ import { ResetPasswordPage } from './reset-password';
 import { NotFound404Page } from './not-found';
 import { LoadingPage } from './loading';
 import { FeedPage } from './feed/feed';
-
-
+import { FeedItemPage, ModalFeedItemPage } from './feed-item/feed-item';
 
 export {
     HomePage
@@ -27,4 +26,6 @@ export {
     , NotFound404Page
     , LoadingPage
     , FeedPage
+    , FeedItemPage
+    , ModalFeedItemPage
 };
