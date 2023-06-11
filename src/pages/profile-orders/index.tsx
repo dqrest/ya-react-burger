@@ -1,12 +1,23 @@
-import React, { ChangeEventHandler, useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
+
+// components
+import OrdersList from '../../components/orders-list/orders-list';
 
 // shared
-import {WS_CONNECTION_START_TO_USER_ORDERS } from '../../services/action-types/wsocket';
-import { useDispatch } from '../../services/hooks';
+import { WS_CONNECTION_START_TO_USER_ORDERS } from '../../services/action-types/wsocket';
+import { getOrders } from '../../services/selectors/wsocket';
+import { useDispatch, useSelector } from '../../services/hooks';
+
+// styles
+import poStyle from './profile-orders.module.css';
 
 export const ProfileOrdersPage = () => {
 
     const dispatch = useDispatch();
+    const { message } = useSelector(getOrders);
+    const { orders } = message
+        ? message
+        : { orders: [] };
 
     useEffect(
         () => {
@@ -16,6 +27,8 @@ export const ProfileOrdersPage = () => {
     );
 
     return (
-        <div>qqqq</div>
+        <div className={`${poStyle.ordersContent} custom-scroll`}>
+            <OrdersList orders={orders} navigateItemUrl={'/profile/orders/'}></OrdersList>
+        </div>
     );
 }

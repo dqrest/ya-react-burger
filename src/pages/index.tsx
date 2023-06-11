@@ -12,6 +12,7 @@ import { NotFound404Page } from './not-found';
 import { LoadingPage } from './loading';
 import { FeedPage } from './feed/feed';
 import { FeedItemPage, ModalFeedItemPage } from './feed-item/feed-item';
+import { ProfileOrderItemPage, ModalProfileOrderItemPage } from './profile-order-item/profile-order-item';
 
 export {
     HomePage
@@ -28,4 +29,6 @@ export {
     , FeedPage
     , FeedItemPage
     , ModalFeedItemPage
+    , ProfileOrderItemPage
+    , ModalProfileOrderItemPage
 };

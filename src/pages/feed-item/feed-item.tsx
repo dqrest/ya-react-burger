@@ -1,5 +1,4 @@
-import { useMemo, FC } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // components
 import Modal from '../../components/modal/modal';

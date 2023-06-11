@@ -8,22 +8,23 @@ import OrderItem from '../order-item/order-item';
 import { TOrderItemDto } from '../../shared/dtos/order-item-dto';
 import { TOrderItemArg } from '../order-item/order-item';
 
-const OrdersList: FC<TOrdersList> = ({ orders }) => {
+const OrdersList: FC<TOrdersList> = ({ orders, navigateItemUrl }) => {
 
     const location = useLocation();
     const navigate = useNavigate();
 
-    const orderClick = (e: TOrderItemArg) => {        
+    const orderClick = (e: TOrderItemArg) => {
+        debugger;
         if (!e?.order?._id) return;
-        navigate('/feed/' + e?.order?._id, { state: { background: location } });
+        navigate(navigateItemUrl + e?.order?._id, { state: { background: location } });
     }
 
     return (<>
-        {orders.map((o, ind) =>
+        {orders.map(o =>
         (<> <OrderItem key={o._id}
             order={o}
             onClick={orderClick} />
-            <br key={`br_${o._id}`}/>
+            <br key={`br_${o._id}`} />
         </>
         ))
         }
@@ -33,6 +34,7 @@ const OrdersList: FC<TOrdersList> = ({ orders }) => {
 
 type TOrdersList = {
     orders: Array<TOrderItemDto>;
+    navigateItemUrl: string;
 }
 
 

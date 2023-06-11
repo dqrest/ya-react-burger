@@ -32,6 +32,8 @@ import {
     , FeedPage
     , FeedItemPage
     , ModalFeedItemPage
+    , ProfileOrderItemPage
+    , ModalProfileOrderItemPage
 } from '../../pages';
 
 type TProtectedAppProps = {
@@ -56,6 +58,7 @@ const ProtectedApp: FC<TProtectedAppProps> = ({ user }): ReactElement => {
                     <Route path="profile" element={<ProtectedRouteElement user={user} element={<ProfilePage />} />}>
                         <Route path="user" element={<ProtectedRouteElement user={user} element={<ProfileUserPage />} />} />
                         <Route path="orders" element={<ProtectedRouteElement user={user} element={<ProfileOrdersPage />} />} />
+                        <Route path="orders/:id" element={<ProtectedRouteElement user={user} element={<ProfileOrderItemPage />} />} />
                     </Route>
                     <Route path="ingredients/:id" element={<IngredientDetails />} />
                     <Route path="feed" element={<FeedPage />} />
@@ -68,6 +71,7 @@ const ProtectedApp: FC<TProtectedAppProps> = ({ user }): ReactElement => {
                 <Routes>
                     <Route path="/ingredients/:id" element={<ModalIngredientDetails />} />
                     <Route path="/feed/:id" element={<ModalFeedItemPage />} />
+                    <Route path="/profile/orders/:id" element={<ModalProfileOrderItemPage />} />
                 </Routes>
             )}
         </ErrorBoundary>

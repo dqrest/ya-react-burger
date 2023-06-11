@@ -13,6 +13,7 @@ import { TUserProfileFormData } from '../../shared/types/auth-types';
 
 // styles
 import styles from '../pages.module.css';
+import puStyle from '././profile-user.module.css';
 
 export const ProfileUserPage = () => {
 
@@ -53,7 +54,7 @@ export const ProfileUserPage = () => {
     }
 
     return (
-        <div className={styles.wrapper}>
+        <div className={puStyle.wrapper}>
             {request && <div className='text text_type_main-medium'>Загрузка профиля. Ждите...</div>}
             {!request &&
                 <>

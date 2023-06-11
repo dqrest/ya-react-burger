@@ -34,7 +34,7 @@ export const FeedPage = () => {
             <div className={`${appStyle.appBurgerMain}`}>
                 <div className={`${appStyle.appBurgerSection} ${appStyle.appBurgerFirstSection}`}>
                     <div className={`${appStyle.appBurgerSectionScrollingContent} custom-scroll`}>
-                        <OrdersList orders={orders}></OrdersList>
+                        <OrdersList orders={orders} navigateItemUrl={'/feed/'}></OrdersList>
                     </div>
                 </div>
                 <div className={appStyle.appBurgerSection}>
