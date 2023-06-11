@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
 
 // components
 import OrderItem from '../order-item/order-item';
@@ -20,14 +21,10 @@ const OrdersList: FC<TOrdersList> = ({ orders, navigateItemUrl }) => {
 
     return (<>
         {orders.map(o =>
-        (<> <OrderItem key={o._id}
-            order={o}
-            onClick={orderClick} />
-            <br key={`br_${o._id}`} />
-        </>
-        ))
-        }
-        <br />
+            <OrderItem key={uuid()}
+                order={o}
+                onClick={orderClick} />
+        )}        
     </>);
 }
 
