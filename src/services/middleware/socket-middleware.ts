@@ -3,10 +3,8 @@ import type { Middleware, MiddlewareAPI } from 'redux';
 import type {
     AppActions,
     TWSStoreActions,
-    //IMessage,
     AppDispatch,
-    RootState,
-    //IMessageResponse,
+    RootState
 } from '../types';
 import { IMessageResponse } from '../types/models-data';
 import { getCurrentTimestamp } from '../../shared/utils/datetime';
@@ -20,7 +18,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWSStoreActions): Mid
 
         return next => (action: AppActions) => {
             const { type } = action;
-            const { wsInitToAllOrders, wsInitToUserOrders, onOpen, onClose, onError, onMessage } = wsActions;
+            const { wsInitToAllOrders, wsInitToUserOrders, onOpen, onClose, wsCloseByApp, onError, onMessage } = wsActions;
             const { dispatch, getState } = store;
             const { user } = getState()?.auth;
             const accessToken = getCookie('token');
@@ -38,17 +36,20 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWSStoreActions): Mid
             if (type === wsInitToUserOrders && user && token.length > 0)
                 socket = new WebSocket(`${wsUrl}?token=${token}`);
 
+            if (type === wsCloseByApp)               
+                socket && socket.close(1000);            
+
             if (socket) {
-                socket.onopen = event => {
-                    //debugger;
-                    dispatch({ type: onOpen, payload: event });
+
+                socket.onopen = event => {                    
+                    dispatch({ type: onOpen, payload: event });                   
                 };
 
                 socket.onerror = event => {                    
                     dispatch({ type: onError, payload: event });
                 };
 
-                socket.onmessage = event => {                         
+                socket.onmessage = event => {                 
                     const { data } = event;
                     const parsedData: IMessageResponse = JSON.parse(data);
                     const { success, ...restParsedData } = parsedData;

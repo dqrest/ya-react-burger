@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { FormattedDate, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // shared
-import { WS_CONNECTION_START_TO_ALL_ORDERS, WS_CONNECTION_START_TO_USER_ORDERS } from '../../services/action-types/wsocket';
+import { WS_CONNECTION_START_TO_ALL_ORDERS, WS_CONNECTION_START_TO_USER_ORDERS, WS_CONNECTION_CLOSE_BY_APP } from '../../services/action-types/wsocket';
 import { getOrders } from '../../services/selectors/wsocket';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { TOrderState, translateOrderState } from '../../shared/types/order-state';
@@ -46,7 +46,10 @@ const OrderContent: FC<TConnectionParam> = ({ connection }) => {
 
     useEffect(
         () => {
-            dispatch({ type: connection });            
+            dispatch({ type: connection });
+            return () => {              
+                dispatch({ type: WS_CONNECTION_CLOSE_BY_APP});
+            }
         },
         []
     );

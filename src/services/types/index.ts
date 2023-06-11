@@ -8,6 +8,7 @@ import {
     , WS_CONNECTION_CLOSED
     , WS_CONNECTION_ERROR
     , WS_GET_MESSAGE
+    , WS_CONNECTION_CLOSE_BY_APP
 } from '../action-types/wsocket';
 
 import { store } from '../store';
@@ -35,9 +36,10 @@ export type AppThunkAction<ReturnType = void> = ThunkAction<ReturnType, RootStat
 export type TWSStoreActions = {
     wsInitToAllOrders: typeof  WS_CONNECTION_START_TO_ALL_ORDERS,
     wsInitToUserOrders: typeof WS_CONNECTION_START_TO_USER_ORDERS,
-    wsSendMessage: typeof  WS_SEND_MESSAGE,
+    wsSendMessage: typeof WS_SEND_MESSAGE,
+    wsCloseByApp: typeof WS_CONNECTION_CLOSE_BY_APP,
     onOpen: typeof  WS_CONNECTION_SUCCESS,
     onClose: typeof WS_CONNECTION_CLOSED,
     onError: typeof  WS_CONNECTION_ERROR,
-    onMessage: typeof  WS_GET_MESSAGE,
+    onMessage: typeof WS_GET_MESSAGE    
   };

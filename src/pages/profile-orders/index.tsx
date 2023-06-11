@@ -4,7 +4,7 @@ import { useEffect, useMemo } from 'react';
 import OrdersList from '../../components/orders-list/orders-list';
 
 // shared
-import { WS_CONNECTION_START_TO_USER_ORDERS } from '../../services/action-types/wsocket';
+import { WS_CONNECTION_START_TO_USER_ORDERS, WS_CONNECTION_CLOSE_BY_APP } from '../../services/action-types/wsocket';
 import { getOrders } from '../../services/selectors/wsocket';
 import { useDispatch, useSelector } from '../../services/hooks';
 
@@ -24,6 +24,9 @@ export const ProfileOrdersPage = () => {
     useEffect(
         () => {
             dispatch({ type: WS_CONNECTION_START_TO_USER_ORDERS });
+            return () => {
+                dispatch({ type: WS_CONNECTION_CLOSE_BY_APP });
+            };
         },
         []
     );

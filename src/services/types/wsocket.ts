@@ -6,6 +6,7 @@ import {
     , WS_CONNECTION_SUCCESS
     , WS_GET_MESSAGE
     , WS_SEND_MESSAGE
+    , WS_CONNECTION_CLOSE_BY_APP
 } from '../action-types/wsocket';
 
 import { IMessage} from './models-data';
@@ -41,6 +42,10 @@ export interface IWSSendMessageAction {
     readonly payload: { message: string };
 }
 
+export interface IWSCloseConnectionByApp {
+    readonly type: typeof WS_CONNECTION_CLOSE_BY_APP
+}
+
 export type TWSActions =
     | IWSConnectionStartToAllOrders
     | IWSConnectionStartToUserOrders
@@ -48,4 +53,5 @@ export type TWSActions =
     | IWSConnectionErrorAction
     | IWSConnectionClosedAction
     | IWSGetMessageAction
-    | IWSSendMessageAction;
+    | IWSSendMessageAction
+    | IWSCloseConnectionByApp;
