@@ -39,15 +39,18 @@ export const ProfileMenu = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (menuIems?.length > 0 && menuIems[0]?.url?.length > 0) {
-            setSelectedItem(menuIems[0]);
-            navigate(menuIems[0].url);
-        }
-    }, []);
+        const ind = menuIems
+            ? menuIems.findIndex(m => m.url === document.location.pathname)
+            : -1;
+        if (ind >= 0) {
+            setSelectedItem(menuIems[ind]);
+            navigate(menuIems[ind].url);
+        }      
+    }, [menuIems]);
 
     useEffect(() => {
-        if(actionType === LOGOUT_USER_SUCCESS){            
-            navigate('/login?fallback=/profile/user', {replace: true});
+        if (actionType === LOGOUT_USER_SUCCESS) {
+            navigate('/login?fallback=/profile/user', { replace: true });
         }
     }, [actionType])
 
