@@ -39,7 +39,8 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWSStoreActions): Mid
                 socket = new WebSocket(`${wsUrl}?token=${token}`);
 
             if (socket) {
-                socket.onopen = event => {                    
+                socket.onopen = event => {
+                    //debugger;
                     dispatch({ type: onOpen, payload: event });
                 };
 
