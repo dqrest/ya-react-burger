@@ -7,7 +7,6 @@ import {
 import { getCurrentTimestamp } from '../../shared/utils/datetime';
 import type { IMessage } from '../types/models-data';
 import { TWSActions } from '../types/wsocket';
-import { stat } from 'fs';
 
 export type TWSState = {
   wsConnected: boolean;
