@@ -2,12 +2,12 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
-  WS_GET_MESSAGE,
-  WS_CONNECTION_START_TO_ALL_ORDERS
+  WS_GET_MESSAGE
 } from '../action-types/wsocket';
 import { getCurrentTimestamp } from '../../shared/utils/datetime';
 import type { IMessage } from '../types/models-data';
 import { TWSActions } from '../types/wsocket';
+import { stat } from 'fs';
 
 export type TWSState = {
   wsConnected: boolean;
@@ -22,9 +22,6 @@ const initialState: TWSState = {
 
 export const wsReducer = (state = initialState, action: TWSActions) => {
   switch (action.type) {
-
-    case WS_CONNECTION_START_TO_ALL_ORDERS:
-      return state;
 
     case WS_CONNECTION_SUCCESS:
       return {
@@ -47,8 +44,18 @@ export const wsReducer = (state = initialState, action: TWSActions) => {
         wsConnected: false
       };
 
-    case WS_GET_MESSAGE:      
-      const msg = { ...action.payload, timestamp: getCurrentTimestamp() };
+    case WS_GET_MESSAGE:
+      const oldOrders = state.message?.orders || [];
+      const newOrders = action?.payload?.orders || [];
+      newOrders.forEach(newo => {
+        const old = oldOrders.find(old => old.key === newo.key)
+        if (old) {
+          old.orders = newo.orders;
+          return;
+        }
+        oldOrders.push(newo);
+      });
+      const msg = { ...action.payload, timestamp: getCurrentTimestamp(), orders: oldOrders };
       return {
         ...state,
         error: undefined,

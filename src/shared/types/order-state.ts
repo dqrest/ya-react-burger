@@ -17,3 +17,9 @@ export const translateOrderState = (state: string) =>
             return 'Неизвестный';
     }
 }
+
+
+export enum TOrdersKey {
+    All = 'all',
+    User = 'user'
+};

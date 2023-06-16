@@ -1,11 +1,11 @@
 import { FC, useMemo, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import { FormattedDate, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // shared
 import { WS_CONNECTION_START_TO_ALL_ORDERS, WS_CONNECTION_START_TO_USER_ORDERS, WS_CONNECTION_CLOSE_BY_APP } from '../../services/action-types/wsocket';
-import { getOrders } from '../../services/selectors/wsocket';
+import { getAllOrders, getUserOrders } from '../../services/selectors/wsocket';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { TOrderState, translateOrderState } from '../../shared/types/order-state';
 import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
@@ -18,13 +18,15 @@ const OrderContent: FC<TConnectionParam> = ({ connection }) => {
 
     const params = useParams<string>();
     const dispatch = useDispatch();
-    const { message } = useSelector(getOrders);
-    const { orders } = message
-        ? message
-        : { orders: [] };
+    const { orders: allOrders } = useSelector(getAllOrders);
+    const { orders: userOrders } = useSelector(getUserOrders);
+
+    const orders = useMemo(() => connection === WS_CONNECTION_START_TO_ALL_ORDERS
+        ? allOrders
+        : userOrders
+        , [allOrders, userOrders, connection]);
 
     const order = useMemo(() => orders.find(o => o._id === params.id), [orders, params]);
-
     const { items: ingredients } = useSelector(useIngredients);
 
     const groups = useMemo(() => {
@@ -47,8 +49,8 @@ const OrderContent: FC<TConnectionParam> = ({ connection }) => {
     useEffect(
         () => {
             dispatch({ type: connection });
-            return () => {              
-                dispatch({ type: WS_CONNECTION_CLOSE_BY_APP});
+            return () => {
+                dispatch({ type: WS_CONNECTION_CLOSE_BY_APP });
             }
         },
         []
