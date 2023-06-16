@@ -18,12 +18,6 @@ import {
 // styles
 import styles from '../pages.module.css';
 
-export const useResetPassword = (store: any): TResetPasswordState => ({
-    resetPasswordRequest: store?.resetPassword?.resetPasswordRequest
-    , resetPasswordFailed: store?.resetPassword?.resetPasswordFailed
-    , message: store?.resetPassword?.message    
-});
-
 export const ResetPasswordPage = () => {
 
     const dispatch = useDispatch();
