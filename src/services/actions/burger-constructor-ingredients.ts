@@ -2,41 +2,22 @@ import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-
 import { v4 as uuid } from 'uuid';
 import { TConstructorIngredientItem } from '../../shared/dtos/burger-ingredients-item-dto';
 
-export const GET_CONSTRUCTOR_INGREDIENTS = 'GET_CONSTRUCTOR_INGREDIENTS';
+import {  
+    GET_CONSTRUCTOR_INGREDIENTS
+    , ADD_CONSTRUCTOR_INGREDIENT
+    , DELETE_CONSTRUCTOR_INGREDIENT
+    , CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS
+    , SET_BUN_TO_CONSTRUCTOR
+    , DELETE_ALL_CONSTRUCTOR_INGREDIENTS
+} from '../action-types/burger-constructor-ingredients';
 
-export const ADD_CONSTRUCTOR_INGREDIENT = 'ADD_CONSTRUCTOR_INGREDIENT';
-export const DELETE_CONSTRUCTOR_INGREDIENT = 'DELETE_CONSTRUCTOR_INGREDIENT';
-export const DELETE_ALL_CONSTRUCTOR_INGREDIENTS = 'DELETE_ALL_CONSTRUCTOR_INGREDIENTS';
-
-export const CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS = 'CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS';
-
-export const SET_BUN_TO_CONSTRUCTOR = 'SET_BUN_TO_CONSTRUCTOR';
-
-
-export interface ISetBunToConstructorAction {
-    readonly type: typeof SET_BUN_TO_CONSTRUCTOR;
-    readonly bun?: TBurgerIngredientsItemDto | null;
-}
-
-export interface IDeleteAllConstructorIngredientsAction {
-    readonly type: typeof DELETE_ALL_CONSTRUCTOR_INGREDIENTS;
-}
-
-export interface IAddConstructorIngredientAction {
-    readonly type: typeof ADD_CONSTRUCTOR_INGREDIENT;
-    readonly item: TBurgerIngredientsItemDto;
-}
-
-export interface IDeleteConstructorIngredientAction {
-    readonly type: typeof DELETE_CONSTRUCTOR_INGREDIENT;
-    readonly deleteIndex: number;
-}
-
-export interface IChangeOrderConstructorIngredientsAction {
-    readonly type: typeof CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS;
-    readonly sourceIndex: number;
-    readonly targetIndex: number;
-}
+import {    
+    ISetBunToConstructorAction
+    , IDeleteAllConstructorIngredientsAction
+    , IAddConstructorIngredientAction
+    , IDeleteConstructorIngredientAction
+    , IChangeOrderConstructorIngredientsAction
+} from '../types/burger-constructor-ingredients';
 
 export const getConstructorIngredients = () => (
     { type: GET_CONSTRUCTOR_INGREDIENTS }

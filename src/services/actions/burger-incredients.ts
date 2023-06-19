@@ -3,25 +3,27 @@ import { TIngredient } from '../../shared/types/ingredient-type';
 
 import { getIngredientsRequest } from '../../utils/burger-api';
 
-export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
-export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
-export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
+import {
+    GET_INGREDIENTS_REQUEST
+    , GET_INGREDIENTS_FAILED
+    , GET_INGREDIENTS_SUCCESS
+    , INCREASE_INGREDIENT_COUNT
+    , DECREASE_INGREDIENT_COUNT
+    , RESET_INGREDIENTS_COUNT_BY_TYPE
+    , RESET_ALL_INGREDIENTS_COUNT
+} from '../action-types/burger-incredients';
 
-export const INCREASE_INGREDIENT_COUNT = 'INCREASE_INGREDIENT_COUNT';
-export const DECREASE_INGREDIENT_COUNT = 'DECREASE_INGREDIENT_COUNT';
-export const RESET_INGREDIENTS_COUNT_BY_TYPE = 'RESET_INGREDIENTS_COUNT_BY_TYPE';
-export const RESET_ALL_INGREDIENTS_COUNT = 'RESET_ALL_INGREDIENTS_COUNT';
+import {
+    IGetIngredientsAction
+    , IGetIngredientsFailedAction
+    , IGetIngredientsSuccessAction
+    , IResetAllIngredientsCountAction
+    , IResetIngredientsCountByTypeAction
+    , IIncreaseIngredientCountAction
+    , IDecreaseIngredientCountAction
+} from '../types/burger-incredients';
 
-export interface IGetIngredientsAction {
-    readonly type: typeof GET_INGREDIENTS_REQUEST;
-}
-export interface IGetIngredientsFailedAction {
-    readonly type: typeof GET_INGREDIENTS_FAILED;
-}
-export interface IGetIngredientsSuccessAction {
-    readonly type: typeof GET_INGREDIENTS_SUCCESS;
-    readonly items: Array<TBurgerIngredientsItemDto>;
-}
+import type { AppDispatch, AppThunkAction } from '../types';
 
 const getIngredientsAction = (): IGetIngredientsAction => ({
     type: GET_INGREDIENTS_REQUEST
@@ -34,27 +36,7 @@ const getIngredientsFailedAction = (): IGetIngredientsFailedAction => ({
     type: GET_INGREDIENTS_FAILED
 });
 
-export interface IResetAllIngredientsCountAction {
-    readonly type: typeof RESET_ALL_INGREDIENTS_COUNT;
-}
-
-export interface IResetIngredientsCountByTypeAction {
-    readonly type: typeof RESET_INGREDIENTS_COUNT_BY_TYPE;
-    readonly typeIngredient: TIngredient;
-}
-
-export interface IIncreaseIngredientCountAction {
-    readonly type: typeof INCREASE_INGREDIENT_COUNT;
-    readonly id: string;
-}
-
-export interface IDecreaseIngredientCountAction {
-    readonly type: typeof DECREASE_INGREDIENT_COUNT;
-    readonly id: string;
-}
-
-export function getIngredients(): any {
-    return function (dispatch: any) {
+export const getIngredients = (): AppThunkAction  => (dispatch: AppDispatch) => {    
         dispatch(getIngredientsAction());
         getIngredientsRequest()
             .then(res => {
@@ -64,8 +46,7 @@ export function getIngredients(): any {
                 }
                 dispatch(getIngredientsFailedAction());
             })
-            .catch(() => dispatch(getIngredientsFailedAction()));
-    };
+            .catch(() => dispatch(getIngredientsFailedAction()));    
 }
 
 export const increaseIngredientCount =

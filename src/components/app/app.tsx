@@ -1,13 +1,13 @@
 import { ReactElement, useEffect, useState, FC } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
 // shared
 import { useProvideAuth } from '../../services/auth';
 import { getCookie } from '../../shared/utils/cookie';
-import { GET_USER_FAILED, GET_USER_SUCCESS } from '../../services/actions/auth';
+import { GET_USER_FAILED, GET_USER_SUCCESS } from '../../services/action-types/auth';
 import { TUserProfileFormData } from '../../shared/types/auth-types';
 import { getIngredients } from '../../services/actions/burger-incredients';
+import { useDispatch } from '../../services/hooks';
 
 // components
 import ProtectedRouteElement from '../protected-route-element/protected-route-element';
@@ -29,6 +29,11 @@ import {
     , ProfileOrdersPage
     , NotFound404Page
     , LoadingPage
+    , FeedPage
+    , FeedItemPage
+    , ModalFeedItemPage
+    , ProfileOrderItemPage
+    , ModalProfileOrderItemPage
 } from '../../pages';
 
 type TProtectedAppProps = {
@@ -53,14 +58,20 @@ const ProtectedApp: FC<TProtectedAppProps> = ({ user }): ReactElement => {
                     <Route path="profile" element={<ProtectedRouteElement user={user} element={<ProfilePage />} />}>
                         <Route path="user" element={<ProtectedRouteElement user={user} element={<ProfileUserPage />} />} />
                         <Route path="orders" element={<ProtectedRouteElement user={user} element={<ProfileOrdersPage />} />} />
+                        <Route path="orders/:id" element={<ProtectedRouteElement user={user} element={<ProfileOrderItemPage />} />} />
                     </Route>
                     <Route path="ingredients/:id" element={<IngredientDetails />} />
+                    <Route path="feed" element={<FeedPage />} />
+                    <Route path="feed/:id" element={<FeedItemPage />} />
                 </Route>
                 <Route path="*" element={<NotFound404Page />} />
+
             </Routes>
             {background && (
                 <Routes>
                     <Route path="/ingredients/:id" element={<ModalIngredientDetails />} />
+                    <Route path="/feed/:id" element={<ModalFeedItemPage />} />
+                    <Route path="/profile/orders/:id" element={<ModalProfileOrderItemPage />} />
                 </Routes>
             )}
         </ErrorBoundary>

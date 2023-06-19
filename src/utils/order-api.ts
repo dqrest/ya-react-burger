@@ -1,4 +1,3 @@
-import { NORMA_API } from '../shared/utils/check-response';
 import { fetchWithRefresh } from './auth-api';
 import { TResponseBody } from './api';
 import { TBurgerOrderItemDto } from '../shared/dtos/burger-order-item-dto';

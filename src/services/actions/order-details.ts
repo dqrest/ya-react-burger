@@ -1,22 +1,19 @@
 import { makeOrderRequest } from '../../utils/order-api';
 import { TBurgerOrderItemDto } from '../../shared/dtos/burger-order-item-dto';
 
-export const GET_ORDER_DETAILS_REQUEST = 'GET_ORDER_DETAILS_REQUEST';
-export const GET_ORDER_DETAILS_SUCCESS = 'GET_ORDER_DETAILS_SUCCESS';
-export const GET_ORDER_DETAILS_FAILED = 'GET_ORDER_DETAILS_FAILED';
+import { 
+    GET_ORDER_DETAILS_FAILED
+    , GET_ORDER_DETAILS_REQUEST
+    , GET_ORDER_DETAILS_SUCCESS
+    , DELETE_ORDER_DETAILS
+} from '../action-types/order-details';
 
-export const DELETE_ORDER_DETAILS = 'DELETE_ORDER_DETAILS';
-
-export interface IGetOrderDetailsAction {
-    readonly type: typeof GET_ORDER_DETAILS_REQUEST;
-}
-export interface IGetOrderDetailsSuccessAction {
-    readonly type: typeof GET_ORDER_DETAILS_SUCCESS;
-    readonly order: TBurgerOrderItemDto;
-}
-export interface IGetOrderDetailsFailedAction {
-    readonly type: typeof GET_ORDER_DETAILS_FAILED;
-}
+import { IGetOrderDetailsAction
+    , IGetOrderDetailsSuccessAction
+    , IGetOrderDetailsFailedAction
+    , IDeleteOrderDetailsAction
+} from '../types/order-details';
+import type { AppDispatch, AppThunkAction } from '../types';
 
 const getOrderDetailsAction =
     (): IGetOrderDetailsAction => ({
@@ -34,14 +31,12 @@ const getOrderDetailsFailedAction =
         type: GET_ORDER_DETAILS_FAILED
     });
 
-export interface IDeleteOrderDetailsAction {
-    readonly type: typeof DELETE_ORDER_DETAILS;
-}
+
 
 export function makeOrder(idIngredients: Array<string>
     , token: string
-    , refreshToken: string): any {
-    return function (dispatch: any) {
+    , refreshToken: string): AppThunkAction  {
+    return function (dispatch: AppDispatch) {
         dispatch(getOrderDetailsAction());
         makeOrderRequest(idIngredients, token, refreshToken)
             .then(res => {

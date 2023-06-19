@@ -1,18 +1,16 @@
-import { TBurgerIngredientsItemDto, TConstructorIngredientItem } from '../../shared/dtos/burger-ingredients-item-dto';
-import {
-     ADD_CONSTRUCTOR_INGREDIENT
+import { TConstructorIngredientItem } from '../../shared/dtos/burger-ingredients-item-dto';
+
+import {  
+    ADD_CONSTRUCTOR_INGREDIENT
     , DELETE_CONSTRUCTOR_INGREDIENT
     , CHANGE_ORDER_CONSTRUCTOR_INGREDIENTS
     , SET_BUN_TO_CONSTRUCTOR
     , DELETE_ALL_CONSTRUCTOR_INGREDIENTS
-    , ISetBunToConstructorAction
-    , IDeleteAllConstructorIngredientsAction
-    , IAddConstructorIngredientAction
-    , IDeleteConstructorIngredientAction
-    , IChangeOrderConstructorIngredientsAction
-} from '../actions/burger-constructor-ingredients';
+} from '../action-types/burger-constructor-ingredients';
 
-type TConstructorIngredientsState = {
+import { TConstructorIngredientsReducerAction } from '../types/burger-constructor-ingredients';
+
+export type TConstructorIngredientsState = {
     items: TConstructorIngredientItem[];
     bun?: TConstructorIngredientItem | null;
 };
@@ -21,13 +19,6 @@ const initialState: TConstructorIngredientsState = {
     items: []
     , bun: null
 };
-
-type TConstructorIngredientsReducerAction =
-    ISetBunToConstructorAction
-    | IDeleteAllConstructorIngredientsAction
-    | IAddConstructorIngredientAction
-    | IDeleteConstructorIngredientAction
-    | IChangeOrderConstructorIngredientsAction;
 
 export const constructorIngredientsReducer = (state = initialState, action: TConstructorIngredientsReducerAction) => {
     switch (action.type) {      

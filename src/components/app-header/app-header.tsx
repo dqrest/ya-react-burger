@@ -25,8 +25,8 @@ export default function AppHeader() {
             case '/':
                 setSelectedItem('home');
                 break;
-            case '/history-order':
-                setSelectedItem('history-order');
+            case '/feed':
+                setSelectedItem('feed');
                 break;
             case '/login':
             case '/profile':
@@ -50,11 +50,11 @@ export default function AppHeader() {
                 </span>
             </Link>
 
-            <Link className={`${headerStyle.item} ${headerStyle.link}  mt-4 mb-4 ml-2 ${selectedItem === 'history-order' && headerStyle.selected}`}
+            <Link className={`${headerStyle.item} ${headerStyle.link}  mt-4 mb-4 ml-2 ${selectedItem === 'feed' && headerStyle.selected}`}
                 title="Лента заказов"
-                to='/history-order'
-                onClick={() => setSelectedItem('history-order')}>
-                <ListIcon type={`${selectedItem === 'history-order' ? 'primary' : 'secondary'}`} />
+                to='/feed'
+                onClick={() => setSelectedItem('feed')}>
+                <ListIcon type={`${selectedItem === 'feed' ? 'primary' : 'secondary'}`} />
                 <span className={`${headerStyle.itemTitle} text text_type_main-small ml-2`}>
                     Лента заказов
                 </span>

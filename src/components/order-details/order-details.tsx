@@ -1,41 +1,20 @@
-import { useEffect, useMemo, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-
+import { useEffect, useRef } from 'react';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 // styles
 import odStyles from './order-details.module.css';
 
 // shared
-import { makeOrder } from '../../services/actions/order-details';
-import { getCookie } from '../../shared/utils/cookie';
-import { TOrderState } from '../../services/reducers/order-details';
-
-// dtos
-import { getConstructorIngredients } from '../burger-constructor/burger-constructor';
-
-export const useOrderDetails = (store: any): TOrderState => ({
-    item: store?.orderDetails?.item
-    , itemRequest: store?.orderDetails?.itemRequest
-    , itemFailed: store?.orderDetails?.itemFailed
-});
+import { useSelector } from '../../services/hooks';
+import { getConstructorIngredients } from '../../services/selectors/burger-constructor-ingredients';
+import { useOrderDetails } from '../../services/selectors/order-details';
 
 export default function OrderDetails() {
 
-    const dispatch = useDispatch();
     const refCheckIcon = useRef<HTMLDivElement>(null);
 
-    const { ingredients, bun } = useSelector(getConstructorIngredients);
-    const { item, itemRequest, itemFailed } = useSelector(useOrderDetails);
-
-    // ids = [ingredints, upperBun, lowerBun]
-    const ids = useMemo<string[]>(() => [...ingredients.filter(ing => ing?._id).map(ing => ing._id) || [], bun?._id, bun?._id], [ingredients, bun]);
-
-    useEffect(() => {        
-        const accessToken = getCookie('token');
-        const refreshToken = getCookie('refreshToken');
-        if (bun && accessToken && refreshToken) dispatch(makeOrder(ids, accessToken, refreshToken));
-    }, [dispatch, ids, bun]);
+    const { items: ingredients } = useSelector(getConstructorIngredients);
+    const { item, itemRequest, itemFailed } = useSelector(useOrderDetails);  
 
     useEffect(() => {
         let children = refCheckIcon?.current?.getElementsByTagName("svg");

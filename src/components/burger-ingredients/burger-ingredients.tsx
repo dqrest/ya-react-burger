@@ -1,5 +1,5 @@
 import { useMemo, useState, useRef, UIEvent } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 
 import {
     Tab
@@ -10,22 +10,10 @@ import BurgerIngredientsList from '../burger-ingredients-list/burger-ingredients
 
 // shared
 import { TIngredient } from '../../shared/types/ingredient-type';
-import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
+import { useIngredients } from '../../services/selectors/burger-incredients';
 
 // styles
 import appStyle from '../app/app.module.css';
-
-type TUseIngredients = {
-    ingredients: TBurgerIngredientsItemDto[];
-    ingredientsRequest: boolean;
-    ingredientsFailed: boolean;
-};
-
-export const useIngredients = (store: any): TUseIngredients => ({
-    ingredients: store?.ingredients?.items || [],
-    ingredientsRequest: store?.ingredients?.itemsRequest || false,
-    ingredientsFailed: store?.ingredients?.itemsFailed || false
-});
 
 export default function BurgerIngredients() {
 
@@ -35,7 +23,10 @@ export default function BurgerIngredients() {
     const sauceTitleRef = useRef<HTMLSpanElement>(null);
     const mainTitleRef = useRef<HTMLSpanElement>(null);
 
-    const { ingredients, ingredientsRequest, ingredientsFailed } = useSelector(useIngredients);
+    const { items: ingredients
+        , itemsRequest: ingredientsRequest
+        , itemsFailed: ingredientsFailed 
+    } = useSelector(useIngredients);
 
     const buns = useMemo(() => ingredients?.filter(b => b.type === TIngredient.Bun) || [], [ingredients]);
     const sauces = useMemo(() => ingredients?.filter(b => b.type === TIngredient.Sauce) || [], [ingredients]);

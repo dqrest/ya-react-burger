@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useDrop } from "react-dnd";
 import { useNavigate } from 'react-router-dom';
 
@@ -11,10 +10,11 @@ import {
 
 // components
 import Modal from '../modal/modal';
-import OrderDetails, { useOrderDetails } from '../order-details/order-details';
+import OrderDetails from '../order-details/order-details';
 import BurgerDraggableConstructorItem from '../burger-draggable-constructor-item/burger-draggable-constructor-item';
 
 // shared
+import { useSelector } from '../../services/hooks';
 import { TBurgerIngredientsItemDto, TConstructorIngredientItem } from '../../shared/dtos/burger-ingredients-item-dto';
 import { TIngredient } from '../../shared/types/ingredient-type';
 import {
@@ -29,6 +29,11 @@ import {
 } from '../../services/actions/burger-incredients';
 import { deleteOrderDetails } from '../../services/actions/order-details';
 import { useProvideAuth } from '../../services/auth';
+import { getConstructorIngredients } from '../../services/selectors/burger-constructor-ingredients';
+import { useOrderDetails } from '../../services/selectors/order-details';
+import { getCookie } from '../../shared/utils/cookie';
+import { makeOrder } from '../../services/actions/order-details';
+import { useDispatch } from '../../services/hooks';
 
 // styles
 import bcStyle from './burger-constructor.module.css';
@@ -38,14 +43,6 @@ export type TConstructorIngredientsSelector = {
     ingredients: Array<TConstructorIngredientItem>,
     bun: TConstructorIngredientItem
 };
-
-export const getConstructorIngredients =
-    (store: any): TConstructorIngredientsSelector => {
-        return {
-            ingredients: store?.constructorIngredients?.items || []
-            , bun: store?.constructorIngredients?.bun
-        }
-    }
 
 export default function BurgerConstructor() {
 
@@ -76,11 +73,18 @@ export default function BurgerConstructor() {
         })
     });
 
-    const { ingredients, bun } = useSelector(getConstructorIngredients);
+    const { items: ingredients, bun: bun } = useSelector(getConstructorIngredients);
     const { item } = useSelector(useOrderDetails);
 
     const [modalVisible, setModalVisible] = useState<boolean>(false);
-    const total = useMemo<number>(() => (2 * bun?.price || 0) + (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [ingredients, bun]);
+    const total = useMemo<number>(() => (2 * (bun?.price || 0)) + (ingredients?.map(ing => ing?.price || 0)?.reduce((sum, currValue) => sum + currValue, 0) || 0), [ingredients, bun]);
+
+    const ids = useMemo<string[]>(() => bun
+        ? ingredients
+            ? [...ingredients?.filter(ing => ing?._id).map(ing => ing._id) || [], bun?._id, bun?._id]
+            : [bun._id, bun._id]
+        : [],
+        [ingredients, bun]);
 
     const modal = (
         <Modal
@@ -103,12 +107,15 @@ export default function BurgerConstructor() {
         </Modal>
     );
 
-    function makeOrder() {
+    function makeOrderClick() {
         if (!user) {
             navigate('/login?fallback=/');
             return;
         }
         setModalVisible(true);
+        const accessToken = getCookie('token');
+        const refreshToken = getCookie('refreshToken');
+        if (bun && accessToken && refreshToken) dispatch(makeOrder(ids, accessToken, refreshToken));
     }
 
     return (
@@ -164,7 +171,7 @@ export default function BurgerConstructor() {
                 <Button htmlType="button"
                     type="primary"
                     size="medium"
-                    onClick={makeOrder}>
+                    onClick={makeOrderClick}>
                     Оформить заказ
                 </Button>
             </div>

@@ -1,13 +1,6 @@
 import { TBurgerIngredientsItemDto } from '../../shared/dtos/burger-ingredients-item-dto';
-import {
-    IGetIngredientsAction
-    , IGetIngredientsFailedAction
-    , IGetIngredientsSuccessAction
-    , IResetAllIngredientsCountAction
-    , IResetIngredientsCountByTypeAction
-    , IIncreaseIngredientCountAction
-    , IDecreaseIngredientCountAction
-} from '../actions/burger-incredients';
+import { TIngredientsReducerAction } from '../types/burger-incredients';
+
 import {
     GET_INGREDIENTS_REQUEST
     , GET_INGREDIENTS_FAILED
@@ -16,9 +9,9 @@ import {
     , DECREASE_INGREDIENT_COUNT
     , RESET_INGREDIENTS_COUNT_BY_TYPE
     , RESET_ALL_INGREDIENTS_COUNT
-} from '../actions/burger-incredients';
+} from '../action-types/burger-incredients';
 
-type TIngredientsState = {
+export type TIngredientsState = {
     items: ReadonlyArray<TBurgerIngredientsItemDto>
     , readonly itemsFailed: false
     , readonly itemsRequest: false
@@ -29,14 +22,6 @@ const initialState: TIngredientsState = {
     , itemsFailed: false
     , itemsRequest: false
 };
-
-type TIngredientsReducerAction = IGetIngredientsAction
-    | IGetIngredientsFailedAction
-    | IGetIngredientsSuccessAction
-    | IResetAllIngredientsCountAction
-    | IResetIngredientsCountByTypeAction
-    | IIncreaseIngredientCountAction
-    | IDecreaseIngredientCountAction;
 
 export const ingredientsReducer = (state = initialState, action: TIngredientsReducerAction) => {
 
@@ -57,7 +42,7 @@ export const ingredientsReducer = (state = initialState, action: TIngredientsRed
                 : 1;
             return { ...state, items: [...state.items] };
         }
-        case DECREASE_INGREDIENT_COUNT: {            
+        case DECREASE_INGREDIENT_COUNT: {
             const ind = (state?.items || []).findIndex(ing => ing?._id === action?.id);
             if (ind < 0) return state;
             const ingredient = state.items[ind];
@@ -71,8 +56,8 @@ export const ingredientsReducer = (state = initialState, action: TIngredientsRed
                 .filter(ing => ing?.type === action?.typeIngredient)
                 .map(ing => ing.count = 0);
             return { ...state, items: [...(state?.items || [])] };
-        case RESET_ALL_INGREDIENTS_COUNT:{
-            (state?.items || [])                
+        case RESET_ALL_INGREDIENTS_COUNT: {
+            (state?.items || [])
                 .map(ing => ing.count = 0);
             return { ...state, items: [...(state?.items || [])] };
         }
