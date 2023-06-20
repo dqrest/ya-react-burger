@@ -318,6 +318,14 @@ describe('auth reducer', () => {
         };
     })
 
+    it('should REGISTER_USER_REQUEST', () => {
+        expect(registerReducer(registerState, {
+            type: REGISTER_USER_REQUEST          
+        }))
+            .toEqual({ ...registerState, registerRequest: true  });
+        registerState = { ...registerState, registerRequest: true  };
+    })
+
     it('should REGISTER_USER_SUCCESS', () => {
         expect(registerReducer(registerState, {
             type: REGISTER_USER_SUCCESS
