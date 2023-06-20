@@ -148,6 +148,7 @@ export default function BurgerConstructor() {
                                 ingredient={ing}
                                 index={ind}
                                 isLast={ind < ingredients.length}
+                                isFirst={ind === 0}
                             />
                         )
                     })
