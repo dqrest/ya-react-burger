@@ -22,7 +22,7 @@ const BurgerIngredientItem: FC<TBurgerIngredientItem> = ({ count, ingredient, it
     });
 
     return (
-        <div ref={dragRef} className={`${biStyle.burgerItem} p-5`} onClick={click}>
+        <div data-testid={`ingredient_${ingredient?._id}`} ref={dragRef} className={`${biStyle.burgerItem} p-5`} onClick={click}>
 
             <span className={biStyle.counterIconWrapper}>
                 {count > 0 && (<Counter count={count || 0} size="default" extraClass={biStyle.counterIcon} />)}
