@@ -46,17 +46,20 @@ export const LoginPage = () => {
 
                     <form className={styles.formColumn} onSubmit={loginClick}>
                         <EmailInput required
+                            data-testid='emailLoginInput'
                             extraClass="mb-4"
                             value={formData.email}
                             onChange={e => { setFormData({ ...formData, email: e.target.value }); }}
                         />
                         <PasswordInput required
+                            data-testid='passwordLoginInput'
                             extraClass="mb-4"
                             value={formData.password}
                             onChange={e => { setFormData({ ...formData, password: e.target.value }); }}
                         />
                         <div className={styles.buttonsWrapper}>
                             <Button htmlType="submit"
+                                data-testid='loginButton'
                                 type="primary"
                                 size="medium">
                                 Войти

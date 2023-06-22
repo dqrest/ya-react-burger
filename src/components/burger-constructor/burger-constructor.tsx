@@ -170,6 +170,7 @@ export default function BurgerConstructor() {
                 <span className='text text_type_digits-medium mr-1'>{total}</span>
                 <span className='mr-10'><CurrencyIcon type="primary" /></span>
                 <Button htmlType="button"
+                    data-testid="orderButton"
                     type="primary"
                     size="medium"
                     onClick={makeOrderClick}>
