@@ -16,6 +16,9 @@ export const SAUCE_INGREDIENT_2 = 'ingredient_643d69a5c3f7b9001cfa0942';
 export const MAIN_INGREDIENT_1 = 'ingredient_643d69a5c3f7b9001cfa093e';
 export const MAIN_INGREDIENT_2 = 'ingredient_643d69a5c3f7b9001cfa0941';
 
+export const ORDER_BUTTON_ID = 'orderButton';
+export const ORDER_BUTTON_TITLE = 'Оформить заказ';
+
 
 export const bun1 = {
     _id: "643d69a5c3f7b9001cfa093c",

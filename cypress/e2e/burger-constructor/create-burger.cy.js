@@ -1,4 +1,5 @@
 import { host, burgerConstructorTitle } from '../test-params';
+import { ORDER_BUTTON_ID, ORDER_BUTTON_TITLE } from '../test-params';
 
 import { BUN_TITLE_ID, BUN_TITLE, SAUCES_TITLE_ID, SAUCES_TITLE, MAINS_TITLE_ID, MAINS_TITLE } from '../test-params';
 import { bun1, bun2, main1, main2, sauce1, sauce2 } from '../test-params';
@@ -11,7 +12,7 @@ const ingredientClick = (ingredient) => {
     cy.get('@ingredient').click();
     cy.wait(2000);
 
-    cy.get('body').trigger('keydown', { code: 'Escape'});
+    cy.get('body').trigger('keydown', { code: 'Escape' });
     cy.wait(2000);
 }
 
@@ -25,10 +26,15 @@ const dragAndDropIngredient = (ingredient) => {
 
     const dataTransfer = new DataTransfer();
     cy.get(`[data-testid="${ingredient?.dataTestId}"]`).as('ingredient');
-    cy.get('@ingredient').trigger("dragstart", { dataTransfer });    
-    cy.get(`[data-testid="${'burgerConstructor'}"]`).trigger("drop", { dataTransfer }).click({force:true});
+    cy.get('@ingredient').trigger("dragstart", { dataTransfer });
+    cy.get(`[data-testid="${'burgerConstructor'}"]`).trigger("drop", { dataTransfer }).click({ force: true });
     cy.wait(350);
-    
+}
+
+const orderButtonClick = () => {    
+    cy.get(`[data-testid="${ORDER_BUTTON_ID}"]`).as(ORDER_BUTTON_ID);
+    cy.get(`@${ORDER_BUTTON_ID}`).should('contain', ORDER_BUTTON_TITLE);
+    cy.get(`@${ORDER_BUTTON_ID}`).click();
 }
 
 
@@ -61,6 +67,18 @@ describe('tab navigation is available', () => {
         dragAndDropIngredient(sauce1);
         dragAndDropIngredient(sauce2);
         dragAndDropIngredient(main1);
-        dragAndDropIngredient(main2);       
+        dragAndDropIngredient(main2);
+
+        orderButtonClick();
+
+        cy.contains('Войти').then(($el) => {
+            if ($el.length) {
+                cy.get(`[data-testid="${'emailLoginInput'}"]`).type('snakbag@mail.ru');
+                cy.get(`[data-testid="${'passwordLoginInput'}"]`).type('123qwe');
+                cy.get(`[data-testid="${'loginButton'}"]`).should('contain', 'Войти').click();
+
+                orderButtonClick();
+            }
+        });
     });
 });
