@@ -133,7 +133,7 @@ export default function BurgerConstructor() {
                     extraClass={`${bcStyle.burgerItem}`}
                 />
             )}
-            <div ref={dropTarget} className={`${appStyle.appBurgerSectionContent} custom-scroll ${isOver && appStyle.appBurgerSectionContentBordered}`}>
+            <div data-testid="burgerConstructor" ref={dropTarget} className={`${appStyle.appBurgerSectionContent} custom-scroll ${isOver && appStyle.appBurgerSectionContentBordered}`}>
                 {!bun && ingredients.length === 0 &&
                     <div className={`text text_type_main-medium text_color_inactive ${bcStyle.textCenter}`} >
                         Перетяните сюда инградиенты...

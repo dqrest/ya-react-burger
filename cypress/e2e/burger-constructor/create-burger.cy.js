@@ -1,8 +1,6 @@
 import { host, burgerConstructorTitle } from '../test-params';
-//import { tabNavigation } from './tab-navigation';
 
 import { BUN_TITLE_ID, BUN_TITLE, SAUCES_TITLE_ID, SAUCES_TITLE, MAINS_TITLE_ID, MAINS_TITLE } from '../test-params';
-import { BUN_INGREDIENT_1, BUN_INGREDIENT_2, SAUCE_INGREDIENT_1, SAUCE_INGREDIENT_2, MAIN_INGREDIENT_1, MAIN_INGREDIENT_2 } from '../test-params';
 import { bun1, bun2, main1, main2, sauce1, sauce2 } from '../test-params';
 
 
@@ -23,10 +21,22 @@ export const tabNavigation = (ingredientsTitleTestId, ingredientsTitle) => {
     cy.wait(500);
 }
 
+const dragAndDropIngredient = (ingredient) => {
+
+    const dataTransfer = new DataTransfer();
+    cy.get(`[data-testid="${ingredient?.dataTestId}"]`).as('ingredient');
+    cy.get('@ingredient').trigger("dragstart", { dataTransfer });    
+    cy.get(`[data-testid="${'burgerConstructor'}"]`).trigger("drop", { dataTransfer }).click({force:true});
+    cy.wait(350);
+    
+}
+
 
 describe('tab navigation is available', () => {
+
     beforeEach(() => {
         cy.visit(host);
+        cy.viewport(1280, 800);
     });
 
     it('test ', () => {
@@ -43,7 +53,14 @@ describe('tab navigation is available', () => {
         ingredientClick(main2);       
 
         tabNavigation(BUN_TITLE_ID, BUN_TITLE);
-        ingredientClick(bun1)
-        ingredientClick(bun2)        
+        ingredientClick(bun1);
+        ingredientClick(bun2); 
+
+        dragAndDropIngredient(bun1);
+        dragAndDropIngredient(bun2);
+        dragAndDropIngredient(sauce1);
+        dragAndDropIngredient(sauce2);
+        dragAndDropIngredient(main1);
+        dragAndDropIngredient(main2);       
     });
 });
