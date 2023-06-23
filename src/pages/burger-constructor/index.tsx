@@ -9,7 +9,7 @@ import { appStyle } from '../../components';
 
 export const BurgerContructorPage = () => (
     <>
-        <span className='text text_type_main-large'>
+        <span data-testid="burgerContructorTitle" className='text text_type_main-large'>
             Соберите бургер
         </span>
 

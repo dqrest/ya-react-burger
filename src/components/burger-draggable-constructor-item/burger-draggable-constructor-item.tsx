@@ -21,7 +21,7 @@ import bDragStyle from './burger-draggable-constructor-item.module.css';
 
 const BurgerDraggableConstructorItem: FC<TBurgerDraggableConstructorItem> = ({ ...props }) => {
 
-    const { ingredient, index, isLast } = props;
+    const { ingredient, index, isLast, isFirst } = props;
     const dispatch = useDispatch();
 
     const [{ isDrag }, dragRef] = useDrag<TIngredientOrder, unknown, TIngredientDragItemCollectedProps>({
@@ -51,9 +51,9 @@ const BurgerDraggableConstructorItem: FC<TBurgerDraggableConstructorItem> = ({ .
     return (                 
         !isDrag
             ? <>
-                <div ref={beforeDropTarget} className={`${bcStyle.dropLine}`}>
+                {isFirst && <div ref={beforeDropTarget} className={`${bcStyle.dropLine}`}>
                     <div className={`${isOverBefore && bcStyle.dropLinePainted}`}></div>
-                </div>
+                </div>}
                 <div className={`${bcStyle.dragBurgerItem}`} ref={dragRef}>
                     <div className={bDragStyle.dragIconWrapper}>
                         <DragIcon type="primary" />
@@ -83,6 +83,7 @@ type TBurgerDraggableConstructorItem = {
     ingredient: TBurgerIngredientsItemDto;
     index: number;
     isLast: boolean;
+    isFirst: boolean;
 };
 
 type TIngredientDragItemCollectedProps = {

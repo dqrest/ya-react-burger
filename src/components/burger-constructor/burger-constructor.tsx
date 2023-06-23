@@ -133,7 +133,7 @@ export default function BurgerConstructor() {
                     extraClass={`${bcStyle.burgerItem}`}
                 />
             )}
-            <div ref={dropTarget} className={`${appStyle.appBurgerSectionContent} custom-scroll ${isOver && appStyle.appBurgerSectionContentBordered}`}>
+            <div data-testid="burgerConstructor" ref={dropTarget} className={`${appStyle.appBurgerSectionContent} custom-scroll ${isOver && appStyle.appBurgerSectionContentBordered}`}>
                 {!bun && ingredients.length === 0 &&
                     <div className={`text text_type_main-medium text_color_inactive ${bcStyle.textCenter}`} >
                         Перетяните сюда инградиенты...
@@ -148,6 +148,7 @@ export default function BurgerConstructor() {
                                 ingredient={ing}
                                 index={ind}
                                 isLast={ind < ingredients.length}
+                                isFirst={ind === 0}
                             />
                         )
                     })
@@ -169,6 +170,7 @@ export default function BurgerConstructor() {
                 <span className='text text_type_digits-medium mr-1'>{total}</span>
                 <span className='mr-10'><CurrencyIcon type="primary" /></span>
                 <Button htmlType="button"
+                    data-testid="orderButton"
                     type="primary"
                     size="medium"
                     onClick={makeOrderClick}>

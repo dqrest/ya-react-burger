@@ -54,7 +54,7 @@ export const wsReducer = (state = initialState, action: TWSActions) => {
         }
         oldOrders.push(newo);
       });
-      const msg = { ...action.payload, timestamp: getCurrentTimestamp(), orders: oldOrders };
+      const msg = { ...action.payload, orders: oldOrders };
       return {
         ...state,
         error: undefined,

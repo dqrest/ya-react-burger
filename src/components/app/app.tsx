@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState, FC } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 // shared
 import { useProvideAuth } from '../../services/auth';

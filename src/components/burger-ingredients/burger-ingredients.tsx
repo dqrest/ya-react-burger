@@ -65,7 +65,7 @@ export default function BurgerIngredients() {
             {ingredientsFailed && `Произошла ошибка при получении списка инградиентов.`}
             {!ingredientsRequest && !ingredientsFailed && (
                 <>
-                    <div className={appStyle.appBurgerTabs}>
+                    <div data-testid="ingredientsTab" className={appStyle.appBurgerTabs}>
                         <Tab value={TIngredient.Bun} active={currentTab === TIngredient.Bun} onClick={tabClick}>
                             Булки
                         </Tab>
@@ -77,9 +77,9 @@ export default function BurgerIngredients() {
                         </Tab>
                     </div>
                     <div className={`${appStyle.appBurgerSectionScrollingContent} custom-scroll`} onScroll={handleScroll}>
-                        <BurgerIngredientsList title="Булки" ingredients={buns} ref={bunTitleRef}></BurgerIngredientsList>
-                        <BurgerIngredientsList title="Соусы" ingredients={sauces} ref={sauceTitleRef}></BurgerIngredientsList>
-                        <BurgerIngredientsList title="Начинки" ingredients={mains} ref={mainTitleRef}></BurgerIngredientsList>
+                        <BurgerIngredientsList title="Булки" ingredients={buns} ref={bunTitleRef} titleDataTestId="bunTitle"></BurgerIngredientsList>
+                        <BurgerIngredientsList title="Соусы" ingredients={sauces} ref={sauceTitleRef} titleDataTestId="saucesTitle"></BurgerIngredientsList>
+                        <BurgerIngredientsList title="Начинки" ingredients={mains} ref={mainTitleRef} titleDataTestId="mainsTitle"></BurgerIngredientsList>
                     </div>
                 </>
             )}

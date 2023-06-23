@@ -11,7 +11,7 @@ import { TIngredientArg } from '../burger-ingredient-item/burger-ingredient-item
 // styles
 import biListStyle from './burger-ingredients-list.module.css';
 
-export const BurgerIngredientsListInner: FC<TBurgerIngredientsList> = ({ title, ingredients }, ref) => {
+export const BurgerIngredientsListInner: FC<TBurgerIngredientsList> = ({ title, ingredients, titleDataTestId }, ref) => {
 
     const location = useLocation();    
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ export const BurgerIngredientsListInner: FC<TBurgerIngredientsList> = ({ title, 
     }
     return (
         <>
-            <span className={`text text_type_main-medium mt-2 ${biListStyle.burgerListCaption}`} ref={ref}>
+            <span data-testid={titleDataTestId} className={`text text_type_main-medium mt-2 ${biListStyle.burgerListCaption}`} ref={ref}>
                 {title}
             </span>
             {ingredients.map((ing) =>
@@ -36,11 +36,12 @@ export const BurgerIngredientsListInner: FC<TBurgerIngredientsList> = ({ title, 
     );
 }
 
-const BurgerIngredientsList = forwardRef<HTMLSpanElement, TBurgerIngredientsList>(({ title, ingredients }, ref) => BurgerIngredientsListInner({ title, ingredients }, ref));
+const BurgerIngredientsList = forwardRef<HTMLSpanElement, TBurgerIngredientsList>(({ title, ingredients, titleDataTestId }, ref) => BurgerIngredientsListInner({ title, ingredients, titleDataTestId }, ref));
 
 type TBurgerIngredientsList = {
     title: string;
     ingredients: Array<TBurgerIngredientsItemDto>;
+    titleDataTestId?: string;
 }
 
 export default BurgerIngredientsList;
